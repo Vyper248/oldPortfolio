@@ -1,0 +1,412 @@
+:root {
+    --mainColor: rgb(32,178,175);
+}
+
+* {
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0px;
+}
+
+p {
+    margin-top: 0px;
+    line-height: 1.5;
+}
+
+a {
+    text-decoration: none;
+}
+
+header {
+    background-image: url(http://www.genlish.com/learn-english/wp-content/uploads/2017/03/feature-landing_tcm32-288767.jpg);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    text-align: center;
+    height: 100vh;
+    line-height: 100vh;
+    border-bottom: 1px solid white;
+}
+
+h1 {
+    position: absolute;
+    bottom: 50px;
+    left: 50px;
+    color: white;
+    font-weight: bold;
+    font-size: 70px;
+    padding: 30px;
+    border-radius: 20px;
+    background-color: rgba(0,0,0,0.6);
+    line-height: normal;
+    margin: 0px;
+}
+
+/* ===================LANGUAGE SELECTION=================== */
+
+#languageSelection {
+    position: absolute;
+    top: 5px;
+    right: -1px;
+    display: inline-block;
+    line-height: normal;
+}
+
+.languageBtn {
+    padding: 5px;
+    border: 1px solid white;
+    margin-left: -5px;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.languageBtn.selected {
+    background-color: rgb(26,88,86);
+}
+
+/* ===================NAVBAR=================== */
+
+.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0px;
+    z-index: 3;
+    width: 100%;
+    text-align: center;
+    background-color: var(--mainColor);
+    display: flex;
+    justify-content: center;
+    justify-content: space-around;
+    color: white;
+}
+
+.sticky>.basicBtn {
+    border-bottom: 1px solid white;
+    width: 100%;
+    border-right: 1px solid;
+}
+
+.sticky>.basicBtn:last-child{
+    border-right: none;
+}
+
+.basicBtn.dropdown {
+    position: relative;
+    padding-bottom: 10px;
+    transition: height 0.5s;
+}
+
+.dropdownArea {
+    height: 0px;;
+    overflow: hidden;
+    transition: height 0.5s, margin-top 0.5s;
+    position: absolute;
+    left: 0px;
+    top: 39px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.basicBtn.dropdown:hover .dropdownArea {
+    height:117px;
+    background-color:black;
+}
+        
+.dropdownArea>.basicBtn {
+    border-bottom: 1px solid white;
+}
+
+/* ===================SUMMARY INFORMATION + DIVIDERS=================== */
+
+h4 {
+    background-color: lightgray;
+    text-align: center;
+    padding: 8px;
+    font-size: 1.5rem;
+    margin: 0px;
+    margin-bottom: 5px;
+}
+
+.divider1, .divider2 {
+    margin-top:20px;
+    margin-bottom:20px;
+    width: 100%;
+    height: 100px;
+    background-color: var(--mainColor);
+    border: 3px solid var(--mainColor);
+    position: relative;
+    z-index: 2;
+}
+
+.divider1 {
+    transform: skewY(5deg);
+}
+
+.divider2 {
+    transform: skewY(-5deg);
+}
+
+.information {
+    min-height: 400px;
+    max-width: 1500px;
+    margin: 0px auto;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    top: 10px;
+}
+
+.information .text {
+    width: 50%;
+    margin: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.information div {
+    height: 50%;
+    width: 50%;
+}
+
+.sticky + .information div {
+    margin-left:20px;
+}
+
+.divider1 + .information div {
+    margin-left:20px;
+}
+
+.divider2 + .information div {
+    margin-right:20px;
+}
+
+.divider2 + .information {
+    flex-direction: row-reverse;
+}
+
+/* ===================SUMMARY IMAGES=================== */
+
+#planImage {
+    height: 500px;
+    background-image: url(http://learnwithsarah.ir/wordpress/wp-content/uploads/2018/09/Untitled.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#onlineImage {
+    height: 500px;
+    background-image: url(https://www.imore.com/sites/imore.com/files/styles/xlarge/public/field/image/2017/11/skype-faq-hero.jpg?itok=RDYaS6Co);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#privateImage {
+    height: 500px;
+    background-image: url(https://ghostwritingllc.com/blog/wp-content/uploads/2018/05/learn-english-writing-grammar-online.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* ===================PURCHASE ITEMS=================== */
+
+hr {
+    border: 0px;
+    border-top: 1px solid rgba(0,0,0,.1);
+    margin: 16px 0px;
+}
+
+.purchaseGroup {
+    display: flex;
+    justify-content: center;
+}
+
+.purchaseInfo {
+    border: 1px solid lightgray;
+    text-align: center;
+    width: 300px;
+    margin: 10px;
+    box-shadow: 2px 2px 5px gray;
+    display: flex;
+    flex-direction: column;
+}
+
+.purchaseInfo h3 {
+    background-color: lightgray;
+    padding: 15px;
+    margin: 0px;
+    font-size: 1.75rem;
+    font-weight: 500;
+}
+
+.purchaseInfo h4 {
+    background-color: lightgray;
+    padding: 10px;
+    margin: 0px;
+    font-weight: 500;
+}
+
+.purchasePoints {
+    flex-grow: 1;
+}
+
+.purchasePoints hr:last-of-type {
+    margin-bottom: 0px;
+}
+
+.purchasePoints p:first-of-type {
+    margin-top: 16px;
+}
+
+.purchaseBtn {
+    width: 100%;
+    display: block;
+}
+
+.purchaseHeader {
+    margin-top: 70px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+/* ===================BUTTON STYLING=================== */
+
+.basicBtn {
+    background-color: var(--mainColor);
+    padding: 10px 0px;
+    margin: 0px;
+    cursor: pointer;
+    color: white !important;
+    font-weight: bold;
+    transition: 0.5s;
+}
+
+.basicBtn.selected {
+    background-color:  rgb(26,88,86);
+}
+
+.basicBtn:hover {
+    background-color:  rgb(26,88,86);
+}
+
+/* ===================FOOTER=================== */
+
+footer {
+    background-color: var(--mainColor);
+    z-index: 2;
+    position: relative;
+    padding: 0px;
+    display: flex;
+    justify-content: space-around;
+    height: 70px;
+    margin-top: 20px;
+}
+
+/* ===================RESPONSIVE STYLING=================== */
+
+@media screen and (max-width: 570px) {
+    .sticky {
+        flex-direction: column;
+        position: relative;
+    }
+    
+    .dropdownArea {
+        position: relative;
+        top: 0px;
+        bottom: 0px;
+    }
+    
+    .dropdown:hover {
+        padding-bottom: 0px;
+    }
+    
+    .dropdown:hover .dropdownArea {
+        margin-top:10px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    h1 {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 800px){
+    .purchaseGroup {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .information {
+        flex-direction: column;
+    }
+
+    .divider2 + .information {
+        flex-direction: column;
+    }
+
+    .information .text {
+        width: 90%;
+        margin: 20px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .information div {
+        width: 90%;
+        margin: auto;
+    }
+
+    .informationImage {
+        height: 300px !important;
+        margin: auto;
+    }
+
+    .sticky + .information div {
+        margin: 5px auto;
+    }
+
+    .divider1 + .information div {
+        margin: 5px auto;
+    }
+
+    .divider2 + .information div {
+        margin: 5px auto;
+    }
+}
+
+@media screen and (max-width: 950px){
+    h1 {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        width: calc(100% - 40px);
+        color: white;
+        font-weight: bold;
+        font-size: 3em;
+        padding: 30px;
+        border-radius: 20px;
+        background-color: rgba(0,0,0,0.6);
+    }
+
+    .purchaseHeader h4 {
+        width: 90%;
+        margin: auto;
+    }
+
+    .purchaseHeader p {
+        width: 80%;
+        margin: auto;
+    }
+}
