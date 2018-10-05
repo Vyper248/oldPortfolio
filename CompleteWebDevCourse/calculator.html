@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Calculator</title>
+    <style>
+    
+        :root {
+            --borderColor: black;
+        }
+        
+        * {
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+        
+        html {
+            height: 100%;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100%;
+            margin: 0px;
+        }
+        
+        #container {
+            border: 1px solid var(--borderColor);
+            width: 400px;
+        }
+        
+        #screen {
+            text-align: right;
+            padding: 15px;
+            border: 1px solid var(--borderColor);
+        }
+        
+        #buttons {
+            display: grid;
+            grid-template: repeat(5, 1fr) / repeat(4, 1fr); 
+        }
+        
+        .button {
+            width: 100%;
+            border: 1px solid var(--borderColor);
+            text-align: center;
+            padding: 15px;
+            transition: 0.5s;
+            cursor: pointer;
+        }
+        
+        .button:hover {
+            background-color: lightgray;
+        }
+        
+        .button.vDouble {
+            grid-column: 4 / span 1;
+            grid-row: 6 / span 2;
+        }
+        
+        .button.hDouble {
+            grid-column: 1 / span 2;
+        }
+    
+        #memoryDiv {
+            border: 2px solid var(--borderColor);
+            padding: 15px;
+            margin-top:15px;
+            border-radius: 10px;
+        }
+        
+    </style>
+</head>
+
+<body>
+    
+    
+    <div id="container">
+        <div id="screen">0</div>
+        <div id="buttons">
+            <div class="button">MC</div>
+            <div class="button">M+</div>
+            <div class="button">M-</div>
+            <div class="button">MR</div>
+            
+            <div class="button">AC</div>
+            <div class="button">%</div>
+            <div class="button">+/-</div>
+            <div class="button">÷</div>
+
+            <div class="button">7</div>
+            <div class="button">8</div>
+            <div class="button">9</div>
+            <div class="button">x</div>
+            
+            <div class="button">4</div>
+            <div class="button">5</div>
+            <div class="button">6</div>
+            <div class="button">-</div>
+
+            <div class="button">1</div>
+            <div class="button">2</div>
+            <div class="button">3</div>
+            <div class="button">+</div>
+            
+            <div class="button hDouble">0</div>
+            <div class="button">.</div>
+            <div class="button">=</div>
+        </div>
+        
+    </div>
+    
+    <div id="memoryDiv">Memory: <span id="memoryValue">0</span></div>
+    
+    <script>
+        
+        let buttons = document.querySelectorAll('.button');
+        let operator = undefined;
+        let screen = document.querySelector('#screen');
+        let memoryVal = document.querySelector('#memoryValue');
+        let value1 = 0;
+        let enterNew = true;
+        let memory = 0;
+        
+        for (let i = 0; i < buttons.length; i++){
+            buttons[i].addEventListener('click', function(){                
+                let value = this.textContent;
+
+                evaluateButton(value);
+            });
+        }
+        
+        let body = document.querySelector('body');
+        body.addEventListener('keyup', function(e){
+            console.log(e.keyCode);
+            if (e.keyCode-48 <= 9 && e.keyCode-48 >= 0){
+                evaluateButton((e.keyCode-48)+'');
+            } else if (e.keyCode === 189 || e.keyCode === 109){
+                evaluateButton('-');
+            } else if (e.keyCode === 107){
+                evaluateButton('+');
+            } else if (e.keyCode === 191 || e.keyCode === 111){
+                evaluateButton('÷');
+            } else if (e.keyCode === 106){
+                evaluateButton('x');
+            } else if (e.keyCode === 13){
+                evaluateButton('=');
+            }
+        });
+        
+        function evaluateButton(value){
+            if (/[0-9|.]/.test(value)){
+                    if (enterNew){
+                        screen.textContent = value;
+                        enterNew = false;
+                    } else {
+                        screen.textContent += value;
+                    }
+                    
+                } else if (value === '+/-'){
+                    screen.textContent = Number(screen.textContent)*-1;   
+                } else if (value === '='){
+                    runCalculation();
+                    operator = undefined;
+                    
+                } else if (value === 'AC'){
+                    value1 = 0;
+                    enterNew = true;
+                    operator = undefined;
+                    screen.textContent = '0';
+                    
+                } else if (value === 'M+'){
+                    memory += Number(screen.textContent);
+                    memoryVal.textContent = memory;
+                    enterNew = true;
+                    
+                } else if (value === 'M-'){
+                    memory -= Number(screen.textContent);
+                    memoryVal.textContent = memory;
+                    enterNew = true;
+                    
+                } else if (value === 'MR'){
+                    if (operator){
+                        value1 = Number(screen.textContent);
+                    }
+                    screen.textContent = memory;
+                    enterNew = true;
+                    
+                } else if (value === 'MC'){
+                    memory = 0;
+                    memoryVal.textContent = memory;
+                    
+                } else if (/[÷|x|\-|+|%]/.test(value)){
+                    //allows continuous calculations without pressing '=' every time
+                    if (value1 !== 0){
+                        runCalculation();
+                    }
+                    
+                    let currentValue = screen.textContent;
+                    operator = value;
+                    value1 = Number(currentValue);
+                    enterNew = true;
+                } 
+        }
+        
+        function runCalculation(){
+            let newValue;
+            let currentValue = screen.textContent;
+            currentValue = Number(currentValue);
+            switch (operator) {
+                case '÷': newValue = value1/currentValue; break;
+                case 'x': newValue = value1*currentValue; break;
+                case '-': newValue = value1-currentValue; break;
+                case '+': newValue = value1+currentValue; break;
+                case '%': newValue = value1%currentValue; break;
+                default: newValue = currentValue; break;
+            }
+            screen.textContent = newValue;
+            value1 = 0;
+        }
+        
+        
+    </script>
+    
+</body>
+
+</html>
+

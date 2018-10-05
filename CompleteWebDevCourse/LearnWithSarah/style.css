@@ -9,6 +9,9 @@
 
 body {
     margin: 0px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 p {
@@ -305,12 +308,19 @@ hr {
 footer {
     background-color: var(--mainColor);
     z-index: 2;
-    position: relative;
     padding: 0px;
     display: flex;
     justify-content: space-around;
     height: 70px;
     margin-top: 20px;
+    width: 100%;
+}
+
+#footerDiv {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 /* ===================RESPONSIVE STYLING=================== */
