@@ -3,18 +3,61 @@
 <head>
 	<meta charset="UTF-8">
 	<title></title>
+    <link type="text/css" rel="stylesheet" href="style.css">
     <style>
-        .done {
-            text-decoration: line-through;
-        }
+
     </style>
 </head>
 
 <body>
 
-    <h2>Portfolio</h2>
-    
-    <a href="CompleteWebDevCourse/index.html">Complete Web Development Course</a>
+    <h1>Portfolio</h1>
+        
+    <div class="container">
+        
+        <h2>Courses</h2>
+
+        <div id="projectGrid">
+
+            <a class="projectContainer" href="CompleteWebDevCourse/">
+                <h4>Complete Web Development Course</h4>
+                <div class="projectInfo">
+                    The third course I did, going more in-depth into web development in general.
+                </div>
+            </a>
+            
+        </div>
+        
+        <h2>Personal Projects</h2>
+        
+        <p><em>These will open in a new tab.</em></p>
+        
+        <div id="projectGrid">
+            
+            <a class="projectContainer" href="" target="_blank">
+                <h4>Reddit Competition Helper</h4>
+                <div class="projectInfo">
+                    Fairly basic tool I made to help with competitions on Reddit, where users would leave a comment to say which country they're in. This extracts all those comments and puts them into a list separated by country.
+                </div>
+            </a>
+            
+            <a class="projectContainer" href="" target="_blank">
+                <h4>Reddit Streamer</h4>
+                <div class="projectInfo">
+                    Small website I made to keep up to date with my favourite Reddit subs. Automatically loads in new submissions based on your selected sub(s). Shows post text content, and has modal popups to show comments / embedded videos.
+                </div>
+            </a>
+            
+             <a class="projectContainer" href="/CompleteWebDevCourse/LearnWithSarah/en/">
+                <h4>Learn English With Sarah</h4>
+                <div class="projectInfo">
+                    This project began with the creation of a landing page for the Complete Web Development course, and is now turning into a full website for my girlfriends business.
+                </div>
+            </a>
+            
+        </div>
+        
+    </div>
     
     <script>
         
