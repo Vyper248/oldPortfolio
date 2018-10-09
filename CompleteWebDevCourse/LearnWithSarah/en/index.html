@@ -8,13 +8,56 @@
     <link rel="stylesheet" type="text/css" href="../style.css">
     <style>
         
+        #colorChangingOptions {
+            position: absolute;
+            margin: 10px;
+            background-color: rgb(0,0,0,0.8);
+            border: 1px solid white;
+            border-radius: 10px;
+            z-index: 5;
+        }
+        
+        .colorChanger {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+        }
+        
+        .colorGroup {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 5px;
+            color: white;
+        }
         
     </style>
 </head>
 
 <body>
     
+<!--    
+--mainColor: rgb(32,178,175);
+    --buttonTextColor: white;
+    --headingColor: lightgray;
+    --buttonHoverColor: rgb(26,88,86);
+-->
     
+    <div id="colorChangingOptions">
+        <div class="colorGroup">
+            Main Color: &nbsp;<input type='color' class="colorChanger" value="#27B2AF" id="mainColor">
+        </div>
+        <div class="colorGroup">
+            Button Text Color: &nbsp;<input type='color' class="colorChanger" value="#ffffff" id="buttonTextColor">
+        </div>
+        <div class="colorGroup">
+            Button Hover Color: &nbsp;<input type='color' class="colorChanger" value="#205856" id="buttonHoverColor">
+        </div>
+        <div class="colorGroup">
+            Heading Color: &nbsp;<input type='color' class="colorChanger" value="#D3D3D3" id="headingColor">
+        </div>
+    </div>
+        
     <header>
         <h1>Learn English with Sarah</h1>
         <div id="languageSelection">
@@ -147,6 +190,66 @@
     </div>
     
     <script>
+        
+        let mainColor = document.querySelector('#mainColor');
+        mainColor.addEventListener('change', function(){
+            let color = this.value;
+            let html = document.querySelector('html');
+            html.style.setProperty('--mainColor', color)
+        });
+        
+        let buttonTextColor = document.querySelector('#buttonTextColor');
+        buttonTextColor.addEventListener('change', function(){
+            let color = this.value;
+            let html = document.querySelector('html');
+            html.style.setProperty('--buttonTextColor', color)
+        });
+        
+        let buttonHoverColor = document.querySelector('#buttonHoverColor');
+        buttonHoverColor.addEventListener('change', function(){
+            let color = this.value;
+            let html = document.querySelector('html');
+            html.style.setProperty('--buttonHoverColor', color)
+        });
+        
+        let headingColor = document.querySelector('#headingColor');
+        headingColor.addEventListener('change', function(){
+            let color = this.value;
+            let html = document.querySelector('html');
+            html.style.setProperty('--headingColor', color)
+        });
+        
+        let startX = 0;
+        let startY = 0;
+        let startMouseX = 0;
+        let startMouseY = 0;
+        let element = null;
+        
+        let colorChangingOptions = document.querySelector('#colorChangingOptions');
+        colorChangingOptions.addEventListener('mousedown', function(e){
+            console.log('test');
+            element = this;
+            startX = parseInt(this.style.left.replace('px','')) || 0;
+            startY = parseInt(this.style.top.replace('px','')) || 0; 
+            startMouseX = e.clientX;
+            startMouseY = e.clientY;
+        });
+        
+        document.querySelector('body').addEventListener('mousemove', function(e){
+            let newX = e.clientX;
+            let newY = e.clientY;
+            if (element){
+                console.log(startX);
+                element.style.left = (startX + (newX-startMouseX))+"px";
+                element.style.top = (startY + (newY-startMouseY))+"px";
+            }
+        });
+        
+        document.querySelector('body').addEventListener('mouseup', function(e){
+            if (element){
+                element = null;
+            }
+        });
         
         
     </script>

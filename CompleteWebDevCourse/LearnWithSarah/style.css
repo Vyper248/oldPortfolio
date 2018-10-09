@@ -1,5 +1,8 @@
 :root {
     --mainColor: rgb(32,178,175);
+    --buttonTextColor: white;
+    --headingColor: lightgray;
+    --buttonHoverColor: rgb(26,88,86);
 }
 
 * {
@@ -84,13 +87,12 @@ h1 {
     display: flex;
     justify-content: center;
     justify-content: space-around;
-    color: white;
 }
 
 .sticky>.basicBtn {
     border-bottom: 1px solid white;
     width: 100%;
-    border-right: 1px solid;
+    border-right: 1px solid white;
 }
 
 .sticky>.basicBtn:last-child{
@@ -127,7 +129,7 @@ h1 {
 /* ===================SUMMARY INFORMATION + DIVIDERS=================== */
 
 h4 {
-    background-color: lightgray;
+    background-color: var(--headingColor);
     text-align: center;
     padding: 8px;
     font-size: 1.5rem;
@@ -244,7 +246,7 @@ hr {
 }
 
 .purchaseInfo h3 {
-    background-color: lightgray;
+    background-color: var(--headingColor);
     padding: 15px;
     margin: 0px;
     font-size: 1.75rem;
@@ -252,7 +254,7 @@ hr {
 }
 
 .purchaseInfo h4 {
-    background-color: lightgray;
+    background-color: var(--headingColor);
     padding: 10px;
     margin: 0px;
     font-weight: 500;
@@ -290,17 +292,17 @@ hr {
     padding: 10px 0px;
     margin: 0px;
     cursor: pointer;
-    color: white !important;
+    color: var(--buttonTextColor);
     font-weight: bold;
     transition: 0.5s;
 }
 
 .basicBtn.selected {
-    background-color:  rgb(26,88,86);
+    background-color:  var(--buttonHoverColor);
 }
 
 .basicBtn:hover {
-    background-color:  rgb(26,88,86);
+    background-color:  var(--buttonHoverColor);
 }
 
 /* ===================FOOTER=================== */
