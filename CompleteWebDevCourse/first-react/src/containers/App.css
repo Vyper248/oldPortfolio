@@ -1,0 +1,14 @@
+.page {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+#heading {
+    color: white;
+    font-weight: 300;
+    font-size: 4em;
+    text-align: center;
+    margin:10px;
+}
