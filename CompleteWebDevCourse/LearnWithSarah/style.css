@@ -86,43 +86,77 @@ h1 {
     background-color: var(--mainColor);
     display: flex;
     justify-content: center;
-    justify-content: space-around;
 }
 
-.sticky>.basicBtn {
+.sticky > .basicBtn {
     border-bottom: 1px solid white;
     width: 100%;
     border-right: 1px solid white;
+    padding-right: 30px;
+    padding-left: 30px;
 }
 
 .sticky>.basicBtn:last-child{
     border-right: none;
 }
 
+.sticky a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dropdownLabel {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .basicBtn.dropdown {
     position: relative;
     padding-bottom: 10px;
     transition: height 0.5s;
+    font-size: 1em;
+    border-top: none;
+    border-left: none;
 }
 
 .dropdownArea {
-    height: 0px;;
-    overflow: hidden;
-    transition: height 0.5s, margin-top 0.5s;
+    transition: height 0.5s, margin-top 0.5s, opacity 0.2s;
     position: absolute;
     left: 0px;
-    top: 39px;
+    top: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
+    opacity: 0;
+/*    max-height: 0px;*/
 }
 
-.basicBtn.dropdown:hover .dropdownArea {
-    height:117px;
-    background-color:black;
+.sub.dropdownArea .basicBtn {
+    width: 80%;
+}
+
+.sub.dropdownArea {
+    align-items: flex-end;
+}
+
+.basicBtn.dropdown:hover > .dropdownArea.three {
+/*    max-height:1170px;*/
+    opacity: 1;
+}
+
+.basicBtn.dropdown:hover > .dropdownArea.seven {
+/*    max-height:2730px;*/
+    opacity: 1;
+}
+
+.basicBtn.dropdown:focus {
+    outline: none;
 }
         
-.dropdownArea>.basicBtn {
+.dropdownArea > .basicBtn {
     border-bottom: 1px solid white;
 }
 
@@ -345,6 +379,10 @@ footer {
     
     .dropdown:hover .dropdownArea {
         margin-top:10px;
+    }
+    
+    .basicBtn.dropdown {
+        max-height: 39px;
     }
 }
 
