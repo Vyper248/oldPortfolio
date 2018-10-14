@@ -84,11 +84,17 @@ h1 {
     width: 100%;
     text-align: center;
     background-color: var(--mainColor);
-    display: flex;
-    justify-content: center;
 }
 
-.sticky > .basicBtn {
+.menu {
+    display: flex;
+}
+
+.menuBtn {
+    display: none;
+}
+
+.menu > .basicBtn {
     border-bottom: 1px solid white;
     width: 100%;
     border-right: 1px solid white;
@@ -96,11 +102,11 @@ h1 {
     padding-left: 30px;
 }
 
-.sticky>.basicBtn:last-child{
+.menu > .basicBtn:last-child{
     border-right: none;
 }
 
-.sticky a {
+.menu a {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -115,39 +121,34 @@ h1 {
 
 .basicBtn.dropdown {
     position: relative;
-    padding-bottom: 10px;
-    transition: height 0.5s;
     font-size: 1em;
-    border-top: none;
-    border-left: none;
 }
 
 .dropdownArea {
-    transition: height 0.5s, margin-top 0.5s, opacity 0.2s;
+    transition: opacity 0.2s;
     position: absolute;
     left: 0px;
     top: 100%;
     width: 100%;
-    display: flex;
     flex-direction: column;
     display: none;
-/*    max-height: 0px;*/
+    z-index: 4;
 }
 
-.sub.dropdownArea .basicBtn {
-    width: 80%;
+.dropdownArea.open {
+    display: flex;
+    opacity: 0;
+}
+
+.dropdownArea.visible {
+    display: flex;
+    opacity: 1;
 }
 
 .sub.dropdownArea {
-    align-items: flex-end;
-}
-
-.basicBtn.dropdown:hover > .dropdownArea {
-    display: flex;
-}
-
-.basicBtn.dropdown:focus {
-    outline: none;
+    width: 100%;
+    top: 0px;
+    left: 100%;
 }
         
 .dropdownArea > .basicBtn {
@@ -355,35 +356,40 @@ footer {
 
 /* ===================RESPONSIVE STYLING=================== */
 
+/* Responsive Menu */
 @media screen and (max-width: 570px) {
-    .sticky {
+    .menu {
         flex-direction: column;
         position: relative;
+        display: none;
+        flex-wrap: nowrap;
+    }
+    
+    .menu.open {
+        display: flex;
+    }
+    
+    .menuBtn {
+        width: 100%;
+        display: block;
     }
     
     .dropdownArea {
         position: relative;
-        top: 0px;
-        bottom: 0px;
-    }
-    
-    .dropdown:hover {
-    }
-    
-    .dropdown:hover .dropdownArea {
-        margin-top:10px;
-    }
-    
-    .basicBtn.dropdown:hover > .dropdownArea {
         display: none;
+        border-top: 1px solid white;
     }
     
-    .basicBtn.dropdown:focus > .dropdownArea {
+    .dropdownArea.open {
+        opacity: 1;
         display: flex;
-        position: relative;
     }
     
-    .sticky > .basicBtn {
+    .sub.dropdownArea {
+        left: 0px;
+    }
+    
+    .menu > .basicBtn {
         border-bottom: 1px solid white;
         width: 100%;
         border-right: 1px solid white;
@@ -395,24 +401,33 @@ footer {
         margin-bottom: 10px;
     }
     
-    .basicBtn.dropdown:focus {
-        position: relative;
-        max-height: 2000px;
-    }
-    
     .basicBtn.dropdown {
-        max-height: 39px;
         padding-bottom: 0px;
     }
 }
 
+/* Responsive Heading */
 @media screen and (max-width: 500px) {
     h1 {
         width: 90%;
     }
 }
 
+/* Responsive menu while at a medium size */
+@media screen and (max-width: 800px) and (min-width: 570px){    
+    .menu {
+        flex-wrap: wrap;
+    }
+    
+    .menu > .basicBtn {
+        width: 25%;
+        flex-grow: 1;
+    }
+}
+
+/* Responsive sections on page */
 @media screen and (max-width: 800px){
+    
     .purchaseGroup {
         flex-direction: column;
         align-items: center;
