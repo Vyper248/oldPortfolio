@@ -16,11 +16,11 @@
             flex-direction: row;
         }
         
-        .sticky>.basicBtn:last-child{
+        .menu>.basicBtn:last-child{
             border-right: 1px solid white;
         }
         
-        .sticky>.basicBtn:first-child{
+        .menu>.basicBtn:first-child{
             border-right: none;
         }
         
@@ -39,19 +39,49 @@
     </header>
     
     <div class="sticky">
-        <a class="basicBtn selected" href="index.html">خانه</a>
-        <div class="basicBtn dropdown">
-            خدمات <span style="position: absolute; right: 10px;">&#9660;</span>
-            <div class="dropdownArea">
-                <a class="basicBtn">برنامه ها</a>
-                <a class="basicBtn">کلاس های آنلاین</a>
-                <a class="basicBtn">کلاس های خصوصی</a>
+        <div class="menuBtn basicBtn">Menu <span style="position: absolute; right: 10px;">&#9660;</span></div>
+        <div class="menu">
+            <a class="basicBtn selected" href="index.html">Home</a>
+            <div class="basicBtn dropdown">
+                <div class="dropdownLabel">Level Tests <span style="position: absolute; right: 10px;">&#9660;</span></div>
+                <div class="dropdownArea">
+                    <a class="basicBtn">Written</a>
+                    <a class="basicBtn">Oral</a>
+                    <div class="basicBtn dropdown">
+                        <div class="dropdownLabel">Skills <span style="position: absolute; right: 10px;">&#9660;</span></div>
+                        <div class="sub dropdownArea">
+                            <a class="basicBtn">Listening</a>
+                            <a class="basicBtn">Reading</a>
+                            <a class="basicBtn">Writing</a>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <a class="basicBtn" href="faq.html">F.A.Q</a>
+            <div class="basicBtn dropdown">
+                <div class="dropdownLabel">Services <span style="position: absolute; right: 10px;">&#9660;</span></div>
+                <div class="dropdownArea">
+                    <a class="basicBtn">Plans</a>
+                    <a class="basicBtn">Online Classes</a>
+                    <a class="basicBtn">Private Classes</a>
+                </div>
+            </div>
+            <div class="basicBtn dropdown">
+                <div class="dropdownLabel">Learning Resources <span style="position: absolute; right: 10px;">&#9660;</span></div>
+                <div class="dropdownArea">
+                    <a class="basicBtn">Articles</a>
+                    <a class="basicBtn">Forum</a>
+                    <a class="basicBtn">Videos</a>
+                    <a class="basicBtn">Useful Websites</a>
+                    <a class="basicBtn">Useful Applications</a>
+                    <a class="basicBtn">How To</a>
+                    <a class="basicBtn">English Chat</a>
+                </div>
+            </div>
+            <a class="basicBtn">Contact</a>
+            <a class="basicBtn">About Me</a>
         </div>
-        <a class="basicBtn" href="faq.html">F.A.Q</a>
-        <a class="basicBtn">قیمت</a>
-        <a class="basicBtn">تماس</a>
-    </div>        
+    </div>      
     
     <div class="information">
         <div id="planImage" class="informationImage"></div>
@@ -163,6 +193,7 @@
         
         
     </script>
+    <script src="../menuScript.js"></script>
     
 </body>
 
