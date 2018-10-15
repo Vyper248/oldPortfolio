@@ -339,12 +339,52 @@ hr {
 footer {
     background-color: var(--mainColor);
     z-index: 2;
-    padding: 0px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 80px;
+    margin-top: 50px;
+    width: 100%;
+    align-items: center;
+}
+
+footer h5 {
+    margin: 0px;
+    font-size: 1.2em;
+    color: white;
+}
+
+footer .links {
     display: flex;
     justify-content: space-around;
-    height: 70px;
-    margin-top: 20px;
     width: 100%;
+}
+
+footer a {
+    margin: 0px;
+    display: flex;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+}
+
+footer a img {
+    width: 30px;
+    margin-right: 10px;
+}
+
+footer .divider {
+    display: none;
+}
+
+#instagramLogo {
+/*    filter: brightness(70%) sepia(50) saturate(100) hue-rotate(300deg);*/
+/*    filter: none;*/
+}
+
+#telegramLogo {
+    filter: saturate(2);
 }
 
 #footerDiv {
@@ -410,6 +450,11 @@ footer {
 @media screen and (max-width: 500px) {
     h1 {
         width: 90%;
+    }
+    
+    footer .divider {
+        display: block;
+        border-right: 1px solid white;
     }
 }
 
