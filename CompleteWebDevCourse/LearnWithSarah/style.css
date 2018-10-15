@@ -155,6 +155,12 @@ h1 {
     border-bottom: 1px solid white;
 }
 
+.dropdownArrow {
+    position: absolute;
+    right: 10px;
+    top: calc(50% - 9px);
+}
+
 /* ===================SUMMARY INFORMATION + DIVIDERS=================== */
 
 h4 {
