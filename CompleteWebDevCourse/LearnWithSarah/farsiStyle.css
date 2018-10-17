@@ -14,6 +14,8 @@
     border-right: none;
 }
 
+
+
 @font-face {
     font-family: 'b_nazaninregular';
     src: url('bnazanin-webfont.woff2') format('woff2'),
@@ -24,4 +26,17 @@
 
 * {
     font-family: 'b_nazaninregular';
+}
+
+
+/* Responsive sections on page */
+@media screen and (max-width: 800px){
+
+    .information {
+        flex-direction: column;
+    }
+
+    .divider2 + .information {
+        flex-direction: column;
+    }
 }

@@ -501,6 +501,7 @@ footer .divider {
     .informationImage {
         height: 300px !important;
         margin: auto;
+        flex-basis: auto;
     }
 
     .sticky + .information div {
