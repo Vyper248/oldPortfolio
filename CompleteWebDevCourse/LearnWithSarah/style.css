@@ -13,8 +13,6 @@
 body {
     margin: 0px;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
 p {
@@ -191,28 +189,24 @@ h4 {
     transform: skewY(-5deg);
 }
 
-.information {
-    min-height: 400px;
-    max-width: 1500px;
-    margin: 0px auto;
+.information {    
     display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
+    flex-direction: row;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 30px auto;
     align-items: center;
-    position: relative;
-    top: 10px;
 }
 
 .information .text {
-    width: 50%;
     margin: 20px;
     margin-left: 20px;
     margin-right: 20px;
 }
 
-.information div {
-    height: 50%;
-    width: 50%;
+.text, .informationImage {
+    flex-basis: 0;
+    flex-grow: 1;
 }
 
 .sticky + .information div {
