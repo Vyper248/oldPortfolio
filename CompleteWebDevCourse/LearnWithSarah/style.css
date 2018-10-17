@@ -336,6 +336,13 @@ hr {
 
 /* ===================FOOTER=================== */
 
+#footerDiv {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
 footer {
     background-color: var(--mainColor);
     z-index: 2;
@@ -357,12 +364,12 @@ footer h5 {
 
 footer .links {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     width: 100%;
 }
 
 footer a {
-    margin: 0px;
+    margin: 0px 30px;
     display: flex;
     align-items: center;
     color: white;
@@ -385,13 +392,6 @@ footer .divider {
 
 #telegramLogo {
     filter: saturate(2);
-}
-
-#footerDiv {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
 }
 
 /* ===================RESPONSIVE STYLING=================== */
@@ -444,17 +444,22 @@ footer .divider {
     .basicBtn.dropdown {
         padding-bottom: 0px;
     }
+    
+    /*  Responsive Footer  */
+    footer a {
+        margin: 0px 10px;
+    }
+    
+     footer .divider {
+        display: block;
+        border-right: 1px solid white;
+    }
 }
 
 /* Responsive Heading */
 @media screen and (max-width: 500px) {
     h1 {
         width: 90%;
-    }
-    
-    footer .divider {
-        display: block;
-        border-right: 1px solid white;
     }
 }
 
