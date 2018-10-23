@@ -35,15 +35,17 @@
         .imageSlider {
             width: 100%;
             position: relative;
-            height: calc(100vw * 0.43);
+            height: calc(100vw * 0.30);
         }
         
         .imageContent {
             width: 100%;
+            height: calc(100vw * 0.30);
+            overflow: hidden;
             position: absolute;
             top: 0px;
             left: 0px;
-            transition: 1s;
+            transition: opacity 1s;
             opacity: 0;
         }
         
@@ -58,7 +60,7 @@
             font-size: 2em;
             line-height: 40px;
             cursor: pointer;
-            color: white;
+            color: gray;
             transform: scaleY(1.5);
             transition: 0.5s;
             mix-blend-mode: difference;
@@ -83,16 +85,24 @@
             top: 10%;
             left: 0px;
             padding: 10px;
-            font-size: 4vw;
+            padding-left: 70px;
+            padding-right: 70px;
+            font-size: 2.5vw;
             background-color: rgba(255,255,0,0.4);
             z-index: 1;
         }
         
         .imageContent img {
-            height: calc(100vw * 0.43);
+            width: 100%;
             position: relative;
             left: 50%;
-            transform: translate(-50%, 0%);
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        #imageSlider2 img {
+            width: auto;
+            height: 100%;
         }
         
     </style>
