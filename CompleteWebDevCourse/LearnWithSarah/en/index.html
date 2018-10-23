@@ -31,6 +31,70 @@
             color: white;
         }
         
+/*       New Styles */
+        .imageSlider {
+            width: 100%;
+            position: relative;
+            height: calc(100vw * 0.43);
+        }
+        
+        .imageContent {
+            width: 100%;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            transition: 1s;
+            opacity: 0;
+        }
+        
+        .imageContent.visible {
+            opacity: 1;
+        }
+        
+        .sliderBtn {
+            position: absolute;
+            z-index: 1;
+            top: calc(50% - 20px);
+            font-size: 2em;
+            line-height: 40px;
+            cursor: pointer;
+            color: white;
+            transform: scaleY(1.5);
+            transition: 0.5s;
+            mix-blend-mode: difference;
+            opacity: 0.3;        
+        }
+        
+        .sliderBtn:hover {
+            opacity: 1;
+        }
+        
+        #sliderLeftBtn {
+            left: 20px;
+            transform: rotate(180deg) scaleY(1.5);
+        }
+        
+        #sliderRightBtn {
+            right: 20px;
+        }
+        
+        #imageSlider1 .title {
+            position: absolute;
+            top: 10%;
+            left: 0px;
+            padding: 10px;
+            font-size: 4vw;
+            background-color: rgba(255,255,0,0.4);
+            z-index: 1;
+        }
+        
+        .imageContent img {
+            height: calc(100vw * 0.43);
+            position: relative;
+            left: 50%;
+            transform: translate(-50%, 0%);
+        }
+        
     </style>
 </head>
 
@@ -106,69 +170,33 @@
                     <a class="basicBtn">English Chat</a>
                 </div>
             </div>
-            <a class="basicBtn">Contact</a>
-            <a class="basicBtn">About Me</a>
         </div>
     </div>        
     
-    <div class="information">
-        <div id="planImage" class="informationImage"></div>
-        <div class="text">
-            <h4>Plans</h4>
-            <p>I offer a variety of different plans to suit your needs, most of which will be customised to your requirements.</p>
-            
-            <strong>Normal Plan:</strong>
-            <p>This is the standard plan, suitable for different levels and will use [insert book name], as well as a variety of different material such as movies, music and online practise.</p>
-            
-            <strong>Customised Plan:</strong>
-            <p>Similar to the normal plan, but can be customised to use your own materials instead of my own.</p>
-            
-            <strong>IELTS Normal Plan:</strong>
-            <p>This plan will be tailored for learning IELTS using [insert book name].</p>
-            
-            <strong>IELTS Customised:</strong>
-            <p>Similar to the normal IELTS plan, but can be customised to use your own materials.</p>
-            
-            <strong>IELTS 55 Day Plan:</strong>
-            <p>This plan is aimed at getting you ready for the IELTS mock test in 55 days.</p>
+    <div class="imageSlider">
+        
+        <div id="sliderLeftBtn" class="sliderBtn">&#10148;</div>
+        <div id="sliderRightBtn" class="sliderBtn">&#10148;</div>
+    
+        <div class="imageContent visible" id="imageSlider1">
+            <div class="title">Personalised Student Learning Plan</div>
+            <img src="../learningPlan.png"/>
+        </div>
+    
+        <div class="imageContent" id="imageSlider2">
+            <img src="../levelTest.jpeg"/>
+        </div>
+        
+        <div class="imageContent" id="imageSlider3">
+            <img src="../webb.png"/>
         </div>
     </div>
     
-    <div class="divider2"></div>
     
-    <div class="information">
-        <div id="onlineImage" class="informationImage"></div>
-        <div class="text">
-            <h4>Online Classes:</h4>
-            <strong>Method:</strong>
-            <p>These classes are taken using Skype, and can be scheduled for a time that is suitable to both of us. This means that you can take the class no matter where you are, which makes it the most convenient option.</p>
-            <strong>Length:</strong>
-            <p>The classes last for 30 minutes at a time.</p>
-            <strong>Types:</strong>
-            <p>I offer several different types of online classes, including listening and speaking, all tailored to what you need.</p>
-            <p>I also offer special Q & A sessions where you can ask any questions that you have outside of your normal classes.</p>
-            <p>For more information, please contact me.</p>
-        </div>        
-    </div>
-    
-    <div class="divider1"></div>
-   
-    <div class="information">
-        <div id="privateImage" class="informationImage"></div>
-        <div class="text">
-            <h4>Private In-Person Classes:</h4>
-            <p>If you would prefer to have your classes in person, then this is also an option. The location for these will be discussed to make sure it's suitable for us both.</p>
-        </div>        
-    </div>
-    
-    
-    <div class="divider2"></div>
-
-    
-        <div class="purchaseHeader">
-            <h4>Start learning now!</h4>
-            <p>Get started now with some of my most popular options, or check out the full range of options <a href="">here</a>.</p>
-        </div> 
+    <div class="purchaseHeader">
+        <h4>Start learning now!</h4>
+        <p>Get started now with some of my most popular options, or check out the full range of options <a href="">here</a>.</p>
+    </div> 
     
     <div class="purchaseGroup">
         <div class="purchaseInfo">
@@ -299,6 +327,62 @@
         });
         
         
+    </script>
+    
+    <script>
+        
+        //start timer to auto rotate images
+        let sliderInterval = setInterval(() => {
+                rotate('.imageContent', 1);
+            },5000);
+        
+        //event listeners for each button
+        let sliderLeftBtn = document.querySelector('#sliderLeftBtn');
+        sliderLeftBtn.addEventListener('click', (e)=>{
+            clearInterval(sliderInterval);
+            rotate('.imageContent', -1);
+        });
+        
+        let sliderRightBtn = document.querySelector('#sliderRightBtn');
+        sliderRightBtn.addEventListener('click', (e)=>{
+            clearInterval(sliderInterval);
+            rotate('.imageContent', 1);
+        });
+        
+        //function to rotate images based on id tags (no need to keep track)
+        const rotate = (selector, direction) => {
+            const ids = getIDs(selector);
+            const currentImage = document.querySelector(selector+'.visible');
+            const currentID = currentImage.getAttribute('id');
+            const currentIndex = ids.indexOf(currentID);
+            
+            let nextIndex = (currentIndex+direction)%ids.length;
+            if (nextIndex < 0) nextIndex = ids.length-1;
+            const nextID = ids[nextIndex];
+            
+            const nextImage = document.querySelector('#'+nextID);
+            
+            currentImage.classList.remove('visible');
+            nextImage.classList.add('visible');
+        };
+        
+        //get array of IDs
+        const getIDs = (selector = '') => {
+            if (selector.length === 0) {
+                throw('Error: Selector needs to be defined');
+            }
+            
+            const tags = document.querySelectorAll(selector);
+            
+            const IDs = [];
+            for (let i = 0; i < tags.length; i++){
+                const id = tags[i].getAttribute('id');
+                IDs.push(id);
+            }
+            
+            return IDs;
+        }
+
     </script>
     
     <script src="../menuScript.js"></script>
