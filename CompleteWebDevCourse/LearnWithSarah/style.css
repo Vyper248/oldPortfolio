@@ -159,6 +159,81 @@ h1 {
     top: calc(50% - 9px);
 }
 
+/* ============================Image Slider============================ */
+
+.imageSlider {
+    width: 100%;
+    position: relative;
+    height: calc(100vw * 0.30);
+}
+
+.imageContent {
+    width: 100%;
+    height: calc(100vw * 0.30);
+    overflow: hidden;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    transition: opacity 1s;
+    opacity: 0;
+}
+
+.imageContent.visible {
+    opacity: 1;
+}
+
+.sliderBtn {
+    position: absolute;
+    z-index: 1;
+    top: calc(50% - 20px);
+    font-size: 2em;
+    line-height: 40px;
+    cursor: pointer;
+    color: gray;
+    transform: scaleY(1.5);
+    transition: 0.5s;
+    mix-blend-mode: difference;
+    opacity: 0.3;        
+}
+
+.sliderBtn:hover {
+    opacity: 1;
+}
+
+#sliderLeftBtn {
+    left: 20px;
+    transform: rotate(180deg) scaleY(1.5);
+}
+
+#sliderRightBtn {
+    right: 20px;
+}
+
+#imageSlider1 .title {
+    position: absolute;
+    top: 10%;
+    left: 0px;
+    padding: 10px;
+    padding-left: 70px;
+    padding-right: 70px;
+    font-size: 2.5vw;
+    background-color: rgba(255,255,0,0.4);
+    z-index: 1;
+}
+
+.imageContent img {
+    width: 100%;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#imageSlider2 img {
+    width: auto;
+    height: 100%;
+}
+
 /* ===================SUMMARY INFORMATION + DIVIDERS=================== */
 
 h4 {

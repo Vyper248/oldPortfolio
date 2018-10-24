@@ -31,78 +31,165 @@
             color: white;
         }
         
-/*       New Styles */
-        .imageSlider {
-            width: 100%;
-            position: relative;
-            height: calc(100vw * 0.30);
+/*       New Purchase Group Styling */
+        .purchaseGroup {
+            display: flex;
+            justify-content: space-around;
+            max-width: 1200px;
+            margin: auto;
         }
         
-        .imageContent {
-            width: 100%;
-            height: calc(100vw * 0.30);
+        .purchaseGrid {
+            width: 33vw;
+            height: 33vw;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .purchaseCircle {
+            height: 90%;
+            width: 90%;
+            border-radius: 50%;
             overflow: hidden;
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            transition: opacity 1s;
-            opacity: 0;
-        }
-        
-        .imageContent.visible {
-            opacity: 1;
-        }
-        
-        .sliderBtn {
-            position: absolute;
-            z-index: 1;
-            top: calc(50% - 20px);
-            font-size: 2em;
-            line-height: 40px;
-            cursor: pointer;
-            color: gray;
-            transform: scaleY(1.5);
-            transition: 0.5s;
-            mix-blend-mode: difference;
-            opacity: 0.3;        
-        }
-        
-        .sliderBtn:hover {
-            opacity: 1;
-        }
-        
-        #sliderLeftBtn {
-            left: 20px;
-            transform: rotate(180deg) scaleY(1.5);
-        }
-        
-        #sliderRightBtn {
-            right: 20px;
-        }
-        
-        #imageSlider1 .title {
-            position: absolute;
-            top: 10%;
-            left: 0px;
-            padding: 10px;
-            padding-left: 70px;
-            padding-right: 70px;
-            font-size: 2.5vw;
-            background-color: rgba(255,255,0,0.4);
-            z-index: 1;
-        }
-        
-        .imageContent img {
-            width: 100%;
             position: relative;
+            border: 1px solid var(--headingColor);
+            
+        }
+        
+        .purchaseCircle img {
+            display: block;
+            height: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            filter: blue(0px);
+            transition: 0.5s;
+            border-radius: 50%;
+        }
+        
+        .purchaseCircle:hover img {
+            filter: blur(4px);
+        }
+        
+        .purchaseText {
+            color: white;
+            font-weight: bold;
+            position: absolute;
             left: 50%;
             top: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%,-50%);
+            font-size: 2.1em;
+            width: 100%;
+            padding: 20px;
+            background-color: rgba(0,0,0,0.7);
         }
         
-        #imageSlider2 img {
-            width: auto;
-            height: 100%;
+        @media screen and (max-width:950px) {
+            .purchaseGrid {
+                width: 50vw;
+                height: 50vw;
+            }
+            
+            .purchaseGroup {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        
+/*    The Process Styling    */
+        
+        .processDiv {
+            display: flex;
+            flex-direction: column-reverse;
+            margin: auto;
+            max-width: 1200px;
+            padding-left: 25%;
+        }
+        
+        .processStepDiv {
+            position: relative;
+            border: 1px solid white;
+            display: flex;
+            width: 70%;
+            align-items: flex-end;
+        }
+        
+        .processStepDiv:nth-child(2){
+            left: 5%;
+        }
+        
+        .processStepDiv:nth-child(3){
+            left: 10%;
+        }
+        
+        .processStepDiv:nth-child(4){
+            left: 15%;
+        }
+        
+        .processStepDiv:nth-child(5){
+            left: 20%;
+        }
+        
+        .processStepNumber {
+            width: 100px;
+            height: 50px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            color: white;
+            background-color: gray;
+            font-weight: bold;
+            font-size: 1.2em;
+            flex-shrink: 0;
+        }
+        
+        .processStepDiv:hover .processStepHiddenText {
+            max-height: 50px;
+        }
+        
+        .processStepText {
+            margin-left: 10px;
+        }
+        
+        .processStepHiddenText{
+            max-height: 0px;
+            overflow: hidden;
+            transition: 0.5s;
+            font-size: 0.8em;
+        }
+        
+        @media screen and (max-width:950px) {
+            .processStepDiv:nth-child(2), .processStepDiv:nth-child(3), .processStepDiv:nth-child(4), .processStepDiv:nth-child(5) {
+                left: 0%;
+            }
+            
+            .processDiv {
+                flex-direction: column;
+                padding-left: 10%;
+            }
+            
+            .processStepDiv {
+                width: 90%;
+            }
+            
+        }
+        
+/*      Header Links  */
+        .headerLinks {
+            position: absolute;
+            font-size: 0.3em;
+            top: -30px;
+            font-weight: normal;
+        }
+        
+        .headerLinks a {
+            color: white;
+            text-shadow: 0px 0px 3px black;
         }
         
     </style>
@@ -133,7 +220,14 @@
     </div>
         
     <header>
-        <h1>Learn English with Sarah</h1>
+        <h1>
+            Learn English with Sarah
+            <div class="headerLinks">
+                <a>Contact</a>
+                <span> | </span>
+                <a>About Me</a>
+            </div>
+        </h1>
         <div id="languageSelection">
             <a class="languageBtn selected">English</a>
             <a class="languageBtn" href="../index.html">فارسی</a>
@@ -204,11 +298,118 @@
     
     
     <div class="purchaseHeader">
-        <h4>Start learning now!</h4>
+        <h2>Start learning now!</h2>
         <p>Get started now with some of my most popular options, or check out the full range of options <a href="">here</a>.</p>
     </div> 
     
     <div class="purchaseGroup">
+        
+        <div class="purchaseGrid">
+            <div class="purchaseCircle">
+                <img src="../levelTest.jpeg">
+                <div class="purchaseText">
+                    IELTS Plan
+                </div>
+            </div>
+        </div>
+        
+        <div class="purchaseGrid">
+            <div class="purchaseCircle">
+                <img src="../learningPlan.png">
+                <div class="purchaseText">
+                    IELTS Custom Plan
+                </div>
+            </div>
+        </div>
+        
+        <div class="purchaseGrid">
+            <div class="purchaseCircle">
+                <img src="../webb.png">
+                <div class="purchaseText">
+                    Online Classes
+                </div>
+            </div>
+        </div>
+    
+    </div>
+    
+    
+    <div class="purchaseHeader">
+        <h2>The Process</h2>
+        <p>Find out the steps you'll need to take to become an English master. Hover over each step for more details.</p>
+    </div> 
+    
+    
+    <div class="processDiv">
+    
+        <div class="processStepDiv">
+            <div class="processStepNumber" style="background-color:#4D5D71;">
+                <span>01</span>
+                <span>&#9745;</span>
+            </div>
+            <div class="processStepText">
+                Take Level Test
+                <div class="processStepHiddenText">
+                Click here to find the level test. Once you've taken it, you can send the results to me using this form.
+                </div>
+            </div>
+        </div>
+        
+        <div class="processStepDiv">
+            <div class="processStepNumber" style="background-color:#0375BB;">
+                <span>02</span>
+                <span>&#9742;</span>
+            </div>
+            <div class="processStepText">
+                Contact Hunnie
+                <div class="processStepHiddenText">
+                Click here to find my contact details. We'll be able to discuss your requirements using your test results.
+                </div>
+            </div>
+        </div>
+        
+        <div class="processStepDiv">
+            <div class="processStepNumber" style="background-color:#099A8D;">
+                <span>03</span>
+                <span>$</span>
+            </div>
+            <div class="processStepText">
+                Pay Hunnie  
+                <div class="processStepHiddenText">
+                You can find my payment details here. Once payment has been made, your lessons can begin.
+                </div>
+            </div>
+        </div>
+        
+        <div class="processStepDiv">
+            <div class="processStepNumber" style="background-color:#83B91E;">
+                <span>04</span>
+                <span>&#9998;</span>
+            </div>
+            <div class="processStepText">
+                Have Lessons
+                <div class="processStepHiddenText">
+                Do you really need me to explain this one? :D
+                </div>
+            </div>
+        </div>
+        
+        <div class="processStepDiv">
+            <div class="processStepNumber" style="background-color:#FC9702;">
+                <span>05</span>
+                <span>&#10003;</span>
+            </div>
+            <div class="processStepText">
+                Be English Expert
+                <div class="processStepHiddenText">
+                You are now a master of English. Use this knowledge wisely.
+                </div>
+            </div>
+        </div>
+    
+    </div>
+        
+    <!-- <div class="purchaseGroup">
         <div class="purchaseInfo">
             <h3>IELTS Plan</h3>
             <div class="purchasePoints">
@@ -250,7 +451,7 @@
             <h4>50k Per Session</h4>
             <a class="purchaseBtn basicBtn">Buy Now!</a>
         </div>
-    </div>
+    </div> -->
     
     <div id="footerDiv">
         <footer>
