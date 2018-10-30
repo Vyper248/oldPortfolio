@@ -31,171 +31,47 @@
             color: white;
         }
         
-/*       New Purchase Group Styling */
-        .purchaseGroup {
-            display: flex;
-            justify-content: space-around;
-            max-width: 1200px;
-            margin: auto;
-        }
         
-        .purchaseGrid {
-            width: 33vw;
-            height: 33vw;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            max-height: 400px;
-        }
+/*    New Process Styling Test    */
         
-        .purchaseCircle {
-            height: 90%;
-            width: 90%;
-            border-radius: 50%;
-            overflow: hidden;
+        .processStepText {
             position: relative;
-            border: 1px solid var(--headingColor);
-            
         }
         
-        .purchaseCircle img {
-            display: block;
-            height: 100%;
+        .processStepHiddenText {
             position: absolute;
+            left: calc(100% + 20px);
             top: 50%;
-            left: 50%;
-            transform: translate(-50%,-50%);
-            transition: 0.5s;
-            border-radius: 50%;
-        }
-        
-/*
-        .purchaseCircle:hover img {
-            filter: blur(4px);
-        }
-*/
-        
-        .purchaseText {
-            color: white;
-            font-weight: bold;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%,-50%);
-            font-size: 2.1em;
-            width: 100%;
-            padding: 20px;
-            background-color: rgba(0,0,0,0.7);
-        }
-        
-        @media screen and (max-width:950px) {
-            .purchaseGrid {
-                width: 50vw;
-                height: 50vw;
-                max-width: 400px;
-            }
-            
-            .purchaseGroup {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-        
-        
-/*    The Process Styling    */
-        
-        .processDiv {
-            margin: auto;
-            max-width: 1200px;
-        }
-        
-        .processDivInner {
-            display: flex;
-            flex-direction: column-reverse;
-            padding-left: 25%;
-        }
-        
-        .processStepDiv {
-            position: relative;
-            border: 1px solid white;
-            display: flex;
-            width: 70%;
-            align-items: flex-end;
-        }
-        
-        .processStepDiv:nth-child(2){
-            left: 5%;
-        }
-        
-        .processStepDiv:nth-child(3){
-            left: 10%;
-        }
-        
-        .processStepDiv:nth-child(4){
-            left: 15%;
-        }
-        
-        .processStepDiv:nth-child(5){
-            left: 20%;
-        }
-        
-        .processStepNumber {
-            width: 100px;
-            height: 50px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            color: white;
-            background-color: gray;
-            font-weight: bold;
-            font-size: 1.2em;
-            flex-shrink: 0;
+            transform: translateY(-50%);
+            width: 500px;
         }
         
         .processStepDiv:hover .processStepHiddenText {
-            max-height: 50px;
+            max-height: 90px;
         }
-        
-        .processStepText {
-            margin-left: 10px;
-        }
-        
-        .processStepHiddenText{
-            max-height: 0px;
-            overflow: hidden;
-            transition: 0.5s;
-            font-size: 0.8em;
-        }
-        
+
         @media screen and (max-width:950px) {
             .processStepDiv:nth-child(2), .processStepDiv:nth-child(3), .processStepDiv:nth-child(4), .processStepDiv:nth-child(5) {
                 left: 0%;
             }
-            
+
             .processDiv {
                 flex-direction: column;
                 padding-left: 10%;
             }
-            
+
+            .processDivInner {
+                flex-direction: column;
+            }
+
             .processStepDiv {
                 width: 90%;
             }
             
-        }
-        
-/*      Header Links  */
-        .headerLinks {
-            position: absolute;
-            font-size: 0.3em;
-            top: -30px;
-            font-weight: normal;
-        }
-        
-        .headerLinks a {
-            color: white;
-            text-shadow: 0px 0px 3px black;
+            .processStepHiddenText {
+                width: 200px;
+            }
+
         }
         
     </style>
@@ -290,15 +166,15 @@
     
         <div class="imageContent visible" id="imageSlider1">
             <div class="title">Personalised Student Learning Plan</div>
-            <img src="../learningPlan.png"/>
+            <img src="../images/learningPlan.png"/>
         </div>
     
         <div class="imageContent" id="imageSlider2">
-            <img src="../levelTest.jpeg"/>
+            <img src="../images/levelTest.jpeg"/>
         </div>
         
         <div class="imageContent" id="imageSlider3">
-            <img src="../webb.png"/>
+            <img src="../images/webb.png"/>
         </div>
     </div>
     
@@ -312,25 +188,25 @@
         
         <div class="purchaseGrid">
             <div class="purchaseCircle">
-                <img src="../levelTest.jpeg">
+                <img src="../images/CustomGeneralPlan.jpg">
                 <div class="purchaseText">
-                    IELTS Plan
+                    Custom General Plan
                 </div>
             </div>
         </div>
         
         <div class="purchaseGrid">
             <div class="purchaseCircle">
-                <img src="../learningPlan.png">
+                <img src="../images/IELTSPlan.jpg">
                 <div class="purchaseText">
-                    IELTS Custom Plan
+                    Custom IELTS Plan
                 </div>
             </div>
         </div>
         
         <div class="purchaseGrid">
             <div class="purchaseCircle">
-                <img src="../webb.png">
+                <img src="../images/OnlineClasses.jpg">
                 <div class="purchaseText">
                     Online Classes
                 </div>
@@ -414,67 +290,23 @@
             </div>
         </div>
     </div>
-        
-    <!-- <div class="purchaseGroup">
-        <div class="purchaseInfo">
-            <h3>IELTS Plan</h3>
-            <div class="purchasePoints">
-                <p>Great Value</p>
-                <hr>
-                <p>Tailor Made</p>
-                <hr>
-                <p>Personal Touch</p>
-                <hr>
-            </div>
-            <h4>50k Per Plan</h4>
-            <a class="purchaseBtn basicBtn">Buy Now!</a>
-        </div>
-        
-        <div class="purchaseInfo">
-            <h3>IELTS Custom Plan</h3>
-            <div class="purchasePoints">
-                <p>Great Value</p>
-                <hr>
-                <p>Use of own material</p>
-                <hr>
-                <p>Personal Touch</p>
-                <hr>
-            </div>
-            <h4>65k Per Plan</h4>
-            <a class="purchaseBtn basicBtn">Buy Now!</a>
-        </div>
-        
-        <div class="purchaseInfo">
-            <h3>Online Classes</h3>
-            <div class="purchasePoints">
-                <p>Great Value</p>
-                <hr>
-                <p>Learn Anywhere</p>
-                <hr>
-                <p>Flexible Time</p>
-                <hr>
-            </div>
-            <h4>50k Per Session</h4>
-            <a class="purchaseBtn basicBtn">Buy Now!</a>
-        </div>
-    </div> -->
     
     <div id="footerDiv">
         <footer>
             <h5>Follow Learn With Sarah</h5>
             <div class="links">
                 <a href="https://t.me/e_IELTS" target="_blank"> 
-                    <img src="../telegram-logo.png" id="telegramLogo">
+                    <img src="../images/telegram-logo.png" id="telegramLogo">
                     Telegram
                 </a>
                 <div class="divider"></div>
                 <a href="https://www.instagram.com/learn.with.sarah/" target="_blank">
-                    <img src="../instagram-logo.png" id="instagramLogo">
+                    <img src="../images/instagram-logo.png" id="instagramLogo">
                     Instagram
                 </a>
                 <div class="divider"></div>
                 <a>
-                    <img src="../linkedin-logo.png" id="linkedinLogo">
+                    <img src="../images/linkedin-logo.png" id="linkedinLogo">
                     LinkedIn
                 </a>
             </div>
@@ -602,7 +434,7 @@
 
     </script>
     
-    <script src="../menuScript.js"></script>
+    <script src="../js/menuScript.js"></script>
     
 </body>
 

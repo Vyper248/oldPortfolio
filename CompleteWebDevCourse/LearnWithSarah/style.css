@@ -49,6 +49,19 @@ h1 {
     margin: 0px;
 }
 
+/* ======================HEADER LINKS====================== */
+.headerLinks {
+    position: absolute;
+    font-size: 0.3em;
+    top: -30px;
+    font-weight: normal;
+}
+
+.headerLinks a {
+    color: white;
+    text-shadow: 0px 0px 3px black;
+}
+
 /* ===================LANGUAGE SELECTION=================== */
 
 #languageSelection {
@@ -234,72 +247,91 @@ h1 {
     height: 100%;
 }
 
-/* ===================SUMMARY INFORMATION + DIVIDERS=================== */
-
-h4 {
-    background-color: var(--headingColor);
-    text-align: center;
-    padding: 8px;
-    font-size: 1.5rem;
-    margin: 0px;
-    margin-bottom: 5px;
-}
-
-.divider1, .divider2 {
-    margin-top:20px;
-    margin-bottom:20px;
-    width: 100%;
-    height: 100px;
-    background-color: var(--mainColor);
-    border: 3px solid var(--mainColor);
-    position: relative;
-    z-index: 2;
-}
-
-.divider1 {
-    transform: skewY(5deg);
-}
-
-.divider2 {
-    transform: skewY(-5deg);
-}
-
-.information {    
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+/* =======================The Process Styling======================= */
+        
+.processDiv {
+    margin: auto;
     max-width: 1200px;
-    margin: 30px auto;
+}
+
+.processDivInner {
+    display: flex;
+    flex-direction: column-reverse;
+    padding-left: 25%;
+}
+
+.processStepDiv {
+    position: relative;
+    display: flex;
+    width: 70%;
+    align-items: flex-end;
+    margin: 2px;
+}
+
+.processStepDiv:nth-child(2){
+    left: 5%;
+}
+
+.processStepDiv:nth-child(3){
+    left: 10%;
+}
+
+.processStepDiv:nth-child(4){
+    left: 15%;
+}
+
+.processStepDiv:nth-child(5){
+    left: 20%;
+}
+
+.processStepNumber {
+    width: 100px;
+    height: 50px;
+    border-radius: 50px;
+    display: flex;
     align-items: center;
+    justify-content: space-around;
+    color: white;
+    background-color: gray;
+    font-weight: bold;
+    font-size: 1.2em;
+    flex-shrink: 0;
 }
 
-.information .text {
-    margin: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
+.processStepDiv:hover .processStepHiddenText {
+    max-height: 50px;
 }
 
-.text, .informationImage {
-    flex-basis: 0;
-    flex-grow: 1;
+.processStepText {
+    margin-left: 10px;
 }
 
-.sticky + .information div {
-    margin-left:20px;
+.processStepHiddenText{
+    max-height: 0px;
+    overflow: hidden;
+    transition: 0.5s;
+    font-size: 0.8em;
 }
 
-.divider1 + .information div {
-    margin-left:20px;
-}
+@media screen and (max-width:950px) {
+    .processStepDiv:nth-child(2), .processStepDiv:nth-child(3), .processStepDiv:nth-child(4), .processStepDiv:nth-child(5) {
+        left: 0%;
+    }
 
-.divider2 + .information div {
-    margin-right:20px;
-}
+    .processDiv {
+        flex-direction: column;
+        padding-left: 10%;
+    }
+    
+    .processDivInner {
+        flex-direction: column;
+    }
 
-.divider2 + .information {
-    flex-direction: row-reverse;
-}
+    .processStepDiv {
+        width: 90%;
+    }
 
+}
 
 /* ====================FAQ Styling==================== */
 
@@ -323,6 +355,7 @@ h2 {
 }
 
 .container {
+    width: 90%;
     max-width: 1000px;
     margin: auto;
     padding: 10px;
@@ -376,59 +409,57 @@ h2 {
     background-repeat: no-repeat;
 }
 
-/* ===================PURCHASE ITEMS=================== */
-
-hr {
-    border: 0px;
-    border-top: 1px solid rgba(0,0,0,.1);
-    margin: 16px 0px;
-}
+/* =========================PURCHASE ITEMS========================= */
 
 .purchaseGroup {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: auto;
 }
 
-.purchaseInfo {
-    border: 1px solid lightgray;
+.purchaseGrid {
+    width: 33vw;
+    height: 33vw;
     text-align: center;
-    width: 300px;
-    margin: 10px;
-    box-shadow: 2px 2px 5px gray;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-height: 400px;
 }
 
-.purchaseInfo h3 {
-    background-color: var(--headingColor);
-    padding: 15px;
-    margin: 0px;
-    font-size: 1.75rem;
-    font-weight: 500;
+.purchaseCircle {
+    height: 90%;
+    width: 90%;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--headingColor);
+
 }
 
-.purchaseInfo h4 {
-    background-color: var(--headingColor);
-    padding: 10px;
-    margin: 0px;
-    font-weight: 500;
-}
-
-.purchasePoints {
-    flex-grow: 1;
-}
-
-.purchasePoints hr:last-of-type {
-    margin-bottom: 0px;
-}
-
-.purchasePoints p:first-of-type {
-    margin-top: 16px;
-}
-
-.purchaseBtn {
-    width: 100%;
+.purchaseCircle img {
     display: block;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    transition: 0.5s;
+    border-radius: 50%;
+}
+
+.purchaseText {
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 1.9em;
+    width: 100%;
+    padding: 20px;
+    background-color: rgba(0,0,0,0.7);
 }
 
 .purchaseHeader {
@@ -437,6 +468,19 @@ hr {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+}
+
+@media screen and (max-width:950px) {
+    .purchaseGrid {
+        width: 50vw;
+        height: 50vw;
+        max-width: 400px;
+    }
+
+    .purchaseGroup {
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
 /* ===================BUTTON STYLING=================== */

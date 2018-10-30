@@ -27,16 +27,3 @@
 * {
     font-family: 'b_nazaninregular';
 }
-
-
-/* Responsive sections on page */
-@media screen and (max-width: 800px){
-
-    .information {
-        flex-direction: column;
-    }
-
-    .divider2 + .information {
-        flex-direction: column;
-    }
-}
