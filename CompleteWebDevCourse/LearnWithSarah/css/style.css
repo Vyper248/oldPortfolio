@@ -43,7 +43,7 @@ h1 {
     font-weight: bold;
     font-size: 70px;
     padding: 30px;
-    border-radius: 20px;
+    border-radius: 0px 20px 20px 20px;
     background-color: rgba(0,0,0,0.6);
     line-height: normal;
     margin: 0px;
@@ -53,8 +53,14 @@ h1 {
 .headerLinks {
     position: absolute;
     font-size: 0.3em;
-    top: -30px;
+    top: -34px;
+    left: 0px;
     font-weight: normal;
+    height: 34px;
+    background-color: rgba(0,0,0,0.6);
+    border-radius: 20px 20px 0px 0px;
+    padding: 5px 10px;
+    width: 250px;
 }
 
 .headerLinks a {
@@ -256,7 +262,7 @@ h1 {
 
 .processDivInner {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     padding-left: 25%;
 }
 
@@ -266,6 +272,10 @@ h1 {
     width: 70%;
     align-items: flex-end;
     margin: 2px;
+}
+
+.processStepDiv:nth-child(1){
+    left: 0%;
 }
 
 .processStepDiv:nth-child(2){
@@ -314,7 +324,7 @@ h1 {
 }
 
 @media screen and (max-width:950px) {
-    .processStepDiv:nth-child(2), .processStepDiv:nth-child(3), .processStepDiv:nth-child(4), .processStepDiv:nth-child(5) {
+    .processStepDiv:nth-child(1), .processStepDiv:nth-child(2), .processStepDiv:nth-child(3), .processStepDiv:nth-child(4), .processStepDiv:nth-child(5) {
         left: 0%;
     }
 

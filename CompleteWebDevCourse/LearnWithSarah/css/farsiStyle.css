@@ -1,0 +1,62 @@
+/*========================NAVBAR========================*/
+
+.menu>.basicBtn:last-child{
+    border-right: 1px solid white;
+}
+
+.menu>.basicBtn:first-child{
+    border-right: none;
+}
+
+/*===================PROCESS STEPS===================*/
+
+.processStepDiv:nth-child(1){
+    left: 20%;
+}
+
+.processStepDiv:nth-child(2){
+    left: 15%;
+}
+
+.processStepDiv:nth-child(3){
+    left: 10%;
+}
+
+.processStepDiv:nth-child(4){
+    left: 5%;
+}
+
+.processStepDiv:nth-child(5){
+    left: 0%;
+}
+
+/*=====================HEADER=====================*/
+
+h1 {
+    border-radius: 20px 0px 20px 20px;
+}
+
+.headerLinks {
+    right: 0px;
+}
+
+/*=====================FOOTER=====================*/
+
+.links a img {
+    margin-left: 10px;
+}
+
+/*======================FONTS======================*/
+
+@font-face {
+    font-family: 'b_nazaninregular';
+    src: url('../fonts/bnazanin-webfont.woff2') format('woff2'),
+         url('../fonts/bnazanin-webfont.woff') format('woff'),
+        url('../fonts/bnazanin-webfont.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    font-family: 'b_nazaninregular';
+}
