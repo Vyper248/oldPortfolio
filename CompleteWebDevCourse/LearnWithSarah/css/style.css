@@ -76,6 +76,7 @@ h1 {
     right: -1px;
     display: inline-block;
     line-height: normal;
+    background-color: var(--mainColor);
 }
 
 .languageBtn {
@@ -93,7 +94,7 @@ h1 {
 
 /* ===================NAVBAR=================== */
 
-.sticky {
+#navbar {
     position: -webkit-sticky;
     position: sticky;
     top: 0px;
@@ -635,13 +636,6 @@ footer .divider {
     }
 }
 
-/* Responsive Heading */
-@media screen and (max-width: 500px) {
-    h1 {
-        width: 90%;
-    }
-}
-
 /* Responsive menu while at a medium size */
 @media screen and (max-width: 800px) and (min-width: 570px){    
     .menu {
@@ -656,48 +650,9 @@ footer .divider {
 
 /* Responsive sections on page */
 @media screen and (max-width: 800px){
-    
     .purchaseGroup {
         flex-direction: column;
         align-items: center;
-    }
-
-    .information {
-        flex-direction: column;
-    }
-
-    .divider2 + .information {
-        flex-direction: column;
-    }
-
-    .information .text {
-        width: 90%;
-        margin: 20px;
-        margin-left: 20px;
-        margin-right: 20px;
-    }
-
-    .information div {
-        width: 90%;
-        margin: auto;
-    }
-
-    .informationImage {
-        height: 300px !important;
-        margin: auto;
-        flex-basis: auto;
-    }
-
-    .sticky + .information div {
-        margin: 5px auto;
-    }
-
-    .divider1 + .information div {
-        margin: 5px auto;
-    }
-
-    .divider2 + .information div {
-        margin: 5px auto;
     }
 }
 
@@ -709,10 +664,13 @@ footer .divider {
         width: calc(100% - 40px);
         color: white;
         font-weight: bold;
-        font-size: 3em;
         padding: 30px;
-        border-radius: 20px;
+        font-size: 7vw;
         background-color: rgba(0,0,0,0.6);
+    }
+    
+    .headerLinks {
+        font-size: 16px;
     }
 
     .purchaseHeader h4 {

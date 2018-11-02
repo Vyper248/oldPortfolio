@@ -47,3 +47,9 @@ document.addEventListener('click', function(){
         dropdownAreas[i].classList.remove('visible');
     }
 });
+
+function addMultipleListeners(element, events, callback){
+    events.split(' ').forEach(event => {
+        element.addEventListener(event, callback);
+    });
+}

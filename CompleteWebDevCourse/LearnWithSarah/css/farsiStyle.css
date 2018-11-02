@@ -33,11 +33,16 @@
 /*=====================HEADER=====================*/
 
 h1 {
-    border-radius: 20px 0px 20px 20px;
+/*    border-radius: 20px 0px 20px 20px;*/
 }
 
 .headerLinks {
     right: 0px;
+}
+
+header {
+    position: relative;
+    direction: ltr;
 }
 
 /*=====================FOOTER=====================*/

@@ -21,3 +21,17 @@ h1 {
     width: 1000px;
     margin: 0px auto;
 }
+
+@media screen and (max-width: 950px){
+    h1 {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        width: calc(100% - 40px);
+        color: white;
+        font-weight: bold;
+        padding: 30px;
+        font-size: 7vw;
+        background-color: rgba(0,0,0,0.6);
+    }
+}
