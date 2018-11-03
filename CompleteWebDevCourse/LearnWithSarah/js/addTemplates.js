@@ -13,11 +13,15 @@ async function createNavbar() {
     
     const footer = doc.querySelector('#footer').content.cloneNode(true);
     document.querySelector('#footerDiv').append(footer);
+    
+    const header = doc.querySelector('#header').content.cloneNode(true);
+    document.querySelector('header').append(header);
 
     const navbtn = document.querySelector('#navbar a[href="'+thisPage+'"]');
     if (navbtn) navbtn.classList.add('selected');
 
     setupMenuEvents();
+    setupLanguageBtns(thisPage, en);
 }
 
 function setupMenuEvents(){
@@ -75,6 +79,20 @@ function setupMenuEvents(){
         events.split(' ').forEach(event => {
             element.addEventListener(event, callback);
         });
+    }
+}
+
+function setupLanguageBtns(thisPage, en){
+    //temp code while working on website - only add links for pages that exist
+    const finishedPagesEn = ['faq.html', 'index.html'];
+    const finishedPagesFa = ['faq.html', 'index.html', 'about.html', 'contact.html'];
+    
+    if (en && finishedPagesFa.includes(thisPage)){
+        const farsiBtn = document.querySelector('#farsiBtn');
+        farsiBtn.setAttribute('href', '../'+thisPage);
+    } else if (!en && finishedPagesEn.includes(thisPage)) {
+        const engBtn = document.querySelector('#englishBtn');
+        engBtn.setAttribute('href', 'en/'+thisPage);
     }
 }
 

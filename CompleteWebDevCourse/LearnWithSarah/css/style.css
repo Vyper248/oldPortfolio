@@ -5,8 +5,15 @@
     --buttonHoverColor: rgb(26,88,86);
 }
 
+@font-face {
+    font-family: 'Bree Serif';
+    src: url('../fonts/BreeSerif-Regular.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
-    font-family: sans-serif;
+    font-family: 'Bree Serif', serif;
     box-sizing: border-box;
 }
 
@@ -236,7 +243,7 @@ h1 {
     padding: 10px;
     padding-left: 70px;
     padding-right: 70px;
-    font-size: 2.5vw;
+    font-size: 3vw;
     background-color: rgba(255,255,0,0.4);
     z-index: 1;
 }
