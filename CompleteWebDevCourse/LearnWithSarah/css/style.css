@@ -690,3 +690,108 @@ footer .divider {
         margin: auto;
     }
 }
+
+
+/*=========================CONTACT PAGE=========================*/
+
+        
+#contactMethods {
+    margin: auto;
+    width: 700px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.contactGroup {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+    min-height: 30px;
+}
+
+.contactGroupDivider {
+    border-top: 1px solid var(--mainColor);
+    width: 50%;
+    margin: auto;
+}
+
+.contactDivider {
+    border-right: 1px solid var(--mainColor);
+    margin: 5px;
+}
+
+.contactLabel, .contactDetail {
+    flex-shrink: 0;
+    width: 50%;
+    padding: 20px;
+}
+
+.contactLabel {
+    text-align: right;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.contactDetail {
+    text-align: left;
+}
+
+.centered {
+    text-align: center;
+}
+
+#contactMethods textarea {
+    width: 100%;
+    display: block;
+    border: 1px solid var(--mainColor);
+    padding: 10px;
+    font-size: 1em;
+}
+
+#contactMethods input {
+    margin: 5px 0px;
+    border: 1px solid var(--mainColor);
+    padding: 10px;
+    width: 100%;
+    font-size: 1em;
+}
+
+#contactMethods input:first-of-type {
+    border-radius: 5px 5px 0px 0px;
+}
+
+#contactMethods input:last-of-type {
+    border-radius: 0px 0px 5px 5px;
+    font-weight: bold;
+}
+
+#contactMethods input[type="submit"] {
+    background-color: var(--mainColor);
+    color: var(--buttonTextColor);
+    transition: background-color 0.5s;
+    cursor: pointer;
+}
+
+#contactMethods input[type="submit"]:hover {
+    background-color: var(--mainColor);
+    color: var(--buttonTextColor);
+    background-color: var(--buttonHoverColor);
+}
+
+@media screen and (max-width: 800px){
+    .contactGroup {
+        flex-direction: column;
+    }
+
+    .contactDetail, .contactLabel {
+        text-align: center;
+        margin: auto;
+        padding: 5px;
+        width: 100%;
+    }
+
+    #contactMethods {
+        width: 100%;
+        max-width: 500px;
+    }
+}

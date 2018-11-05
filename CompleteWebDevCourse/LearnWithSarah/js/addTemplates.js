@@ -84,7 +84,7 @@ function setupMenuEvents(){
 
 function setupLanguageBtns(thisPage, en){
     //temp code while working on website - only add links for pages that exist
-    const finishedPagesEn = ['faq.html', 'index.html'];
+    const finishedPagesEn = ['faq.html', 'index.html', 'contact.html', 'about.html'];
     const finishedPagesFa = ['faq.html', 'index.html', 'about.html', 'contact.html'];
     
     if (en && finishedPagesFa.includes(thisPage)){

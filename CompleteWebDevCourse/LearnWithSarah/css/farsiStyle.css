@@ -51,6 +51,27 @@ header {
     margin-left: 10px;
 }
 
+/*==================CONTACT PAGE==================*/
+
+.contactLabel {
+    text-align: left;
+}
+
+.contactDetail {
+    text-align: right;
+    direction: ltr;
+}
+
+.contactDetail form {
+    direction: rtl;
+}
+
+@media screen and (max-width: 800px){
+    .contactDetail, .contactLabel {
+        text-align: center;
+    }
+}
+
 /*======================FONTS======================*/
 
 @font-face {
