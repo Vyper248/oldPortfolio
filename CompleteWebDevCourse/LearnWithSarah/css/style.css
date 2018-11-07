@@ -72,7 +72,6 @@ h1 {
 
 .headerLinks a {
     color: white;
-    text-shadow: 0px 0px 3px black;
 }
 
 /* ===================LANGUAGE SELECTION=================== */
@@ -89,6 +88,7 @@ h1 {
 .languageBtn {
     padding: 5px;
     border: 1px solid white;
+    background-color: var(--mainColor);
     margin-left: -5px;
     color: white;
     cursor: pointer;
@@ -585,6 +585,10 @@ footer .divider {
 
 /* Responsive Menu */
 @media screen and (max-width: 570px) {
+    #navbar {
+        position: relative;
+    }
+    
     .menu {
         flex-direction: column;
         position: relative;
@@ -619,9 +623,17 @@ footer .divider {
     .menu > .basicBtn {
         border-bottom: 1px solid white;
         width: 100%;
-        border-right: 1px solid white;
+        border-right: none;
         padding-right: 0px;
         padding-left: 0px;
+    }
+    
+    .menu > .basicBtn:first-child {
+        border-top: 1px solid white;
+    }
+    
+    .dropdownArrow {
+        top: 14px;
     }
     
     .dropdownLabel {
@@ -641,6 +653,10 @@ footer .divider {
         display: block;
         border-right: 1px solid white;
     }
+    
+    h2 {
+        background: var(--mainColor);
+    }
 }
 
 /* Responsive menu while at a medium size */
@@ -652,6 +668,10 @@ footer .divider {
     .menu > .basicBtn {
         width: 25%;
         flex-grow: 1;
+    }
+    
+    h2 {
+        background: linear-gradient(to right, white 2%, var(--mainColor), white 98%);
     }
 }
 
@@ -676,8 +696,11 @@ footer .divider {
         background-color: rgba(0,0,0,0.6);
     }
     
+    
+    
     .headerLinks {
         font-size: 16px;
+        width: auto;
     }
 
     .purchaseHeader h4 {

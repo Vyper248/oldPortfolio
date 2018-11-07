@@ -8,6 +8,12 @@
     border-right: none;
 }
 
+@media screen and (max-width: 570px) {
+    .menu > .basicBtn:last-child {
+        border-right: none;
+    }
+}
+
 /*===================PROCESS STEPS===================*/
 
 .processStepDiv:nth-child(1){
@@ -37,7 +43,7 @@ h1 {
 }
 
 .headerLinks {
-    right: 0px;
+/*    right: 0px;*/
 }
 
 header {
