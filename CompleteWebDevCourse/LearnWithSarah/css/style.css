@@ -17,6 +17,8 @@
     box-sizing: border-box;
 }
 
+/*====================GENERAL STYLING====================*/
+
 body {
     margin: 0px;
     min-height: 100vh;
@@ -31,15 +33,21 @@ a {
     text-decoration: none;
 }
 
-header {
-    background-image: url(http://www.genlish.com/learn-english/wp-content/uploads/2017/03/feature-landing_tcm32-288767.jpg);
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+h2 {
     text-align: center;
-    height: 100vh;
-    line-height: 100vh;
-    border-bottom: 1px solid white;
+    max-width: 1000px;
+    margin: 20px auto;
+    color: white;
+    font-size: 2em;
+    background: var(--mainColor);
+    background: linear-gradient(to right, white 10%, var(--mainColor), white 90%);
+}
+
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: auto;
+    padding: 10px;
 }
 
 h1 {
@@ -54,6 +62,30 @@ h1 {
     background-color: rgba(0,0,0,0.6);
     line-height: normal;
     margin: 0px;
+}
+
+@media screen and (max-width: 570px) {
+    .container {
+        width: 100%;
+        padding: 0px;
+    }
+    
+    ol {
+        margin: 20px;
+    }
+}
+
+/*===========================HEADER===========================*/
+
+header {
+    background-image: url(http://www.genlish.com/learn-english/wp-content/uploads/2017/03/feature-landing_tcm32-288767.jpg);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    text-align: center;
+    height: 100vh;
+    line-height: 100vh;
+    border-bottom: 1px solid white;
 }
 
 /* ======================HEADER LINKS====================== */
@@ -99,7 +131,7 @@ h1 {
     background-color: rgb(26,88,86);
 }
 
-/* ===================NAVBAR=================== */
+/* ==========================NAVBAR========================== */
 
 #navbar {
     position: -webkit-sticky;
@@ -353,52 +385,8 @@ h1 {
 
 /* ====================FAQ Styling==================== */
 
-h2 {
-    text-align: center;
-    max-width: 1000px;
-    margin: 20px auto;
-    color: white;
-    font-size: 2em;
-    background: var(--mainColor);
-    background: linear-gradient(to right, white 10%, var(--mainColor), white 90%);
-}
-
 .question {
     font-weight: bold;
-
-}
-
-.answer {
-
-}
-
-.container {
-    width: 90%;
-    max-width: 1000px;
-    margin: auto;
-    padding: 10px;
-}
-
-#faqSection {
-    border: 1px solid white;
-    width: 90%;
-    margin: 5px auto;
-    display: block;
-    padding: 10px;
-    font-size: 1.2em;
-    background-color: lightgrey;
-    position: relative;
-}
-
-#faqSection:focus {
-    outline: none;
-}
-
-#faqSection+div {
-    overflow: hidden;
-    transition: 0.5s;
-    width: 90%;
-    margin: auto;
 }
 
 /* ===================SUMMARY IMAGES=================== */
