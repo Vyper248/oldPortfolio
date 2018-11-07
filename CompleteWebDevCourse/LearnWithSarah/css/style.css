@@ -633,7 +633,7 @@ footer .divider {
     }
     
     .dropdownArrow {
-        top: 14px;
+        top: 12px;
     }
     
     .dropdownLabel {
@@ -668,6 +668,10 @@ footer .divider {
     .menu > .basicBtn {
         width: 25%;
         flex-grow: 1;
+    }
+    
+    .menu > .basicBtn:nth-child(4) {
+        border-right: none;
     }
     
     h2 {
