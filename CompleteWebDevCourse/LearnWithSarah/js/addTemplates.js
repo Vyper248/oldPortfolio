@@ -22,7 +22,7 @@ async function createNavbar() {
 
     addComingSoonLinks();
     setupMenuEvents();
-    setupLanguageBtns(thisPage, en);
+//    setupLanguageBtns(thisPage, en);
 }
 
 function addComingSoonLinks(){
