@@ -38,9 +38,9 @@
                 <div class="contactLabel">Email</div>
                 <div class="contactDivider"></div>
                 <div class="contactDetail">
-                     <form>
-                         <input type="text" placeholder="Your Email">
-                        <textarea rows="10" placeholder="Message"></textarea>
+                     <form method="POST" action="email.php">
+                         <input type="text" placeholder="Your Email" name="email" required>
+                        <textarea rows="10" placeholder="Message" name="message" required></textarea>
                         <input type="submit" />
                     </form>
                 </div>
