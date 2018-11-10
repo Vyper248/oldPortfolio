@@ -1,13 +1,32 @@
+:root {
+    --textColor: white;
+    --borderColor: red;
+    --backgroundColor: black;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0px;
     font-family: sans-serif;
     text-align: center;
+    background-color: var(--backgroundColor);
+    color:var(--textColor);
+}
+
+canvas {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
 }
 
 h1 {
     margin-top: 0px;
     text-align: center;
-    background-color: lightgrey;
+    background-color: rgb(50,50,50);
     min-height: 150px;
     display: flex;
     justify-content: center;
@@ -15,6 +34,7 @@ h1 {
     font-size: 3em;
     font-weight: 100;
     padding: 20px;
+    color: var(--textColor);
 }
 
 h2 {
@@ -40,32 +60,60 @@ h4 {
 
 .projectContainer {
     text-decoration: none;
-    color: black;
-    border: 1px solid lightgray;
+    border: 1px solid var(--borderColor);
     padding: 10px;
     border-radius: 5px;
     margin: 5px;
     width: 300px;
     display: inline-block;
     transition: 0.5s;
+    color: var(--textColor);
+    overflow: hidden;
+    background-color: black;
 }
 
 .projectContainer:hover {
-    box-shadow: 0px 0px 5px 1px;
+    box-shadow: 0px 0px 5px 1px white;
+    border-color: white;
+}
+
+.projectContainer:hover .projectInfo {
+    top: 0%;
+}
+
+.projectContainer:hover h4 {
+    top: 0%;
+    transform: translateY(0%) scale(1);
+}
+
+.projectContainer h4 {
+    position: relative;
+    margin: 0px;
+    padding: 5px;
+    top: 50%;
+    transform: translateY(-50%) scale(1.25);
+    transition: 0.5s;
+}
+
+.projectInfo {
+    position: relative;
+    top: 100%;
+    transition: top 0.5s;
 }
 
 .backBtn {
-    border: 1px solid lightgray;
+    border: 1px solid var(--borderColor);
+    color: var(--textColor);
     border-radius: 5px;
     padding: 10px;
     position: absolute;
     left: 10px;
     margin-top:-20px;
     text-decoration: none;
-    color: black;
     transition: 0.5s;
 }
 
 .backBtn:hover {
-    box-shadow: 0px 0px 5px 1px;
+    box-shadow: 0px 0px 5px 1px white;
+    border-color: white;
 }

@@ -476,6 +476,11 @@ header {
     text-align: center;
 }
 
+.purchaseHeader p {
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
 @media screen and (max-width:950px) {
     .purchaseGrid {
         width: 50vw;
