@@ -78,7 +78,7 @@ h4 {
 }
 
 .projectContainer:hover .projectInfo {
-    top: 0%;
+    transform: translateY(0%);
 }
 
 .projectContainer:hover h4 {
@@ -97,8 +97,8 @@ h4 {
 
 .projectInfo {
     position: relative;
-    top: 100%;
-    transition: top 0.5s;
+    transform: translateY(200%);
+    transition: transform 0.5s;
 }
 
 .backBtn {

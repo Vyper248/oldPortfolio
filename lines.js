@@ -7,7 +7,7 @@ body.appendChild(canvas);
 
 const ctx = canvas.getContext('2d');
 ctx.strokeStyle = '#660000';
-ctx.lineWidth = 0.1;
+ctx.lineWidth = 0.2;
 
 const dots = [];
 
@@ -60,10 +60,12 @@ class Dot {
     }
     
     randX(){
+//        return Math.random()*window.innerWidth;
         return (Math.random()*(window.innerWidth*2))-window.innerWidth/2;
     }
     
     randY(){
+//        return Math.random()*window.innerHeight;
         return (Math.random()*(window.innerHeight*2))-window.innerHeight/2;
     }
 
@@ -82,7 +84,7 @@ function draw(){
 }
 
 function createDots(){
-    for (let i = 0; i < 100; i++){
+    for (let i = 0; i < 50; i++){
         let dot = new Dot();
         dots.push(dot);
     }
