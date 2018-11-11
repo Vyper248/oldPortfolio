@@ -97,8 +97,9 @@ h4 {
 
 .projectInfo {
     position: relative;
-    transform: translateY(200%);
+    transform: translateY(90%);
     transition: transform 0.5s;
+    height: 100%;
 }
 
 .backBtn {
