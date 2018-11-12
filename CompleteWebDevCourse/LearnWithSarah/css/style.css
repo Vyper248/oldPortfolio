@@ -64,6 +64,52 @@ h1 {
     margin: 0px;
 }
 
+.centered {
+    text-align: center;
+}
+
+.centeredImage {
+    display: block;
+    margin: auto;
+    text-align: center;
+}
+
+.underlined {
+    text-decoration: underline;
+}
+
+.strikethrough {
+    text-decoration: line-through;
+}
+
+.verySmall {
+    font-size: 0.6em;
+}
+
+.small {
+    font-size: 0.8em;
+}
+
+.medium {
+    font-size: 1.3em;
+}
+
+.large {
+    font-size: 1.8em;
+}
+
+.huge {
+    font-size: 2.2em;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+ul li {
+    list-style: disc;
+}
+
 @media screen and (max-width: 570px) {
     .container {
         width: 100%;
@@ -475,7 +521,6 @@ header {
     margin-right: auto;
     text-align: center;
 }
-
 .purchaseHeader p {
     font-size: 1.3em;
     font-weight: bold;
@@ -754,10 +799,6 @@ footer .divider {
 
 .contactDetail {
     text-align: left;
-}
-
-.centered {
-    text-align: center;
 }
 
 #contactMethods textarea {
