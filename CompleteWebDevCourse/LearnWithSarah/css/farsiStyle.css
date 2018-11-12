@@ -100,6 +100,17 @@ header {
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'BDNR';
+    src: url('../fonts/ng4asans-medium.eot');
+    src: url('../fonts/ng4asans-medium.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/ng4asans-medium.woff') format('woff'),
+    url('../fonts/ng4asans-medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
     font-family: 'b_nazaninregular';
+    font-family: 'BDNR';
 }

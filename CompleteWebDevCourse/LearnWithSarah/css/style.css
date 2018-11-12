@@ -64,6 +64,14 @@ h1 {
     margin: 0px;
 }
 
+h3 {
+    margin-bottom: 5px;
+    border-right: 4px solid var(--mainColor);
+    padding: 5px;
+    padding-right: 10px;
+    background-color: aliceblue;
+}
+
 .centered {
     text-align: center;
 }
