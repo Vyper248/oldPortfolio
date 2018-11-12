@@ -61,12 +61,14 @@ class Dot {
     
     randX(){
 //        return Math.random()*window.innerWidth;
-        return (Math.random()*(window.innerWidth*2))-window.innerWidth/2;
+        return (Math.random()*(window.innerWidth*1.5))-window.innerWidth/4;
+//        return (Math.random()*(window.innerWidth*2))-window.innerWidth/2;
     }
     
     randY(){
 //        return Math.random()*window.innerHeight;
-        return (Math.random()*(window.innerHeight*2))-window.innerHeight/2;
+        return (Math.random()*(window.innerHeight*1.5))-window.innerHeight/4;
+//        return (Math.random()*(window.innerHeight*2))-window.innerHeight/2;
     }
 
     getDistance(a,b){
