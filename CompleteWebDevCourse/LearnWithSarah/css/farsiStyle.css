@@ -47,6 +47,18 @@
     left: 0%;
 }
 
+.processStepDiv:hover {
+    left: 0%;
+}
+
+.processStepHiddenText {
+    font-size: 0.7em;
+}
+
+.processStepNumber {
+    height: 60px;
+}
+
 /*=====================HEADER=====================*/
 
 h1 {
