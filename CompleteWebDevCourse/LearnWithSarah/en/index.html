@@ -36,7 +36,7 @@
         
         .processDivInner {
             padding-left: 0px;
-            width: 500px;
+            width: 400px;
             margin: auto;
         }
         
@@ -54,6 +54,8 @@
             font-size: 1.2em;
             font-weight: bold;
             height: 50px;
+            width: 100px;
+            transition: 0.5s;
         }
         
         .processStepNumber2 span {
@@ -81,20 +83,26 @@
             width: 400px;
         }
         
+        .processStepDiv:hover .processStepNumber2 {
+            width: 400px;
+        }
+        
         .processStepDiv:hover {
             left: 0%;
         }
         
         .processStepText {
             position: absolute;
-            left: 100px;
+            left: 100px; 
             top: 50%;
             transform: translateY(-50%);
             z-index: -1;
         }
         
         @media screen and (max-width:950px){
-            
+            .processStepDiv {
+                left: 20%;
+            }
         }
         
         @media screen and (max-width: 570px){
