@@ -22,6 +22,7 @@
 body {
     margin: 0px;
     min-height: 100vh;
+    font-size: 14px;
 }
 
 p {
@@ -48,6 +49,7 @@ h2 {
     max-width: 1000px;
     margin: auto;
     padding: 10px;
+    
 }
 
 h1 {
@@ -74,11 +76,12 @@ h3 {
 
 .centered {
     text-align: center;
+    margin: auto;
 }
 
 .centeredImage {
     display: block;
-    margin: auto;
+    margin: 10px auto;
     text-align: center;
 }
 
@@ -103,11 +106,11 @@ h3 {
 }
 
 .large {
-    font-size: 1.8em;
+    font-size: 1.6em;
 }
 
 .huge {
-    font-size: 2.2em;
+    font-size: 2.0em;
 }
 
 .bold {
@@ -116,6 +119,16 @@ h3 {
 
 ul li {
     list-style: disc;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td {
+    border: 1px solid;
+    padding: 8px;
+    text-align: center;
 }
 
 @media screen and (max-width: 570px) {
