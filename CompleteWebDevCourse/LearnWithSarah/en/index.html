@@ -25,29 +25,54 @@
         .processStepDiv:hover .processStepHiddenText {
             max-height: 90px;
         }
-
-        @media screen and (max-width:950px) {
-            .processStepDiv:nth-child(2), .processStepDiv:nth-child(3), .processStepDiv:nth-child(4), .processStepDiv:nth-child(5) {
-                left: 0%;
-            }
-
+        
+        @media screen and (max-width:950px){
             .processDiv {
-                flex-direction: column;
-                padding-left: 10%;
-            }
-
-            .processDivInner {
-                flex-direction: column;
-            }
-
-            .processStepDiv {
-                width: 90%;
+                padding: 10px;
+                display: flex;
+                align-items: center;
             }
             
-            .processStepHiddenText {
-                width: 200px;
+            .processDivInner {
+                padding-left: 0px;
+                display: flex;
+                align-items: flex-start;
+                max-width: 500px;
+            }
+            
+            .processStepDiv {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                max-width: 500px;
+            }
+            
+            .processStepText {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+            
+            .processStepText span {
+                min-width: 120px;
             }
 
+            .processStepHiddenText {
+                width: 100%;
+                position: relative;
+                left: auto;
+                transform: none;
+                max-height: 150px;
+            }
+            
+        }
+        
+        @media screen and (max-width: 570px){
+            .processStepHiddenText{
+                max-height: 0px;
+                margin-bottom: -20px;
+                top: -10px;
+            }
         }
         
     </style>
@@ -141,7 +166,7 @@
                     <span>&#9745;</span>
                 </div>
                 <div class="processStepText">
-                    Take Level Test
+                    <span>Take Level Test</span>
                     <div class="processStepHiddenText">
                     Click here to find the level test. Once you've taken it, you can send the results to me using this form.
                     </div>
@@ -154,7 +179,7 @@
                     <span>&#9742;</span>
                 </div>
                 <div class="processStepText">
-                    Contact Hunnie
+                    <span>Contact Hunnie</span>
                     <div class="processStepHiddenText">
                     Click here to find my contact details. We'll be able to discuss your requirements using your test results.
                     </div>
@@ -167,7 +192,7 @@
                     <span>$</span>
                 </div>
                 <div class="processStepText">
-                    Pay Hunnie  
+                    <span>Pay Hunnie</span>  
                     <div class="processStepHiddenText">
                     You can find my payment details here. Once payment has been made, your lessons can begin.
                     </div>
@@ -180,7 +205,7 @@
                     <span>&#9998;</span>
                 </div>
                 <div class="processStepText">
-                    Have Lessons
+                    <span>Have Lessons</span>
                     <div class="processStepHiddenText">
                     Do you really need me to explain this one? :D
                     </div>
@@ -193,7 +218,7 @@
                     <span>&#10003;</span>
                 </div>
                 <div class="processStepText">
-                    Be English Expert
+                    <span>Be English Expert</span>
                     <div class="processStepHiddenText">
                     You are now a master of English. Use this knowledge wisely.
                     </div>
