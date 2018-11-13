@@ -59,6 +59,17 @@
     height: 60px;
 }
 
+@media screen and (max-width:950px){
+
+    .processStepDiv:nth-child(1), .processStepDiv:nth-child(2), .processStepDiv:nth-child(3), .processStepDiv:nth-child(4), .processStepDiv:nth-child(5) {
+        left: 25%;
+    }
+
+    .processStepDiv:hover {
+        left: 0%;
+    }
+}
+
 /*=====================HEADER=====================*/
 
 h1 {
