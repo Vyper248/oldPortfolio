@@ -20,47 +20,54 @@ class Dot {
         this.x = this.randX();
         this.y = this.randY();
 
-        this.targetX = this.randX();
-        this.targetY = this.randY();
+        [this.vectorX, this.vectorY] = this.rotatePoint(0,1);
 
         this.speed = Math.random()*5;
     }
 
     move(){
-        const diffX = this.targetX - this.x;
-        const diffY = this.targetY - this.y;
-        const length = Math.sqrt(diffX**2 + diffY**2);
+        this.x += this.vectorX*this.speed;
+        this.y += this.vectorY*this.speed;
         
-        if (length < 5) return;
-
-        const normalX = diffX / length;
-        const normalY = diffY / length;
-
-        this.x += normalX*this.speed;
-        this.y += normalY*this.speed;
+        if (this.x < -300) this.x = window.innerWidth+300;
+        if (this.x > window.innerWidth+300) this.x = -300;
+        
+        if (this.y < -300) this.y = window.innerHeight+300;
+        if (this.y > window.innerHeight+300) this.y = -300;
     }
 
-    updateTarget(){
-        this.targetX = this.randX();
-        this.targetY = this.randY();
+    updateDirection(){
+        [this.vectorX, this.vectorY] = this.rotatePoint(0,1);
+        this.speed = Math.random()*5;
     }
 
     draw(){
         this.move();
         ctx.beginPath();
         ctx.arc(this.x,this.y,2,0,2*Math.PI);
+        ctx.strokeStyle = "rgba(150, 0, 0, 1)";
         ctx.stroke();
         ctx.fill();
 
         dots.forEach(dot=>{
             if (dot !== this){
-                if (this.getDistance(this, dot) < 300){
+                const dist = this.getDistance(this, dot);
+                if (dist < 300){
                     ctx.moveTo(this.x, this.y);
                     ctx.lineTo(dot.x, dot.y);
+                    const opacity = 1-(dist/300);
+                    ctx.strokeStyle = "rgba(150, 0, 0, "+opacity+")";
                     ctx.stroke();
                 }
             }
         });
+    }
+    
+    rotatePoint(x, y){
+        const angle = Math.PI / 180 * (Math.random()*360);
+        const newX = x * Math.cos(angle) - y * Math.sin(angle);
+        const newY = y * Math.cos(angle) + x * Math.sin(angle);
+        return [-newX, -newY];
     }
     
     randX(){
@@ -86,7 +93,7 @@ function draw(){
 }
 
 function createDots(){
-    for (let i = 0; i < 50; i++){
+    for (let i = 0; i < 70; i++){
         let dot = new Dot();
         dots.push(dot);
     }
@@ -95,5 +102,5 @@ function createDots(){
 createDots();
 setInterval(draw, 30);
 setInterval(()=>{
-    dots.forEach(dot => dot.updateTarget());
+    dots.forEach(dot => dot.updateDirection());
 }, 10000);

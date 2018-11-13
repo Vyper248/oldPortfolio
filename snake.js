@@ -3,6 +3,10 @@ const body = document.querySelector('body');
 const canvas = document.createElement('canvas');
 canvas.setAttribute('width', window.innerWidth-2+'px');
 canvas.setAttribute('height', window.innerHeight-2+'px');
+canvas.style.position = 'absolute';
+canvas.style.top = '0px';
+canvas.style.left = '0px';
+canvas.style.zIndex = '-1';
 body.appendChild(canvas);
 
 const ctx = canvas.getContext('2d');

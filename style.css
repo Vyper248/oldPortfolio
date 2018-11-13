@@ -16,13 +16,6 @@ body {
     color:var(--textColor);
 }
 
-canvas {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    z-index: -1;
-}
-
 h1 {
     margin-top: 0px;
     text-align: center;

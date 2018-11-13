@@ -28,27 +28,27 @@
 /*===================PROCESS STEPS===================*/
 
 .processStepDiv:nth-child(1){
-    left: 20%;
+    right: 0%;
 }
 
 .processStepDiv:nth-child(2){
-    left: 15%;
+    right: 5%;
 }
 
 .processStepDiv:nth-child(3){
-    left: 10%;
+    right: 10%;
 }
 
 .processStepDiv:nth-child(4){
-    left: 5%;
+    right: 15%;
 }
 
 .processStepDiv:nth-child(5){
-    left: 0%;
+    right: 20%;
 }
 
 .processStepDiv:hover {
-    left: 0%;
+    right: 0%;
 }
 
 .processStepHiddenText {
@@ -59,14 +59,18 @@
     height: 60px;
 }
 
+.processStepText {
+    right: 110px;
+}
+
 @media screen and (max-width:950px){
 
     .processStepDiv:nth-child(1), .processStepDiv:nth-child(2), .processStepDiv:nth-child(3), .processStepDiv:nth-child(4), .processStepDiv:nth-child(5) {
-        left: 25%;
+        right: 25%;
     }
 
     .processStepDiv:hover {
-        left: 0%;
+        right: 0%;
     }
 }
 
