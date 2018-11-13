@@ -26,53 +26,79 @@
             max-height: 90px;
         }
         
-        @media screen and (max-width:950px){
-            .processDiv {
-                padding: 10px;
-                display: flex;
-                align-items: center;
-            }
-            
-            .processDivInner {
-                padding-left: 0px;
-                display: flex;
-                align-items: flex-start;
-                max-width: 500px;
-            }
-            
-            .processStepDiv {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                max-width: 500px;
-            }
-            
-            .processStepText {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-            }
-            
-            .processStepText span {
-                min-width: 120px;
-            }
 
-            .processStepHiddenText {
-                width: 100%;
-                position: relative;
-                left: auto;
-                transform: none;
-                max-height: 150px;
-            }
+        
+/*       TESTING NEW STYLE */
+        
+        .newProcessDiv {
+            
+        }
+        
+        .processDivInner {
+            padding-left: 0px;
+            width: 500px;
+            margin: auto;
+        }
+        
+        .processStepDiv {
+            transition: 0.5s;
+            width: 500px;
+        }
+        
+        .processStepNumber2 {
+            border-radius: 50px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            height: 50px;
+        }
+        
+        .processStepNumber2 span {
+            padding: 10px;
+        }
+        
+        .processStepHiddenText2 {
+            font-size: 0.8em;
+            font-weight: normal;
+            padding: 0px;
+            margin: 0px 5px;
+            width: 0px;
+            height: 40px;
+            overflow: hidden;
+            transition: 0.5s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .processStepHiddenText2 span {
+            min-width: 400px;
+        }
+        
+        .processStepDiv:hover .processStepHiddenText2 {
+            width: 400px;
+        }
+        
+        .processStepDiv:hover {
+            left: 0%;
+        }
+        
+        .processStepText {
+            position: absolute;
+            left: 100px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: -1;
+        }
+        
+        @media screen and (max-width:950px){
             
         }
         
         @media screen and (max-width: 570px){
-            .processStepHiddenText{
-                max-height: 0px;
-                margin-bottom: -20px;
-                top: -10px;
-            }
+            
         }
         
     </style>
@@ -157,71 +183,77 @@
         <p>Find out the steps you'll need to take to become an English master. Hover over each step for more details.</p>
     </div> 
     
-    
-    <div class="processDiv">
+    <div class="newProcessDiv">
         <div class="processDivInner">
             <div class="processStepDiv">
-                <div class="processStepNumber" style="background-color:#4D5D71;">
+                <div class="processStepNumber2" style="background-color:#4D5D71;">
                     <span>01</span>
+                    <div class="processStepHiddenText2">
+                        <span>
+                            Click here to find the level test. Once you've taken it, you can send the results to me using this form.
+                        </span>
+                    </div>
                     <span>&#9745;</span>
                 </div>
                 <div class="processStepText">
-                    <span>Take Level Test</span>
-                    <div class="processStepHiddenText">
-                    Click here to find the level test. Once you've taken it, you can send the results to me using this form.
-                    </div>
+                    Take Level Test
                 </div>
             </div>
-
+            
             <div class="processStepDiv">
-                <div class="processStepNumber" style="background-color:#0375BB;">
+                <div class="processStepNumber2" style="background-color:#0375BB;">
                     <span>02</span>
+                    <div class="processStepHiddenText2">
+                        <span>
+                            Click here to find my contact details. We'll be able to discuss your requirements using your test results.
+                        </span>
+                    </div>
                     <span>&#9742;</span>
                 </div>
                 <div class="processStepText">
-                    <span>Contact Hunnie</span>
-                    <div class="processStepHiddenText">
-                    Click here to find my contact details. We'll be able to discuss your requirements using your test results.
-                    </div>
+                    Contact Hunnie
                 </div>
             </div>
-
             <div class="processStepDiv">
-                <div class="processStepNumber" style="background-color:#099A8D;">
+                <div class="processStepNumber2" style="background-color:#099A8D;">
                     <span>03</span>
+                    <div class="processStepHiddenText2">
+                        <span>
+                            You can find my payment details here. Once payment has been made, your lessons can begin.
+                        </span>
+                    </div>
                     <span>$</span>
                 </div>
                 <div class="processStepText">
-                    <span>Pay Hunnie</span>  
-                    <div class="processStepHiddenText">
-                    You can find my payment details here. Once payment has been made, your lessons can begin.
-                    </div>
+                    Pay Hunnie
                 </div>
             </div>
-
             <div class="processStepDiv">
-                <div class="processStepNumber" style="background-color:#83B91E;">
+                <div class="processStepNumber2" style="background-color:#83B91E;">
                     <span>04</span>
+                    <div class="processStepHiddenText2">
+                        <span>
+                            Do you really need me to explain this one? :D                        
+                        </span>
+                    </div>
                     <span>&#9998;</span>
                 </div>
                 <div class="processStepText">
-                    <span>Have Lessons</span>
-                    <div class="processStepHiddenText">
-                    Do you really need me to explain this one? :D
-                    </div>
+                    Have Lessons
                 </div>
             </div>
-
             <div class="processStepDiv">
-                <div class="processStepNumber" style="background-color:#FC9702;">
+                <div class="processStepNumber2" style="background-color:#E07000;">
                     <span>05</span>
+                    <div class="processStepHiddenText2">
+                        <span>
+                            You are now a master of English. Use this knowledge wisely.
+                        </span>
+                    </div>
                     <span>&#10003;</span>
                 </div>
                 <div class="processStepText">
-                    <span>Be English Expert</span>
-                    <div class="processStepHiddenText">
-                    You are now a master of English. Use this knowledge wisely.
-                    </div>
+                    Be English Expert
                 </div>
             </div>
         </div>
