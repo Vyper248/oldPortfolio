@@ -10,6 +10,79 @@
     <link rel="stylesheet" type="text/css" href="css/subPages.css">
     <style>
         
+        .grid4 {
+            display: grid;
+            grid-template: 50% 50% / 50% 50%; 
+            grid-gap: 10px;
+        }
+        
+        .grid-item {
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .grid-item img {
+            width: 100%;
+            transition: transform 0.5s;
+            margin-bottom: 10px;
+        }
+        
+        img.zoomable {
+            cursor: zoom-in;
+        }
+        
+        img.zoomed {
+            cursor: zoom-out;
+        }
+        
+        .grid-item:nth-child(2) img.zoomed {
+            transform: scale(2) translate(25%, 25%);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .grid-item p {
+            border: 1px solid lightgrey;
+            padding: 10px;
+            box-shadow: 0px 1px 5px lightgrey;
+        }
+        
+        .grid {
+            position: relative;
+        }
+        
+        .gridDivider {
+            height: 50vw;
+            width: 50vw;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            background-image: radial-gradient(var(--mainColor), rgba(0,0,0,0) 50%);
+        }
+        
+        @media screen and (max-width: 950px){
+            .grid4 {
+                grid-template: auto / auto;
+            }
+            
+            .gridDivider {
+                display: none;
+            }
+            
+            .grid-item:nth-child(2) img.zoomed {
+                transform: none;
+                position: relative;
+                z-index: 2;
+            }
+        }
+        
     </style>
 </head>
 
@@ -28,7 +101,7 @@
         <h3>برنامه ریزی عمومی از پایه تا پیشرفته 30 روزه : 30 هزار تومن</h3>
         <p>این پکیج 30 جلسه ای یک ساعته شامل برنامه ریزی self-study برای سطوح زیر می باشد. </p>
 
-        <ul>
+        <ul dir="ltr">
             <li>Starter</li>
             <li>Elementary</li>
             <li>Pre-Intermediate</li>
@@ -40,18 +113,39 @@
         <p>کتاب اصلی این نوع برنامه ریزی کتاب Speakout  میباشد. این کتاب با همکاری BBC Worldwide  و BBC Learning English  تهیه شده است.</p>
             
         <h3>کتاب Speakout</h3>
+        
+        <div class="grid">
+            <div class="gridDivider"></div>
+            <div class="grid4">
+                <div class="grid-item">
+                    <img src="images/books.jpg">
+                </div>
+                <div class="grid-item">
+                    <img src="images/fullCircle.png" class="zoomable">
+                    <p>یکی از بخش های عالی این کتاب ویدیوهای BBC  و تمرینات تکمیلی لغت، تمرین عبارات کاربردی جهت مکالمه در موضوع مورد نظر و تمرینات مکالمه می باشد.</p>
+                </div>
+                <div class="grid-item">
+                    <img src="images/keyPhrases.png" width="500">
+                    <p>نمونه ای از این بخش از کتاب</p>
+                </div>
+                <div class="grid-item"><img src="images/CustomGeneralPlan.jpg" class="centeredImage"></div>
+            </div>
+        </div>
+        
+<!--
         <img src="images/books.jpg" width="500" class="centeredImage"><br><br>
+        
         <p>یکی از بخش های عالی این کتاب ویدیوهای BBC  و تمرینات تکمیلی لغت، تمرین عبارات کاربردی جهت مکالمه در موضوع مورد نظر و تمرینات مکالمه می باشد.</p>
-        
         <img src="images/fullCircle.png" class="centeredImage" width="700">
-        <img src="images/keyPhrases.png" class="centeredImage" width="500">
         
+        <img src="images/keyPhrases.png" class="centeredImage" width="500">
         <p class="centered">نمونه ای از این بخش از کتاب</p><br><br>
         
         <img src="images/CustomGeneralPlan.jpg" class="centeredImage"><br>
-        
+-->
+        <br>
         <p class="centered">در این پکیج منابع دیگری برای تقویت زبان انگلیسی وجود دارد که با توجه به سطح شما از منابع زیر تشکیل شده است:</p><br>
-        
+
         <table class="centered">
             <tr>
                 <td>پادکست</td>
@@ -95,6 +189,17 @@
     <div id="footerDiv"></div>
     
     <script src="js/addTemplates.js"></script>
+    
+    <script>
+    
+        const zoomable = document.querySelectorAll('.zoomable');
+        Array.from(zoomable).forEach(item => {
+            item.addEventListener('click', (e)=>{
+                e.target.classList.toggle('zoomed');
+            });
+        });
+    
+    </script>
         
 </body>
 
