@@ -86,7 +86,10 @@ function draw(){
 }
 
 function createDots(){
-    for (let i = 0; i < 50; i++){
+    const area = window.innerWidth * window.innerHeight;
+    const number = area / 32768;
+    if (number < 30) number = 30;
+    for (let i = 0; i < number; i++){
         let dot = new Dot();
         dots.push(dot);
     }

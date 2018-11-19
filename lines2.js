@@ -10,7 +10,7 @@ canvas.style.zIndex = '-1';
 body.appendChild(canvas);
 
 const ctx = canvas.getContext('2d');
-ctx.strokeStyle = '#660000';
+ctx.strokeStyle = '#770000';
 ctx.lineWidth = 0.2;
 
 const dots = [];
@@ -45,7 +45,7 @@ class Dot {
         this.move();
         ctx.beginPath();
         ctx.arc(this.x,this.y,2,0,2*Math.PI);
-        ctx.strokeStyle = "rgba(150, 0, 0, 1)";
+//        ctx.strokeStyle = "rgba(150, 0, 0, 1)";
         ctx.stroke();
         ctx.fill();
 
@@ -56,7 +56,7 @@ class Dot {
                     ctx.moveTo(this.x, this.y);
                     ctx.lineTo(dot.x, dot.y);
                     const opacity = 1-(dist/300);
-                    ctx.strokeStyle = "rgba(150, 0, 0, "+opacity+")";
+//                    ctx.strokeStyle = "rgba(150, 0, 0, "+opacity+")";
                     ctx.stroke();
                 }
             }
@@ -93,7 +93,10 @@ function draw(){
 }
 
 function createDots(){
-    for (let i = 0; i < 70; i++){
+    const area = window.innerWidth * window.innerHeight;
+    const number = area / 32768;
+    if (number < 30) number = 30;
+    for (let i = 0; i < number; i++){
         let dot = new Dot();
         dots.push(dot);
     }
