@@ -11,7 +11,7 @@ body.appendChild(canvas);
 
 const ctx = canvas.getContext('2d');
 ctx.strokeStyle = '#770000';
-ctx.lineWidth = 0.2;
+ctx.lineWidth = 0.5;
 
 const dots = [];
 
@@ -43,11 +43,8 @@ class Dot {
 
     draw(){
         this.move();
-        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
         ctx.arc(this.x,this.y,2,0,2*Math.PI);
-//        ctx.strokeStyle = "rgba(150, 0, 0, 1)";
-        ctx.stroke();
-        ctx.fill();
 
         dots.forEach(dot=>{
             if (dot !== this){
@@ -55,9 +52,6 @@ class Dot {
                 if (dist < 300){
                     ctx.moveTo(this.x, this.y);
                     ctx.lineTo(dot.x, dot.y);
-                    const opacity = 1-(dist/300);
-//                    ctx.strokeStyle = "rgba(150, 0, 0, "+opacity+")";
-                    ctx.stroke();
                 }
             }
         });
@@ -88,8 +82,9 @@ class Dot {
 
 function draw(){
     ctx.clearRect(0,0, canvas.width, canvas.height);
-
+    ctx.beginPath();
     dots.forEach(dot => dot.draw());
+    ctx.stroke();
 }
 
 function createDots(){
