@@ -1,80 +1,179 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html dir="rtl" lang="ar">
 <head>
 	<meta charset="UTF-8">
-	<title></title>
-    <link type="text/css" rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Learn With Sarah</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/farsiStyle.css">
     <style>
-
+        
     </style>
 </head>
 
 <body>
-
-    <h1>Portfolio</h1>
         
-    <div class="container">
+    <!-- Placeholder for header -->
+    <header></header>
+    
+    <!--  Placeholder for navbar  -->
+    <div id="navbar"></div>         
+    
+    <div class="imageSlider" dir="ltr">
         
-        <h2>Courses</h2>
-
-        <div id="projectGrid">
-
-            <a class="projectContainer" href="CompleteWebDevCourse/index.html">
-                <h4>Complete Web Development Course</h4>
-                <div class="projectInfo">
-                    The third course I did, going more in-depth into web development in general.
-                </div>
-            </a>
-            
+        <div id="sliderLeftBtn" class="sliderBtn">&#10148;</div>
+        <div id="sliderRightBtn" class="sliderBtn">&#10148;</div>
+    
+        <div class="imageContent visible" id="imageSlider1">
+            <div class="title">Personalized Student Learning Plan</div>
+            <img src="images/learningPlan.png"/>
+        </div>
+    
+        <div class="imageContent" id="imageSlider2">
+            <img src="images/levelTest.jpeg"/>
         </div>
         
-        <h2>Personal Projects</h2>
-        
-        <p><em>These will open in a new tab.</em></p>
-        
-        <div id="projectGrid">
-            
-            <a class="projectContainer" href="https://reddit-competition-parser.herokuapp.com" target="_blank">
-                <h4>Reddit Competition Helper</h4>
-                <div class="projectInfo">
-                    Fairly basic tool I made to help with competitions on Reddit, where users would leave a comment to say which country they're in. This extracts all those comments and puts them into a list separated by country.
-                </div>
-            </a>
-            
-            <a class="projectContainer" href="https://reddit-streamer.herokuapp.com" target="_blank">
-                <h4>Reddit Streamer</h4>
-                <div class="projectInfo">
-                    Small website I made to keep up to date with my favourite Reddit subs. Automatically loads in new submissions based on your selected sub(s). Shows post text content, and has modal popups to show comments / embedded videos.
-                </div>
-            </a>
-			
-			<a class="projectContainer" href="https://vyper248.github.io/new-reddit/#/PS4" target="_blank">
-                <h4>Reddit React App</h4>
-                <div class="projectInfo">
-                    Second React app I created, this time using React-Router for navigation. It's another version of Reddit, this time more in-line with the Reddit website, with more sorting options. Currently using pre-configured sub list. Also decided to create this with a dark theme.
-                </div>
-            </a>
-            
-             <a class="projectContainer" href="/CompleteWebDevCourse/LearnWithSarah/en/" target="_blank">
-                <h4>Learn English With Sarah</h4>
-                <div class="projectInfo">
-                    This project began with the creation of a landing page for the Complete Web Development course, and is now turning into a full website for my girlfriend's business.
-                </div>
-            </a>
-            
-            <a class="projectContainer" href="https://live-html-editor.herokuapp.com/" target="_blank">
-                <h4>Live HTML Editor</h4>
-                <div class="projectInfo">
-                    There was a video showing the basics of 'fs' on the Web Dev Course, so I thought I'd try making a live html editor which saves changes to the server. So any changes made are permananent and visible to everyone (although heroku will reset when it starts up).
-                </div>
-            </a>
-            
+        <div class="imageContent" id="imageSlider3">
+            <img src="images/slider2.png"/>
         </div>
-        
     </div>
     
-<!--    <script src="snake.js"></script>-->
-    <script src="lines2.js" id="bg"></script>
+    
+    <div class="purchaseHeader">
+        <h2>همین امروز شروع کنید.</h2>
+        <p><strong>محبوب ترین پکیج ها را اینجا ببینید.</strong></p>
+    </div> 
+    
+    <div class="purchaseGroup">
+        
+        <div class="purchaseGrid">
+            <div class="purchaseCircle">
+                 <a href="GeneralPlan.html">
+                <img src="images/CustomGeneralPlan.jpg">
+                <div class="purchaseText">
+                    برنامه اختصاصی عمومی
+                </div>
+                </a>
+            </div>
+        </div>
+        
+        <div class="purchaseGrid">
+            <div class="purchaseCircle">
+                 <a href="IELTSPlan.html">
+                <img src="images/IELTSPlan.jpg">
+                <div class="purchaseText">
+                    برنامه اختصاصی آیلتس
+                </div>
+                </a>
+            </div>
+        </div>
+        
+        <div class="purchaseGrid">
+            <div class="purchaseCircle">
+                 <a href="OnlineClasses.html">
+                <img src="images/OnlineClasses.jpg">
+                <div class="purchaseText">
+                   کلاس های آنلاین
+                </div>
+                </a>
+            </div>
+        </div>
+    
+    </div>
+    
+    
+    <div class="purchaseHeader">
+        <h2>روند برنامه ریزی درسی زبان انگلیسی</h2>
+      <p>مراحل برنامه ریزی درسی برای زبان جنرال و آیلتس</p>
+    </div> 
+    
+    
+    <div class="processDiv">
+        <div class="processDivInner">
+            <div class="processStepDiv">
+                <div class="processStepNumber" style="background-color:#4D5D71;">
+                    <span>1</span>
+                    <div class="processStepHiddenText">
+                        <span>
+                            تعیین سطح کتبی شامل 30 سوال گرامر و لغت میشه که تا حدودی مشخص میکنه دانش زبانی شما در چه سطحی ست.
+                        </span>
+                    </div>
+                    <span>&#9745;</span>
+                </div>
+                <div class="processStepText">
+                   	تعیین سطح کتبی رایگان  
+                </div>
+            </div>
+
+            <div class="processStepDiv">
+                <div class="processStepNumber" style="background-color:#0375BB;">
+                    <span>2</span>
+                    <div class="processStepHiddenText">
+                        <span>
+                            با هزینه 10000 تومن در زمان انتخابی شما صورت میپذیرد. و اشتباهات و مباحث قابل مرور برای شما مشخص میشه.
+                        </span>
+                    </div>
+                    <span>&#9742;</span>
+                </div>
+                <div class="processStepText">
+                    تعیین سطح شفاهی 
+                </div>
+            </div>
+
+            <div class="processStepDiv">
+                <div class="processStepNumber" style="background-color:#099A8D;">
+                    <span>3</span>
+                    <div class="processStepHiddenText">
+                        <span>
+                            هزینه پکیج های مخنلف رو اینجا ببینید.
+                        </span>
+                    </div>
+                    <span>$</span>
+                </div>
+                <div class="processStepText">
+                    پرداخت وجه  
+                </div>
+            </div>
+
+            <div class="processStepDiv">
+                <div class="processStepNumber" style="background-color:#83B91E;">
+                    <span>4</span>
+                    <div class="processStepHiddenText">
+                        <span>
+                             پرسشنامه محدودیت زمانی شما در طول روزهای هفته، منابع احتمالی ای  مورد علاقه ، روزهای برگزاری کلاس های آنلاین و .... رو مشخص میکنه.
+                        </span>
+                    </div>
+                    <span>&#9998;</span>
+                </div>
+                <div class="processStepText">
+                    پاسخ به سوالات پرسشنامه 
+                </div>
+            </div>
+
+            <div class="processStepDiv">
+                <div class="processStepNumber" style="background-color:#FC9702;">
+                    <span>5</span>
+                    <div class="processStepHiddenText">
+                        <span>
+                              حداکثر 48 ساعت پس از پر کردن پرسشنامه، برنامه شما به دستتان خواهد رسید.
+                        </span>
+                    </div>
+                    <span>&#10003;</span>
+                </div>
+                <div class="processStepText">
+                    دریافت برنامه یک ماهه 
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Placeholder for footer template -->
+    <div id="footerDiv"></div>
+    
+    <script src="js/imageSlider.js"></script>    
+    <script src="js/addTemplates.js"></script>
+    
     
 </body>
 
