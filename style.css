@@ -63,6 +63,7 @@ h4 {
     color: var(--textColor);
     overflow: hidden;
     background-color: black;
+    min-height: 200px;
 }
 
 .projectContainer:hover {
