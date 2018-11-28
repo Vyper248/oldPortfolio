@@ -6,8 +6,8 @@
         <style>
         
             .menuContainer {
-                width: 270px;
-                height: 270px;
+                width: 360px;
+                height: 360px;
                 position: relative;
                 border-radius: 50%;
                 overflow: hidden;
@@ -58,7 +58,7 @@
             
             .buttonBg {
                 width: 101px;
-                height: 140px;
+                height: 180px;
                 background-color: red;
                 clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
                 transform-origin: bottom center;
@@ -133,10 +133,15 @@
             menuBtn.addEventListener('focus', openMenu);
             
             const radius = 280;
-            const height = 140;
+            const height = 180;
             const segments = btns.length;
             const angle = radius / segments;
             const angleOffset = segments % 2 === 1 ? 0 : -angle/2;
+            
+            //set container height and width
+            const container = document.querySelector('.menuContainer');
+            container.style.width = (height*2)+'px';
+            container.style.height = (height*2)+'px';
             
             //calculate the width the segments need to be and set it
             let [x1, y1] = rotatePoint(0,height,angle/2);
@@ -145,6 +150,7 @@
             
             Array.from(btns).forEach(btn => {
                 btn.style.width = distance+'px';
+                btn.style.height = height+'px';
             });
             
             //calculate different angles to use based on number of segments
