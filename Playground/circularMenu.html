@@ -49,27 +49,31 @@
             
             .menuTxt {
                 position: absolute;
-                top: 27%;
+                top: 37%;
                 left: 50%;
-                width: 130px;
+                width: 100%;
                 text-align: center;
                 transform: translate(-50%, -50%);
             }
             
             .buttonBg {
-                width: 100px;
+                width: 101px;
                 height: 140px;
                 background-color: red;
                 clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
                 transform-origin: bottom center;
-                transform: translate(-50%, -100%) rotate(0deg) scale(1,1);
+                transform: translate(-50%, -100%) rotate(0deg);
                 position: absolute;
                 top: 50%;
                 left: 50%;
                 transition: 0.3s;
-                background: radial-gradient(circle at bottom, transparent 30%, red 30%, red 80%, transparent 80%);
+                background: radial-gradient(circle at bottom, transparent 30%, red 30%, red 86%, transparent 86%);
                 cursor: pointer;
                 z-index: 0;
+            }
+            
+            .buttonBg:hover {
+                background: radial-gradient(circle at bottom, transparent 30%, #D00 30%, #D00 86%, transparent 86%);
             }
             
             .buttonWrapper {
@@ -82,38 +86,9 @@
                 transition-delay: 0.3s;
             }
             
-            .buttonBg:nth-of-type(2n) {
-                background: radial-gradient(circle at bottom, transparent 30%, #E00 30%, #E00 80%, transparent 80%);
-            }
-            
             .buttonWrapper.open {
                 transition-delay: 0s;
                 transform: scale(1);
-            }
-
-            .buttonWrapper.open .buttonBg:nth-of-type(1) {
-                transform: translate(-50%, -100%) rotate(0deg);
-                transition-delay: 0.3s;
-            }
-            
-            .buttonWrapper.open .buttonBg:nth-of-type(2) {
-                transform: translate(-50%, -100%) rotate(40deg);
-                transition-delay: 0.3s;
-            }
-            
-            .buttonWrapper.open .buttonBg:nth-of-type(3) {
-                transform: translate(-50%, -100%) rotate(80deg);
-                transition-delay: 0.3s;
-            }
-            
-            .buttonWrapper.open .buttonBg:nth-of-type(4) {
-                transform: translate(-50%, -100%) rotate(-40deg);
-                transition-delay: 0.3s;
-            }
-            
-            .buttonWrapper.open .buttonBg:nth-of-type(5) {
-                transform: translate(-50%, -100%) rotate(-80deg);
-                transition-delay: 0.3s;
             }
         
         </style>
@@ -124,25 +99,25 @@
             <div class="menuCenterBtn">Menu</div>
             
             <div class="buttonWrapper">
-                <div class="buttonBg">
-                    <div class="menuTxt">Button 1</div>
-                </div>
+                <a class="buttonBg" href="#">
+                    <div class="menuTxt">3</div>
+                </a>
 
-                <div class="buttonBg">
-                    <div class="menuTxt">Button 2</div>
-                </div>
+                <a class="buttonBg">
+                    <div class="menuTxt">4</div>
+                </a>
 
-                <div class="buttonBg">
-                    <div class="menuTxt">Button 3</div>
-                </div>
-
-                <div class="buttonBg">
-                    <div class="menuTxt">Button 4</div>
-                </div>
-
-                <div class="buttonBg">
-                    <div class="menuTxt">Button 5</div>
-                </div>
+                <a class="buttonBg">
+                    <div class="menuTxt">2</div>
+                </a>
+                
+                <a class="buttonBg">
+                    <div class="menuTxt">5</div>
+                </a>
+                
+                <a class="buttonBg">
+                    <div class="menuTxt">1</div>
+                </a>
             </div>
             
             <div class="menuTopBtn"></div>
@@ -152,17 +127,55 @@
         
             const menuBtn = document.querySelector('.menuCenterBtn');
             const wrapper = document.querySelector('.buttonWrapper');
+            const btns = document.querySelectorAll('.buttonBg');
             
             menuBtn.addEventListener('click', openMenu);
             menuBtn.addEventListener('focus', openMenu);
+            
+            const radius = 280;
+            const height = 140;
+            const segments = btns.length;
+            const angle = radius / segments;
+            const angleOffset = segments % 2 === 1 ? 0 : -angle/2;
+            
+            //calculate the width the segments need to be and set it
+            let [x1, y1] = rotatePoint(0,height,angle/2);
+            x1 = (height/y1)*x1;
+            const distance = (x1*2)-4;
+            
+            Array.from(btns).forEach(btn => {
+                btn.style.width = distance+'px';
+            });
+            
+            //calculate different angles to use based on number of segments
+            let angles = [0+angleOffset];
+            for (let i = 1; i < Math.ceil(segments/1.9); i++){
+                const a = angle * i;
+                angles.push(a+angleOffset, -a+angleOffset);
+            }
             
             function openMenu(){
                 wrapper.classList.toggle('open');
                 if (wrapper.classList.contains('open')){
                     menuBtn.innerText = 'Close';
+                    Array.from(btns).forEach((btn,i) => {
+                        btn.style.transform = 'translate(-50%, -100%) rotate('+angles[i]+'deg)';
+                        btn.style.transitionDelay = '0.3s';
+                    });
                 } else {
                     menuBtn.innerText = 'Menu';
+                    Array.from(btns).forEach((btn,i) => {
+                        btn.style.transform = '';
+                        btn.style.transitionDelay = '';
+                    });
                 }
+            }
+            
+            function rotatePoint(x, y, a){
+                const angle = Math.PI / 180 * a;
+                const newX = x * Math.cos(angle) - y * Math.sin(angle);
+                const newY = y * Math.cos(angle) + x * Math.sin(angle);
+                return [Math.round(-newX), Math.round(newY)];
             }
         
         </script>
