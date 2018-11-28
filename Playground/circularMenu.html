@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style>
+        
+            .menuContainer {
+                width: 270px;
+                height: 270px;
+                position: relative;
+                border-radius: 50%;
+                overflow: hidden;
+                transition: 0.5s;
+                transform: scale(0,0);
+                animation: loadMenu 0.1s linear 0.5s;
+                animation-fill-mode: both;
+            }
+            
+            @keyframes loadMenu {
+                from {transform: scale(0,0)}
+                to {transform: scale(1,1)}
+            }
+            
+            .menuCenterBtn, .menuTopBtn {
+                width: 70px;
+                height: 70px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                border-radius: 50%;
+                background-color: red;
+                transform: translate(-50%, -50%);
+                z-index: 2;
+            }
+            
+            .menuTopBtn {
+                z-index: 1;
+                width: 100px;
+                height: 100px;
+                background-color: transparent;
+            }
+            
+            .circleCover {
+                width: 120px;
+                height: 120px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                border-radius: 50%;
+            }
+            
+            .menuTxt {
+                position: absolute;
+                top: 27%;
+                left: 50%;
+                width: 130px;
+                text-align: center;
+                transform: translate(-50%, -50%);
+            }
+            
+            .buttonBg {
+                width: 100px;
+                height: 140px;
+                background-color: red;
+                clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+                transform-origin: bottom center;
+                transform: translate(-50%, -100%) rotate(0deg) scale(1,1);
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transition: 0.5s;
+                background: radial-gradient(circle at bottom, transparent 30%, red 30%, red 80%, transparent 80%);
+                cursor: pointer;
+                z-index: 0;
+            }
+            
+            .buttonBg:nth-of-type(2){
+                animation: btn1Close 0.5s;
+                animation-fill-mode: both;
+            }
+            
+            .buttonBg:nth-of-type(3){
+                animation: btn2Close 0.5s;
+                animation-fill-mode: both;
+            }
+            
+            .buttonBg:nth-of-type(4){
+                animation: btn3Close 0.5s;
+                animation-fill-mode: both;
+            }
+            
+            .buttonBg:nth-of-type(5){
+                animation: btn4Close 0.5s;
+                animation-fill-mode: both;
+            }
+            
+            .buttonBg:nth-of-type(6){
+                animation: btn5Close 0.5s;
+                animation-fill-mode: both;
+            }
+            
+            .buttonBg.open:nth-of-type(2) {
+                animation: btn1Open 0.5s;
+                animation-fill-mode: both;
+            }
+            
+            .buttonBg.open:nth-of-type(3) {
+                animation: btn2Open 0.5s;
+                animation-fill-mode: both;
+            }
+            
+            .buttonBg.open:nth-of-type(4) {
+                animation: btn3Open 0.5s;
+                animation-fill-mode: both;
+            }
+            
+            .buttonBg.open:nth-of-type(5) {
+                animation: btn4Open 0.5s;
+                animation-fill-mode: both;
+            }
+            
+            .buttonBg.open:nth-of-type(6) {
+                animation: btn5Open 0.5s;
+                animation-fill-mode: both;
+            }
+            
+            @keyframes btn1Open {
+                0% {transform: translate(-50%, -100%) rotate(0deg) scale(0,0)}
+                50% {transform: translate(-50%, -100%) rotate(0deg) scale(1,1)}
+                100% {transform: translate(-50%, -100%) rotate(0deg) scale(1,1)}
+            }
+            
+            @keyframes btn2Open {
+                0% {transform: translate(-50%, -100%) rotate(0deg) scale(0,0)}
+                50% {transform: translate(-50%, -100%) rotate(0deg) scale(1,1)}
+                100% {transform: translate(-50%, -100%) rotate(40deg) scale(1,1)}
+            }
+            
+            @keyframes btn3Open {
+                0% {transform: translate(-50%, -100%) rotate(0deg) scale(0,0)}
+                50% {transform: translate(-50%, -100%) rotate(0deg) scale(1,1)}
+                100% {transform: translate(-50%, -100%) rotate(80deg) scale(1,1)}
+            }
+            
+            @keyframes btn4Open {
+                0% {transform: translate(-50%, -100%) rotate(0deg) scale(0,0)}
+                50% {transform: translate(-50%, -100%) rotate(0deg) scale(1,1)}
+                100% {transform: translate(-50%, -100%) rotate(-80deg) scale(1,1)}
+            }
+            
+            @keyframes btn5Open {
+                0% {transform: translate(-50%, -100%) rotate(0deg) scale(0,0)}
+                50% {transform: translate(-50%, -100%) rotate(0deg) scale(1,1)}
+                100% {transform: translate(-50%, -100%) rotate(-40deg) scale(1,1)}
+            }
+            
+            @keyframes btn1Close {
+                0% {transform: translate(-50%, -100%) rotate(0deg) scale(1,1)}
+                50% {transform: translate(-50%, -100%) rotate(0deg) scale(1,1)}
+                100% {transform: translate(-50%, -100%) rotate(0deg) scale(0,0)}
+            }
+            
+            @keyframes btn2Close {
+                0% {transform: translate(-50%, -100%) rotate(40deg) scale(1,1)}
+                50% {transform: translate(-50%, -100%) rotate(0deg) scale(1,1)}
+                100% {transform: translate(-50%, -100%) rotate(0deg) scale(0,0)}
+            }
+            
+            @keyframes btn3Close {
+                0% {transform: translate(-50%, -100%) rotate(80deg) scale(1,1)}
+                50% {transform: translate(-50%, -100%) rotate(0deg) scale(1,1)}
+                100% {transform: translate(-50%, -100%) rotate(0deg) scale(0,0)}
+            }
+            
+            @keyframes btn4Close {
+                0% {transform: translate(-50%, -100%) rotate(-80deg) scale(1,1)}
+                50% {transform: translate(-50%, -100%) rotate(0deg) scale(1,1)}
+                100% {transform: translate(-50%, -100%) rotate(0deg) scale(0,0)}
+            }
+            
+            @keyframes btn5Close {
+                0% {transform: translate(-50%, -100%) rotate(-40deg) scale(1,1)}
+                50% {transform: translate(-50%, -100%) rotate(0deg) scale(1,1)}
+                100% {transform: translate(-50%, -100%) rotate(0deg) scale(0,0)}
+            }
+        
+        </style>
+    </head>
+    <body>
+        
+        <div class="menuContainer">
+            <div class="menuCenterBtn"></div>
+            
+            <div class="buttonBg">
+                <div class="menuTxt">Button 1</div>
+            </div>
+
+            <div class="buttonBg">
+                <div class="menuTxt">Button 2</div>
+            </div>
+
+            <div class="buttonBg">
+                <div class="menuTxt">Button 3</div>
+            </div>
+
+            <div class="buttonBg">
+                <div class="menuTxt">Button 4</div>
+            </div>
+
+            <div class="buttonBg">
+                <div class="menuTxt">Button 5</div>
+            </div>
+            
+            <div class="menuTopBtn"></div>
+        </div>
+        
+        <script>
+        
+            const menuBtn = document.querySelector('.menuCenterBtn');
+            menuBtn.addEventListener('click', ()=>{
+               console.log('test');
+                const btns = document.querySelectorAll('.buttonBg');
+                Array.from(btns).forEach(btn => {
+                    btn.classList.toggle('open');
+                });
+            });
+        
+        </script>
+        
+    </body>
+</html>
