@@ -1,0 +1,136 @@
+.menuContainer {
+    width: 360px;
+    height: 360px;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.menuCenterBtn, .menuTopBtn {
+    width: 70px;
+    height: 70px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    background-color: red;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3em;
+    cursor: pointer;
+}
+
+.menuCenterBtn:hover {
+    background-color: #D00;
+}
+
+.menuTopBtn {
+    z-index: 1;
+    width: 120px;
+    height: 120px;
+    background-color: transparent;
+    cursor: default;
+}
+
+.circleCover {
+    width: 120px;
+    height: 120px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.menuTxt {
+    position: absolute;
+    top: 37%;
+    left: 50%;
+    width: 100%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+}
+
+.buttonBg {
+    width: 101px;
+    height: 180px;
+    background-color: red;
+    clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+    -webkit-clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+    transform-origin: bottom center;
+    transform: translate(-50%, -100%) rotate(0deg);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transition: 0.3s;
+    background: radial-gradient(circle at bottom, transparent 30%, red 30%, red 86%, transparent 86%);
+    cursor: pointer;
+    z-index: 0;
+}
+
+.buttonBg:hover {
+    background: radial-gradient(circle at bottom, transparent 30%, #D00 30%, #D00 86%, transparent 86%);
+}
+
+.buttonWrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform: scale(0);
+    transform-origin: center;
+    transition: 0.3s;
+    transition-delay: 0.3s;
+}
+
+.buttonWrapper.open {
+    transition-delay: 0s;
+    transform: scale(1);
+}
+
+/*==============ADD SUPPORT FOR OTHER BROWSERS==============*/
+@supports not (clip-path: polygon(0% 0%, 100% 0%, 50% 100%)) or (-webkit-clip-path: polygon(0% 0%, 100% 0%, 50% 100%)){
+    .buttonBg {
+        transform-origin: -40% 50%;
+        width: 100px !important;
+        height: 30px !important;
+        background: linear-gradient(red, red);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: translate(40%, -50%) rotate(-90deg);
+        border-radius: 0px 50px 50px 0px;
+        text-decoration: none;
+    }
+
+    .menuTxt {
+        display: inline;
+        transform: rotate(90deg);
+        position: relative;
+        top: 0px;
+        left: 0px;
+    }
+
+    .buttonBg:hover {
+        background: linear-gradient(#D00, #D00);;
+        transition-delay: 0s !important;
+    }
+
+    .buttonWrapper {
+        display: flex;
+        position: relative;
+        transform: scale(0);
+    }
+
+    .menuContainer {
+        border-radius: 0px;
+        overflow: visible;
+    }
+
+    .menuTopBtn {
+        width: 70px;
+        height: 70px;
+    }
+}
