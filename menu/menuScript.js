@@ -5,11 +5,12 @@ const btns = document.querySelectorAll('.buttonBg');
 menuBtn.addEventListener('click', openMenu);
 menuBtn.addEventListener('focus', openMenu);
 
-const radius = 220;
-const height = 180;
+const radius = 180;
+const height = 130;
 const segments = btns.length;
 const angle = radius / segments;
 const angleOffset = segments % 2 === 1 ? 0 : -angle/2;
+const menuOffset = -90;
 
 //set container height and width
 const container = document.querySelector('.menuContainer');
@@ -26,6 +27,12 @@ Array.from(btns).forEach(btn => {
     btn.style.height = height+'px';
 });
 
+//set initial menu offset
+Array.from(btns).forEach((btn,i) => {
+    btn.style.transform = 'translate(-50%, -100%) rotate('+menuOffset+'deg)';
+    btn.style.transitionDelay = '';
+});
+
 //calculate different angles to use based on number of segments
 let angles = [0+angleOffset];
 for (let i = 1; i < Math.ceil(segments/1.9); i++){
@@ -36,22 +43,23 @@ for (let i = 1; i < Math.ceil(segments/1.9); i++){
 function openMenu(){
     wrapper.classList.toggle('open');
     if (wrapper.classList.contains('open')){
-        menuBtn.innerText = 'Close';
+        menuBtn.innerHTML = '<i class="fas fa-times"></i>';
         Array.from(btns).forEach((btn,i) => {
             if (CSS.supports('clip-path', 'polygon(1% 1%, 2% 2%, 3% 3%)') || 
                 CSS.supports('-webkit-clip-path', 'polygon(1% 1%, 2% 2%, 3% 3%)')){
-                btn.style.transform = 'translate(-50%, -100%) rotate('+angles[i]+'deg)';
+                btn.style.transform = 'translate(-50%, -100%) rotate('+(angles[i]+menuOffset)+'deg)';
                 btn.style.transitionDelay = '0.3s';
             } else {
-                btn.style.transform = 'translate(40%, -50%) rotate('+(angles[i]-90)+'deg)';
+                menuOffset = -180;
+                btn.style.transform = 'translate(40%, -50%) rotate('+(angles[i]+menuOffset)+'deg)';
                 btn.style.transitionDelay = '0.3s';
             }
 
         });
     } else {
-        menuBtn.innerText = 'Menu';
+        menuBtn.innerHTML = '<i class="fas fa-chevron-down"></i>';
         Array.from(btns).forEach((btn,i) => {
-            btn.style.transform = '';
+            btn.style.transform = 'translate(-50%, -100%) rotate('+menuOffset+'deg)';
             btn.style.transitionDelay = '';
         });
     }
