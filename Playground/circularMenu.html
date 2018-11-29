@@ -30,11 +30,16 @@
                 cursor: pointer;
             }
             
+            .menuCenterBtn:hover {
+                background-color: #D00;
+            }
+            
             .menuTopBtn {
                 z-index: 1;
-                width: 100px;
-                height: 100px;
+                width: 120px;
+                height: 120px;
                 background-color: transparent;
+                cursor: default;
             }
             
             .circleCover {
@@ -91,6 +96,51 @@
                 transition-delay: 0s;
                 transform: scale(1);
             }
+            
+/*==============ADD SUPPORT FOR OTHER BROWSERS==============*/
+            @supports not (clip-path: polygon(0% 0%, 100% 0%, 50% 100%)) or (-webkit-clip-path: polygon(0% 0%, 100% 0%, 50% 100%)){
+                .buttonBg {
+                    transform-origin: -40% 50%;
+                    width: 100px !important;
+                    height: 30px !important;
+                    background: linear-gradient(red, red);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    transform: translate(40%, -50%) rotate(-90deg);
+                    border-radius: 0px 50px 50px 0px;
+                    text-decoration: none;
+                }
+                
+                .menuTxt {
+                    display: inline;
+                    transform: rotate(90deg);
+                    position: relative;
+                    top: 0px;
+                    left: 0px;
+                }
+                
+                .buttonBg:hover {
+                    background: linear-gradient(#D00, #D00);;
+                    transition-delay: 0s !important;
+                }
+                
+                .buttonWrapper {
+                    display: flex;
+                    position: relative;
+                    transform: scale(0);
+                }
+                
+                .menuContainer {
+                    border-radius: 0px;
+                    overflow: visible;
+                }
+                
+                .menuTopBtn {
+                    width: 70px;
+                    height: 70px;
+                }
+            }
         
         </style>
     </head>
@@ -133,7 +183,7 @@
             menuBtn.addEventListener('click', openMenu);
             menuBtn.addEventListener('focus', openMenu);
             
-            const radius = 280;
+            const radius = 220;
             const height = 180;
             const segments = btns.length;
             const angle = radius / segments;
@@ -166,8 +216,15 @@
                 if (wrapper.classList.contains('open')){
                     menuBtn.innerText = 'Close';
                     Array.from(btns).forEach((btn,i) => {
-                        btn.style.transform = 'translate(-50%, -100%) rotate('+angles[i]+'deg)';
-                        btn.style.transitionDelay = '0.3s';
+                        if (CSS.supports('clip-path', 'polygon(1% 1%, 2% 2%, 3% 3%)') || 
+                            CSS.supports('-webkit-clip-path', 'polygon(1% 1%, 2% 2%, 3% 3%)')){
+                            btn.style.transform = 'translate(-50%, -100%) rotate('+angles[i]+'deg)';
+                            btn.style.transitionDelay = '0.3s';
+                        } else {
+                            btn.style.transform = 'translate(40%, -50%) rotate('+(angles[i]-90)+'deg)';
+                            btn.style.transitionDelay = '0.3s';
+                        }
+                        
                     });
                 } else {
                     menuBtn.innerText = 'Menu';
