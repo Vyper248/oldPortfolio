@@ -8,6 +8,11 @@
     box-sizing: border-box;
 }
 
+html {
+    height: 100%;
+    overflow:hidden;
+}
+
 body {
     margin: 0px;
     font-family: sans-serif;
@@ -15,6 +20,8 @@ body {
     background-color: var(--backgroundColor);
     color:var(--textColor);
     overflow-x: hidden;
+    height: 100%;
+    position: relative;
 }
 
 h1 {
