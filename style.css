@@ -20,6 +20,7 @@ body {
     background-color: var(--backgroundColor);
     color:var(--textColor);
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     height: 100%;
     position: relative;
 }
