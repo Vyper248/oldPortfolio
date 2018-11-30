@@ -5,7 +5,7 @@
     border-radius: 50%;
     overflow: hidden;
     margin: auto;
-    top: 20px;
+    bottom: -130px;
     right: 0px;
     transform: translate(50%);
 }
