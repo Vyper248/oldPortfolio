@@ -90,7 +90,7 @@
 
     function createDots(){
         const area = window.innerWidth * window.innerHeight;
-        const number = area / 32768;
+        let number = area / 32768;
         if (number < 30) number = 30;
         for (let i = 0; i < number; i++){
             let dot = new Dot();
