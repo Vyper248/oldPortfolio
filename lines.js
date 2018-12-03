@@ -91,7 +91,6 @@
     function createDots(){
         const area = window.innerWidth * body.scrollHeight;
         let number = area / 32768;
-        console.log(number);
         if (number < 10) number = 10;
         for (let i = 0; i < number; i++){
             let dot = new Dot();
