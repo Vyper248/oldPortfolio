@@ -3,7 +3,7 @@
 
     const canvas = document.createElement('canvas');
     canvas.setAttribute('width', window.innerWidth-2+'px');
-    canvas.setAttribute('height', window.innerHeight-2+'px');
+    canvas.setAttribute('height', body.scrollHeight-2+'px');
     canvas.style.position = 'absolute';
     canvas.style.top = '0px';
     canvas.style.left = '0px';
@@ -14,7 +14,7 @@
     ctx.strokeStyle = '#770000';
     ctx.lineWidth = 0.5;
 
-    const dots = [];
+    let dots = [];
 
     class Dot {
         constructor(){
@@ -33,8 +33,8 @@
             if (this.x < -300) this.x = window.innerWidth+300;
             if (this.x > window.innerWidth+300) this.x = -300;
 
-            if (this.y < -300) this.y = window.innerHeight+300;
-            if (this.y > window.innerHeight+300) this.y = -300;
+            if (this.y < -300) this.y = body.scrollHeight+300;
+            if (this.y > body.scrollHeight+300) this.y = -300;
         }
 
         updateDirection(){
@@ -70,7 +70,7 @@
         }
 
         randY(){
-            return (Math.random()*(window.innerHeight*1.5))-window.innerHeight/4;
+            return (Math.random()*(body.scrollHeight*1.5))-body.scrollHeight/4;
         }
 
         getDistance(a,b){
@@ -89,9 +89,10 @@
     }
 
     function createDots(){
-        const area = window.innerWidth * window.innerHeight;
+        const area = window.innerWidth * body.scrollHeight;
         let number = area / 32768;
-        if (number < 30) number = 30;
+        console.log(number);
+        if (number < 10) number = 10;
         for (let i = 0; i < number; i++){
             let dot = new Dot();
             dots.push(dot);
@@ -103,5 +104,20 @@
     setInterval(()=>{
         dots.forEach(dot => dot.updateDirection());
     }, 10000);
+    
+    //when resizing, reset size of canvas to match content size and setup dots again for the new area.
+    let resizeTimer;
+    window.onresize = (e) => {
+        clearTimeout(resizeTimer);
+        ctx.canvas.height = 0;//clear first to make sure body is resized without canvas affecting it
+        resizeTimer = setTimeout(() => {
+            ctx.canvas.width = window.innerWidth;
+            ctx.canvas.height = body.scrollHeight;
+            ctx.strokeStyle = '#770000';
+            ctx.lineWidth = 0.5;
+            dots = [];
+            createDots();
+        }, 200);
+    };
 
 })();
