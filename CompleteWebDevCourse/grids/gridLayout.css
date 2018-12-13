@@ -1,0 +1,62 @@
+* {
+    box-sizing: border-box;
+}
+
+.container {
+    display: grid;
+    height: 100%;
+    grid-gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+    grid-template-rows: repeat(auto-fill, auto);
+}
+
+html, body {
+    height: 100%;
+    margin: 0px;
+}
+
+body {
+    padding: 10px;
+}
+
+.zone {
+    font-size: 8em;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.green {
+    background-color: green;
+    grid-column: span 2;
+    grid-row: span 2;
+    justify-self: center;
+    align-self: center;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+}
+
+.red {
+    background-color: red;
+}
+
+.blue {
+    background-color: lightblue;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+.purple {
+    background-color: purple;
+}
+
+.brown {
+    background-color: brown;
+}
