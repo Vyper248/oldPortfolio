@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+    <style>
+    
+        #controls {
+            position:fixed;
+            width:100%;
+            margin:auto;
+            text-align: center;
+        }
+        
+        input {
+            width:40px;
+            text-align: center;
+        }
+        
+        #rotatorControls {
+            display: none;
+        }
+        
+        #spinnerControls {
+            display: none;
+        }
+        
+        #guide {
+            position:fixed;
+            bottom:10px;
+            width:100%;
+            text-align: center;
+        }
+        
+        #tutorial {
+            position:absolute;
+            width:100%;
+            height: 100%;
+            top:50%;
+            left:50%;
+        }
+        
+        #sample {
+            background-color: rgb(255,0,0);
+            width:15px;
+            height:15px;
+            display:inline-block;
+            position: relative;
+            top:3px;
+        }
+    
+    </style>
+</head>
+
+<body>
+
+    <div id='controls'>
+    <label>Global Speed:</label>
+    <input type='text' id='globalSpeed' value='5' default='1'>
+        <br>
+        <div id='rotatorControls'>
+            <label>Rotator Speed:</label><input type='text' id='rotatorSpeed' value='1'>
+            <button id='rotatorDelete'>Delete</button>
+            
+        </div>
+        <div id='spinnerControls'>
+            <label>Spinner Speed:</label><input type='text' id='spinnerSpeed' value='1'>
+            <label>Spinner Rotation:</label><input type='text' id='spinnerRotation' value='2.3'>
+            <button id='spinnerDelete'>Delete</button><br>
+            Red:<input type='text' id='red' value='255'> 
+            Green:<input type='text' id='green' value='0'> 
+            Blue:<input type='text' id='blue' value='0'>
+            <label id="sample"></label>
+            
+        </div>
+    </div>
+    
+    <div id='guide'>
+        Enter = Play/Stop<br>
+        Click and drag on lines to adjust the sizes. Click and drag on spinner dots to adjust position. <br>
+        Click on lines to adjust values (rotation/speed) or delete (also done with delete key).
+    </div>
+    
+    <div id='tutorial'>
+        Click and drag to create a rotator.
+    </div>
+        
+ 	<script src='imports/p5.js'></script>
+    <script src='imports/jquery.min.js'></script>
+    
+    <script>
+        
+        var mode = 1;//1 = creation mode, 2 = drawing mode, 3 = test mode
+        var globalSpeed = 1;   
+        var tutorial = true;
+        var selectedRotator = null;
+        var selectedSpinner = null;
+        
+        $('#spinnerDelete').on('click',function(){
+            deleteSpinner(selectedSpinner);
+        })
+        
+        //delete spinner passed into function
+        function deleteSpinner(spinner){
+            var index = spinners.indexOf(spinner);
+            spinners.splice(index,1);
+            hideControls();
+        }
+        
+        $('#rotatorDelete').on('click',function(){
+            deleteRotator(selectedRotator);
+        })
+        
+        function deleteRotator(rotator){
+            //first delete all spinners attached to this rotator
+            for (var i = 0; i < spinners.length; i++){
+                var spinner = spinners[i];
+                if (spinner.rotator == rotator){
+                    deleteSpinner(spinner);
+                    i--;//adjust for removing an item from the array
+                }
+            }
+            
+            //then delete the selected rotator
+            var index = rotators.indexOf(rotator);
+            rotators.splice(index,1);
+            hideControls();
+        }
+
+        $("#rotatorSpeed").keyup(function(){
+            var value = parseFloat($(this).val());
+            if ($(this).val().length < 1){
+                value = 1;
+            }
+            
+            if (value < 0.01){
+                value = 0.01;
+            }
+            
+            if (value > 3){
+                value = 3;
+                $(this).val("3");
+            }
+            selectedRotator.speed = value;
+            clear();
+        });
+        
+        function setSample(){
+            var r = selectedSpinner.red;
+            var g = selectedSpinner.green;
+            var b = selectedSpinner.blue;
+            
+            $("#sample").css("background-color","rgb("+r+","+g+","+b+")");
+        }
+
+        $("#red").keyup(function(){
+            var value = parseFloat($(this).val());
+            if ($(this).val().length < 1){
+                value = 0;
+            }
+            
+            if (value < 0){
+                value = 0;
+                $(this).val("0");
+            }
+            if (value > 255){
+                value = 255;
+                $(this).val("255");
+            }
+            selectedSpinner.red = value;
+            setSample();
+        });
+        
+        $("#green").keyup(function(){
+            var value = parseFloat($(this).val());
+            if ($(this).val().length < 1){
+                value = 0;
+            }
+            
+            if (value < 0){
+                value = 0;
+                $(this).val("0");
+            }
+            if (value > 255){
+                value = 255;
+                $(this).val("255");
+            }
+            selectedSpinner.green = value;
+            setSample();
+        });
+        
+        $("#blue").keyup(function(){
+            var value = parseFloat($(this).val());
+            if ($(this).val().length < 1){
+                value = 0;
+            }
+            
+            if (value < 0){
+                value = 0;
+                $(this).val("0");
+            }
+            if (value > 255){
+                value = 255;
+                $(this).val("255");
+            }
+            selectedSpinner.blue = value;
+            setSample();
+        });
+        
+        $("#spinnerSpeed").keyup(function(){
+            var value = parseFloat($(this).val());
+            if ($(this).val().length < 1){
+                value = 1;
+            }
+            
+            if (value < 1){
+                value = 1;
+            }
+            selectedSpinner.speed = value;
+            clear();
+        });
+        
+        $("#spinnerRotation").keyup(function(){
+            var value = parseFloat($(this).val());
+            if ($(this).val().length < 1){
+                value = 1;
+            }
+            
+            if (value < 0.01){
+                value = 0.01;
+            }
+            
+            if (value > 10){
+                value = 10;
+                $(this).val("10");
+            }
+            selectedSpinner.rotation = value;
+            clear();
+        });
+        
+        var Rotator = function(x,y,r,s){
+            this.centrePoint = createVector(x,y);
+            this.movingPoint = createVector(x+r,y);
+            this.speed = s;
+            this.diameter = r*2;
+            this.oldPoint = this.movingPoint.copy();
+            this.movement = createVector(0,0);
+            
+            this.currentVector = this.movingPoint.copy().sub(this.centrePoint).normalize();
+        };
+        
+        Rotator.prototype.step = function(){
+            this.oldPoint = this.movingPoint.copy();
+            this.movingPoint.sub(this.centrePoint);
+            this.movingPoint.rotate(radians(this.speed));
+            this.movingPoint.add(this.centrePoint);
+            this.movement = p5.Vector.sub(this.movingPoint,this.oldPoint);
+        };
+        
+        Rotator.prototype.display = function(){
+            stroke(0,0,0);
+            noFill();
+            
+            strokeWeight(2);
+            if (this == selectedRotator && selectingRotatorCentre){
+                strokeWeight(4);
+            }
+            point(this.centrePoint.x,this.centrePoint.y); 
+            
+            strokeWeight(1);
+            if (this == selectedRotator && selectingRotator){
+                strokeWeight(3);
+            }
+            ellipse(this.centrePoint.x,this.centrePoint.y,this.diameter);
+            
+            stroke(255,0,0);
+            strokeWeight(4);
+            point(this.movingPoint.x, this.movingPoint.y);
+        };
+        
+        var Spinner = function(rotator,speed,radius,rotation,red,green,blue){
+            this.rotator = rotator;
+            this.speed = speed;
+            this.rotation = rotation;
+            this.radius = radius;
+            this.position = createVector(this.rotator.movingPoint.x,this.rotator.movingPoint.y);
+            this.position.add(this.radius,0);
+            this.oldPosition = this.position.copy();
+            
+            this.red = red;
+            this.green = green;
+            this.blue = blue;
+            
+            this.currentVector = createVector(1,0);// this.position.copy().sub(this.rotator.movingPoint).normalize();
+        };
+        
+        Spinner.prototype.step = function(){
+            for (var i = 0; i < this.speed; i++){
+                this.oldPosition = this.position.copy();
+                this.position.sub(this.rotator.movingPoint);
+                this.position.rotate(radians(-this.rotation));
+                this.position.add(this.rotator.movingPoint);
+                this.position.add(p5.Vector.div(this.rotator.movement,this.speed));//divide movement by speed to adjust for multiple spinner movements
+                                
+                //this.currentVector = this.position.copy().sub(this.rotator.movingPoint).normalize();
+                
+                this.display();
+            }
+        };
+        
+        Spinner.prototype.display = function(){
+            stroke(this.red,this.green,this.blue);
+            strokeWeight(1);
+            line(this.position.x,this.position.y,this.oldPosition.x,this.oldPosition.y);
+        };
+        
+        Spinner.prototype.displayCircle = function(){
+            stroke(0,0,0);
+            strokeWeight(1);
+            if (this == selectedSpinner && selectingSpinner){
+                strokeWeight(3);
+            }
+            ellipse(this.rotator.movingPoint.x,this.rotator.movingPoint.y,this.radius*2);
+            
+            stroke(this.red,this.green,this.blue);
+            strokeWeight(4);
+            if (this == selectedSpinner && selectingSpinnerPoint){
+                strokeWeight(7);
+            }
+            point(this.position.x,this.position.y);
+        }
+        
+        var spinners = [];
+        var rotators = [];
+        
+        function setup() {
+            createCanvas(innerWidth, innerHeight);
+            //angleMode(DEGREES);
+            
+//            var rotator = new Rotator(400,400,300,1);
+//            var spinner = new Spinner(rotator,1,50,1);
+//            rotators.push(rotator);
+//            spinners.push(spinner);
+        }
+        
+        function draw(){
+            if (mode === 1 || mode === 3){
+                clear();
+            }
+            
+            //show play symbol
+            if (mode === 2){
+                strokeWeight(1);
+                fill(150,150,150);
+                stroke(150,150,150);
+                triangle(innerWidth/2-5,innerHeight-90,innerWidth/2+5,innerHeight-85,innerWidth/2-5,innerHeight-80);
+            }
+            //test.display();
+            //globalSpeed = parseFloat($("#gobalSpeed").val());
+            if ($("#globalSpeed").val().length < 1){
+                globalSpeed = 1;
+            }
+            else {
+                globalSpeed = parseFloat($("#globalSpeed").val());
+                if (globalSpeed < 1){
+                    globalSpeed = 1;
+                }
+            }
+            
+            if (mode === 2){//only use global speed when creating, otherwise the loop is pointless
+                for (var j = 0; j < globalSpeed; j++){
+                    for (var i = 0; i < rotators.length; i++){
+                        if (mode === 2 || mode === 3){
+                            rotators[i].step();
+                        }
+
+                        if (mode === 1 || mode === 3){
+                            rotators[i].display();
+                        }
+                    }
+
+                    for (var i = 0; i < spinners.length; i++){
+                        if (mode === 2 || mode === 3){
+                            spinners[i].step();
+                        }
+                        if (mode === 1){
+                            spinners[i].displayCircle();
+                        }
+                    }
+                }
+            }
+            else {//used just for drawing circles / testing
+                for (var i = 0; i < rotators.length; i++){
+                    if (mode === 3){
+                        rotators[i].step();
+                    }
+
+                    if (mode === 1 || mode === 3){
+                        rotators[i].display();
+                    }
+                }
+
+                for (var i = 0; i < spinners.length; i++){
+                    if (mode === 3){
+                        spinners[i].step();
+                    }
+                    if (mode === 1){
+                        spinners[i].displayCircle();
+                    }
+                }
+            } 
+        }
+        
+        function reset(){
+            for (var i = 0; i < rotators.length; i++){
+                var rotator = rotators[i];
+                rotator.movingPoint = rotator.currentVector.copy().mult(rotator.diameter/2).add(rotator.centrePoint);
+            }
+            
+            for (var i = 0; i < spinners.length; i++){
+                var spinner = spinners[i];
+                spinner.position = spinner.currentVector.copy().mult(spinner.radius).add(spinner.rotator.movingPoint);
+                spinner.oldPosition = spinner.position.copy();
+            }
+        }
+        
+        var mousePositionStart;
+        var mouseWasDragged = false;
+        var creatingRotator = false;
+        var selectingSpinner = false;
+        var selectingRotator = false;
+        var selectingSpinnerPoint = false;
+        var selectingRotatorCentre = false;
+        var stopDragging = false;//stops unwanted behaviour when dragging over text in the text boxes
+        
+        function mousePressed(e){
+            
+            mouseWasDragged = false;
+            creatingRotator = false;
+            creatingSpinner = false;
+            selectingSpinnerPoint = false;
+            selectingRotatorCentre = false;
+            //don't want to null them when selecting the text box
+            if (mouseY > 75){
+                selectedRotator = null;
+                selectedSpinner = null;
+                hideControls();
+                selectingRotator = false;
+                selectingSpinner = false;
+            }
+            else {
+                stopDragging = true;
+                return;
+            }
+            mousePositionStart = createVector(mouseX,mouseY);//starting position used to calculate radius
+            
+            
+            for (var i = 0; i < rotators.length; i++){
+                var rotator = rotators[i];
+                var mousePoint = createVector(mouseX,mouseY);
+                var distance = p5.Vector.dist(mousePoint,rotator.movingPoint);
+                if (distance < 10){//if click on a rotator point, then can start creating a spinner
+                    creatingSpinner = true;
+                    var spinnerSpeed = parseFloat($("#spinnerSpeed").val());
+                    var spinnerRotation = parseFloat($("#spinnerRotation").val());
+                    var red = parseInt($("#red").val());
+                    var green = parseInt($("#green").val());
+                    var blue = parseInt($("#blue").val());
+                    var spinner = new Spinner(rotator,spinnerSpeed,0,spinnerRotation,red,green,blue);
+                    spinners.push(spinner);
+                    return;
+                }
+                else{
+                    var centreDistance = p5.Vector.dist(mousePoint,rotator.centrePoint);
+                    //or if clicking on the rotator line, then select it
+                    if (centreDistance > (rotator.diameter/2)-5 && centreDistance < (rotator.diameter/2)+5){
+                        selectingRotator = true;//if don't drag to create a spinner, then select the rotator
+                        selectedRotator = rotator;
+                        mousePositionStart = rotator.centrePoint;
+                        return;
+                    }
+                    
+                    //of if clicking on the centre point, select it
+                    if (centreDistance < 5){
+                        selectingRotatorCentre = true;
+                        selectedRotator = rotator;
+                        return;
+                    }
+                }
+                
+                
+            }
+            
+            //if user clicks on a spinner line, then select that spinner to edit settings
+            for (var j = 0; j < spinners.length; j++){
+                var spinner = spinners[j];
+                
+                //if clicking on a spinner point
+                var pointDistance = p5.Vector.dist(mousePoint,spinner.position);
+                if (pointDistance > -5 && pointDistance < 5){
+                    selectingSpinnerPoint = true;
+                    selectedSpinner = spinner;
+                    return;
+                }
+                
+                //if clicking a spinner line
+                var distance = p5.Vector.dist(mousePoint,spinner.rotator.movingPoint);
+                var radius = spinner.radius;
+                if (distance > radius-5 && distance < radius+5){
+                    selectingSpinner = true;
+                    selectedSpinner = spinner;
+                    mousePositionStart = spinner.rotator.movingPoint;
+                    return;
+                }
+            }
+            
+            //otherwise, start creating a rotator
+            creatingRotator = true;
+            var rotator = new Rotator(mouseX,mouseY,0,1);//put it at mouse position
+            rotators[rotators.length] = rotator;//add to array
+        }
+        
+        function mouseDragged(e){
+            
+            if (stopDragging){
+                return;
+            }
+            
+            //creating or moving a rotator
+            if (creatingRotator || selectingRotator){
+                var rotator = rotators[rotators.length-1];
+                if (selectingRotator){
+                    rotator = selectedRotator;
+                }
+                var mousePosition = createVector(mouseX, mouseY);
+                var distance = p5.Vector.dist(mousePosition,mousePositionStart);
+                rotator.diameter = distance*2;//adjust the diameter using mouse position
+                rotator.movingPoint = createVector(mouseX,mouseY);//update moving point to correct position
+                
+                if (selectingRotator){
+                    for (var i = 0; i < spinners.length; i++){
+                        var spinner = spinners[i];
+                        if (spinner.rotator == rotator){
+                            spinner.position = spinner.currentVector.copy();
+                            spinner.position.mult(spinner.radius);
+                            spinner.position.add(spinner.rotator.movingPoint);
+                            spinner.oldPosition = spinner.position.copy();
+                        }
+                    }
+                }
+            }
+            
+            if (creatingSpinner || selectingSpinner){
+                var spinner = spinners[spinners.length-1];
+                if (selectingSpinner){
+                    spinner = selectedSpinner;
+                }
+                var mousePosition = createVector(mouseX, mouseY);
+                var distance = p5.Vector.dist(mousePosition,mousePositionStart);
+                spinner.radius = distance;
+                
+                if (selectingSpinner){
+                    spinner.position = spinner.currentVector.copy();
+                    spinner.position.mult(spinner.radius);
+                    spinner.position.add(spinner.rotator.movingPoint);
+                    spinner.oldPosition = spinner.position.copy();
+                }
+                else{
+                    var centrePoint = spinner.rotator.movingPoint;
+                    var newVector = p5.Vector.sub(mousePosition,centrePoint);
+                    newVector.normalize();
+                    newVector.mult(spinner.radius);
+                    newVector.add(centrePoint);
+                    spinner.position = newVector;
+                    spinner.currentVector = spinner.position.copy().sub(spinner.rotator.movingPoint).normalize();
+                }
+            }
+            
+            if (selectingSpinnerPoint){
+                var spinner = selectedSpinner;
+                var mousePosition = createVector(mouseX,mouseY);
+                var centrePoint = spinner.rotator.movingPoint;
+                var newVector = p5.Vector.sub(mousePosition,centrePoint);
+                newVector.normalize();
+                newVector.mult(spinner.radius);
+                newVector.add(centrePoint);
+                spinner.position = newVector;
+                spinner.currentVector = spinner.position.copy().sub(spinner.rotator.movingPoint).normalize();
+            }
+            
+            if (selectingRotatorCentre){
+                var rotator = selectedRotator;
+                rotator.centrePoint = createVector(mouseX,mouseY);
+                reset();
+            }
+            
+            mouseWasDragged = true;
+        }
+        
+        function mouseReleased(e){
+            
+            if (stopDragging){
+                stopDragging = false;
+                return;
+            }
+            //if selecting the point, then can unselect when released, as only intended to be able to move it
+            if (selectingSpinnerPoint){
+                selectingSpinnerPoint = false;
+                selectedSpinner = null;
+            }
+            
+            if (selectingRotatorCentre){
+                selectingRotatorCentre = false;
+                selectedRotator = null;
+            }
+            
+            if (mouseWasDragged){
+                if (creatingRotator || selectingRotator){
+                    var rotator = rotators[rotators.length-1];
+                    if (selectingRotator){
+                        rotator = selectedRotator;
+                    }
+                    rotator.movingPoint = createVector(mouseX,mouseY);//update moving point to correct position
+                    rotator.currentVector = rotator.movingPoint.copy().sub(rotator.centrePoint).normalize();
+                    
+                    //update any spinning points that are connected to this
+                    if (selectingRotator){
+                        for (var i = 0; i < spinners.length; i++){
+                            var spinner = spinners[i];
+                            if (spinner.rotator == rotator){
+                                spinner.position.sub(spinner.rotator.movingPoint);
+                                spinner.position.normalize();
+                                spinner.position.mult(spinner.radius);
+                                spinner.position.add(spinner.rotator.movingPoint);
+                                spinner.oldPosition = spinner.position.copy();
+                            }
+                        }
+                    }
+                    
+                    //change tutorial text to second one
+                    if (tutorial){
+                        $("#tutorial").html("Click on the red dot and<br> drag to create a spinner.").css("top",rotator.movingPoint.y+"px").css("left",rotator.movingPoint.x+40+"px");
+                    }
+                }
+                
+                if (creatingSpinner || selectingSpinner){
+                    var spinner = spinners[spinners.length-1];
+                    if (selectingSpinner){
+                        spinner = selectedSpinner;
+                    }
+                    spinner.position = spinner.currentVector.copy();
+                    spinner.position.mult(spinner.radius);
+                    spinner.position.add(spinner.rotator.movingPoint);
+                    spinner.oldPosition = spinner.position.copy();
+                    spinner.currentVector = spinner.position.copy().sub(spinner.rotator.movingPoint).normalize();
+                    
+                    if (tutorial){
+                        $("#tutorial").html("Press Enter to play").css("top",innerHeight/2-15+"px").css("left",innerWidth/2-100+"px");
+                    }
+                }
+            }
+            else{
+                if (creatingRotator){
+                    rotators.pop();//if didn't drag the mouse, then remove rotator
+                }
+                if (creatingSpinner){
+                    spinners.pop();
+                }
+                if (selectingSpinner){
+                    showSpinnerControls();
+                }
+                if (selectingRotator){
+                    showRotatorControls();
+                }
+            }
+        }
+        
+        function keyPressed() {
+            if (keyCode === SHIFT) {
+                mode = 1;
+                //make sure point is still on the radius line
+                for (var i = 0; i < spinners.length; i++){
+                    var spinner = spinners[i];
+                    spinner.position.sub(spinner.rotator.movingPoint).normalize().mult(spinner.radius).add(spinner.rotator.movingPoint);
+                }
+                reset();
+            } else if (keyCode === CONTROL) {
+                mode = 3;
+            } else if (keyCode === ENTER) {
+                if (mode === 2){
+                    mode = 1;
+                    reset();
+                } else {
+                    if (tutorial){
+                        $("#tutorial").text("").css("display","none");
+                        tutorial = false;
+                    }
+                    clear();
+                    mode = 2;
+                }
+            } else if (keyCode === DELETE){
+                if (selectingRotator){
+                    deleteRotator(selectedRotator);
+                }
+                if (selectingSpinner){
+                    deleteSpinner(selectedSpinner);
+                }
+            }
+        }
+        
+        function showSpinnerControls(){ 
+            $("#spinnerSpeed").val(selectedSpinner.speed);//set current values
+            $("#spinnerRotation").val(selectedSpinner.rotation);
+            $("#red").val(selectedSpinner.red);
+            $("#green").val(selectedSpinner.green);
+            $("#blue").val(selectedSpinner.blue);
+            setSample();
+            $("#spinnerControls").css("display","block");
+            $("#rotatorControls").css("display","none");
+        }
+        
+        function showRotatorControls(){
+            $("#rotatorSpeed").val(selectedRotator.speed);
+            $("#rotatorControls").css("display","block");
+            $("#spinnerControls").css("display","none");
+        }
+        
+        function hideControls() {
+            $("#rotatorControls").css("display","none");
+            $("#spinnerControls").css("display","none");
+        }
+    </script>
+    
+</body>
+
+</html>
+

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+    <style>
+        body {
+            margin: 0px;
+        }
+        
+        #controls {
+            text-align: center;
+            width: 100%;
+            border-bottom: 1px solid lightgray;
+            user-select:none;
+        }
+        
+        .button {
+            width:100px;
+            height:30px;
+            line-height: 30px;
+            text-align: center;
+            border: 1px solid lightgray;
+            border-bottom: none;
+            background-color: aliceblue;
+            display: inline-block;
+            user-select:none;
+            cursor: default;
+        }
+
+    </style>
+</head>
+
+<body>
+    
+    <div id="controls">
+        <span id="gravity" class="button">Gravity</span>
+        <span id="wind" class="button">Wind</span>
+        <span id="friction" class="button">Friction</span>
+        <span id="drag" class="button">Drag</span>
+        <span id="bounce" class="button">Bounce</span>
+        <span id="border" class="button">Border</span>
+        <span id="attract" class="button">Attract</span>
+        <span id="repulse" class="button">Repulse</span>
+        <span id="collision" class="button">Collide</span>
+
+    </div>
+    
+ 	<script src="imports/p5.js"></script>
+    <script src='imports/jquery.min.js'></script>
+
+    <script>
+        
+        //particle ----------------
+        var isGravityEnabled = true;
+        var isMouseAttractionEnabled = false;
+        var isMouseRepulsionEnabled = false;
+        var isBounceEnabled = true;
+        var isBorderEnabled = true;
+        var isMutualAttractionEnabled = false;
+        var isFrictionEnabled = false;
+        var isWindEnabled = false;
+        var isDragEnabled = false;
+        var isCollisionEnabled = false;
+        var numberOfParticles = 20;
+        
+        $("#border").css("background-color","skyblue");
+        $("#gravity").css("background-color","skyblue");
+        $("#bounce").css("background-color","skyblue");
+        
+        var Particle = function(x,y,m){
+            this.position = createVector(x,y);
+            this.velocity = createVector(0,0);
+            this.acceleration = createVector(0,0);
+            this.radius = m;
+            this.mass = m;
+        };
+        
+        Particle.prototype.display = function(){
+            stroke(this.position.x/innerWidth*255,this.position.y/innerHeight*255,255);
+            strokeWeight(this.radius*2);
+            point(this.position.x,this.position.y);
+        };
+        
+        Particle.prototype.update = function(){
+            //reset acceleration
+            this.acceleration.set(0,0);
+            //add forces to acceleration
+            if (isMouseAttractionEnabled){this.addMouseAttraction(); this.velocity.limit(6);}
+            if (isMouseRepulsionEnabled){this.addMouseRepulsion(); this.velocity.limit(6);}
+            if (isGravityEnabled){this.addGravity();}
+            if (isMutualAttractionEnabled){this.addMutualAttraction(); this.velocity.limit(6)}
+            if (isFrictionEnabled){this.addFriction();}
+            if (isDragEnabled){this.addDrag(0.1);}
+            if (isWindEnabled){this.addWind();}
+            
+            this.velocity.add(this.acceleration);
+            //this.velocity.limit(6);
+            this.position.add(this.velocity);
+            if (isBorderEnabled){this.checkEdges(isBounceEnabled);}
+            if (isCollisionEnabled){this.checkCollisions();}
+        };
+        
+        Particle.prototype.addForce = function(force){
+            force.div(this.mass);
+            this.acceleration.add(force);  
+        };
+        
+        Particle.prototype.addMouseAttraction = function(){
+            //work out acceleraction based on mouse pointer
+            var mousePoint = createVector(mouseX,mouseY);
+            var accelVector = p5.Vector.sub(mousePoint,this.position);
+            accelVector.normalize();
+            accelVector.mult(2);
+            this.addForce(accelVector);
+        };
+        
+        Particle.prototype.addMouseRepulsion = function(){
+            //work out acceleraction based on mouse pointer
+            var mousePoint = createVector(mouseX,mouseY);
+            var accelVector = p5.Vector.sub(this.position,mousePoint);
+            accelVector.normalize();
+            accelVector.mult(2);
+            this.addForce(accelVector);
+        };
+        
+        Particle.prototype.addGravity = function(){
+            var gravity = createVector(0,0.1*this.mass);
+            this.addForce(gravity);
+        };
+        
+        Particle.prototype.addWind = function() {
+            var wind = createVector(1,0);
+            this.addForce(wind);
+        };
+        
+        Particle.prototype.addMutualAttraction = function(){
+            for (var i = 0; i < particles.length; i++){
+                var particle = particles[i];
+                if (particle !== this){
+                    var force = p5.Vector.sub(particle.position, this.position);
+                    var distance = force.mag();
+                    distance = constrain(distance, 5.0, 15.0);                        
+                    force.normalize();
+                    
+                    var strength = (0.1 * this.mass * particle.mass) / (distance * distance);
+                    force.mult(strength);
+                    this.addForce(force);
+                }
+            };
+        };
+        
+        Particle.prototype.checkCollisions = function(){
+              for (var i = 0; i < particles.length; i++){
+                var particle = particles[i];
+                if (particle !== this){
+                    var vector = p5.Vector.sub(this.position,particle.position);
+                    var distance = vector.mag();
+                    if (distance < this.radius+particle.radius){
+                        vector.normalize(); 
+                        vector.mult(this.radius+particle.radius);
+                        var vectorCopy = vector.copy();
+                        this.position = vector.add(particle.position);
+                        
+                        /*
+                        //when colliding, should add force to other object based on velocity
+                        var thisVelocity = this.velocity.copy();
+                        var newVelocity = p5.Vector.sub(vectorCopy,thisVelocity);
+                        newVelocity.limit(6);
+                        //this.velocity = newVelocity;
+                        */
+                    }
+                }
+            };
+        };
+        
+        Particle.prototype.addDrag = function(c){
+            var speed = this.velocity.mag();
+            var dragMagnitude = c * speed * speed;
+            
+            var drag = this.velocity.copy();
+            drag.mult(-1);
+            drag.normalize();
+            drag.mult(dragMagnitude);  
+            this.addForce(drag);
+        };
+        
+        Particle.prototype.addFriction = function(){
+            var c = 0.3;
+            var normal = 1;
+            var frictionMag = c * normal;
+            var friction = this.velocity.copy();
+            friction.mult(-1);
+            friction.normalize();
+            friction.mult(frictionMag);  
+            this.addForce(friction);
+        };
+        
+        Particle.prototype.checkEdges = function(bounce){
+            if (this.position.x < 0){
+                this.position.x = 0;
+                if (bounce){this.velocity.x *= -1;}//if bounce is enabled, then reverse velocty
+                else {this.velocity.x = 0;}//if not, then set velocity to 0
+            } 
+            if (this.position.x > innerWidth){
+                this.position.x = innerWidth;
+                if (bounce){this.velocity.x *= -1;}
+                else {this.velocity.x = 0;}
+            } 
+            if (this.position.y < 0){
+                this.position.y = 0;
+                if (bounce){this.velocity.y *= -1;}
+                else {this.velocity.y = 0;}
+            }
+            if (this.position.y > innerHeight-40){
+                this.position.y = innerHeight-40;
+                if (bounce){this.velocity.y *= -1;}
+                else {this.velocity.y = 0;}
+            }
+        };
+        
+        //-------------------------
+        
+        $("#gravity").on("click",function(){
+            isGravityEnabled = !isGravityEnabled;
+            if (isGravityEnabled){$(this).css("background-color","skyblue");}
+            else {$(this).css("background-color","");}
+        });
+        
+        $("#border").on("click",function(){
+            isBorderEnabled = !isBorderEnabled;
+            if (isBorderEnabled){$(this).css("background-color","skyblue");}
+            else {$(this).css("background-color","");}
+        });
+        
+        $("#bounce").on("click",function(){
+            isBounceEnabled = !isBounceEnabled;
+            if (isBounceEnabled){$(this).css("background-color","skyblue");}
+            else {$(this).css("background-color","");}
+        });
+        
+        $("#wind").on("click",function(){
+            isWindEnabled = !isWindEnabled;
+            if (isWindEnabled){$(this).css("background-color","skyblue");}
+            else {$(this).css("background-color","");}
+        });
+        
+        $("#friction").on("click",function(){
+            isFrictionEnabled = !isFrictionEnabled;
+            if (isFrictionEnabled){$(this).css("background-color","skyblue");}
+            else {$(this).css("background-color","");}
+        });
+        
+        $("#drag").on("click",function(){
+            isDragEnabled = !isDragEnabled;
+            if (isDragEnabled){$(this).css("background-color","skyblue");}
+            else {$(this).css("background-color","");}
+        });
+        
+        $("#attract").on("click",function(){
+            isMouseAttractionEnabled = !isMouseAttractionEnabled;
+            if (isMouseAttractionEnabled){$(this).css("background-color","skyblue");}
+            else {$(this).css("background-color","");}
+        });
+        
+        $("#repulse").on("click",function(){
+            isMouseRepulsionEnabled = !isMouseRepulsionEnabled;
+            if (isMouseRepulsionEnabled){$(this).css("background-color","skyblue");}
+            else {$(this).css("background-color","");}
+        });
+        
+        $("#collision").on("click",function(){
+            isCollisionEnabled = !isCollisionEnabled;
+            if (isCollisionEnabled){$(this).css("background-color","skyblue");}
+            else {$(this).css("background-color","");}
+        });
+        
+        var particles = [];
+        
+        function createParticles() {
+            //remove existing particles first
+            if (particles.length > 0){
+                particles.length = 0;
+            }
+            
+            for (var i = 0; i < numberOfParticles; i++){
+                var particle = new Particle(random(innerWidth),random(innerHeight),random(20)+5);
+                particles.push(particle);
+            }
+        }
+        
+        function setup() {
+            createCanvas(innerWidth, innerHeight-40);
+            
+            angleMode(DEGREES);
+            
+            createParticles();
+//            var particle = new Particle(innerWidth/2,innerHeight/2,200);
+//            particles.push(particle);
+        }
+        
+        function draw(){
+            clear();
+            for (var i = 0; i < particles.length; i++){
+                particles[i].display();
+                particles[i].update();
+            }
+        }
+        
+    </script>
+
+    
+</body>
+
+</html>
+

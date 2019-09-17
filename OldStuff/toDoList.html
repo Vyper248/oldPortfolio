@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <link rel="stylesheet" type="text/css" href="imports/font-awesome.min.css">
+	<title>To Do List</title>
+    <style>
+    
+        * {
+            font-family: sans-serif;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: lightblue;
+            background: -webkit-linear-gradient(left, lightblue, lightyellow);
+            background: -o-linear-gradient(right, lightblue, lightyellow);
+            background: -moz-linear-gradient(right, lightblue, lightyellow);
+            background: linear-gradient(to right, lightblue, lightyellow);
+        }
+        
+        #listGroup {
+            box-shadow: 0px 0px 3px rgba(0,0,0,0.4);
+            max-width: 500px;
+            margin: auto;
+            margin-top: 100px;
+        }
+        
+        ul {
+            padding:0px;
+            margin: 0px;
+            background: white;
+        }
+        
+        h1 {
+            background-color: dodgerblue;
+            color:white;
+            text-transform: uppercase;
+            font-size: 1.5em;
+            padding-left:20px;
+            font-weight: normal;
+            margin: 0px;
+            height: 60px;
+            line-height: 60px;
+        }
+        
+        #showAdd {
+            float:right;
+            width:50px;
+            font-size: 2em;
+            text-align: center;
+            cursor: default;
+            line-height: 60px;
+            position: relative;
+            top:-2px;
+            font-style: normal;
+        }
+        
+        #showAdd:hover {
+            color: darkgrey;
+        }
+        
+        li {
+            list-style: none;
+            height:50px;
+            line-height: 50px;
+            background-color: white;
+            text-transform: capitalize;
+            font-size: 1.2em;
+            cursor: default;
+            margin:0px;
+            transition: background-color 0.5s;
+            -webkit-transition: background-color 0.5s;
+            -o-transition: background-color 0.5s;
+            -moz-transition: background-color 0.5s;
+        }
+        
+        li:nth-of-type(2n){
+            background-color: whitesmoke;
+        }
+        
+        .itemContent {
+            padding-left: 20px;
+        }
+        
+        li:hover .fa-trash, li:hover .fa-info-circle {
+            width:50px;
+            opacity: 1;
+            padding-left: 18px;
+        }
+        
+        .fa-trash, .fa-info-circle {
+            width:0px;
+            line-height: 50px;
+            overflow: hidden;
+            opacity: 0;
+            transition: 0.25s;
+            -webkit-transition: 0.25s;
+            -o-transition: 0.25s;
+            -moz-transition: 0.25s;
+            color: black;
+        }
+        
+        .fa-trash {
+            background-color:red;
+            float:left;
+            margin-right:20px;
+        }
+        
+        .fa-info-circle {
+            background-color:aqua;
+            position: relative;
+            float:right;
+        }
+        
+        #addToDo {
+            padding: 0px;
+        }
+        
+        #addToDo input {
+            margin: 0px;
+            width: 100%;
+            background-color: whitesmoke;
+            padding-left:20px;
+            height:60px;
+            border:none;
+            font-size: 1.2em;
+        }
+        
+        #addToDo input:focus {
+            outline: none;
+            border:4px solid dodgerblue;
+            background-color: white;
+        }
+        
+        .checked .text {
+            text-decoration: line-through;
+            color:darkgrey;
+        }
+        
+        #menu, #menuBack {
+            height:60px;
+            padding: 0px 20px;
+            background-color: lightgrey;
+        }
+        
+        #emptyItem {
+            display: none;
+        }
+        
+        input#editDate, input#editItem {
+            height:35px;
+            line-height: 35px;
+            padding-left:5px;
+        }
+        
+        input:focus {
+            outline:none;
+        }
+        
+        .rightFloat {
+            float: right;
+            height:50px;
+        }
+        
+        .timer {
+            margin-right:20px;
+            font-size: 10px;
+            color: darkgray;
+            float:right;
+        }
+
+        td {
+            padding:0px 5px;
+        }
+        
+        .text {
+            overflow: scroll;
+            width: 220px;
+            display: inline-block;
+        }
+    
+    </style>
+</head>
+
+<body>
+    
+    <div id="listGroup">
+        <h1>To-Do List <i id="showAdd">+</i></h1>
+        <div id="addToDo"><input type="text" placeholder="Add New Todo"></div>
+        <ul>
+            <li class="item"> <i class="fa fa-trash" aria-hidden="true"></i> <span class='text'>this list will</span> <i class='fa fa-info-circle' aria-hidden='true'></i><span class='timer'></span></li>
+            <li class="item"> <i class="fa fa-trash" aria-hidden="true"></i> <span class='text'>only save</span> <i class="fa fa-info-circle" aria-hidden="true"></i><span class='timer'></span></li>
+            <li class="item"> <i class="fa fa-trash" aria-hidden="true"></i> <span class='text'>locally to</span> <i class="fa fa-info-circle" aria-hidden="true"></i><span class='timer'></span></li>
+            <li class="item"> <i class="fa fa-trash" aria-hidden="true"></i> <span class='text'>this browser.</span> <i class="fa fa-info-circle" aria-hidden="true"></i><span class='timer'></span></li>
+            <li class="item"> <i class="fa fa-trash" aria-hidden="true"></i> <span class='text'>if you remove</span> <i class="fa fa-info-circle" aria-hidden="true"></i><span class='timer'></span></li>
+            <li class="item"> <i class="fa fa-trash" aria-hidden="true"></i> <span class='text'>all the items</span> <i class="fa fa-info-circle" aria-hidden="true"></i><span class='timer'></span></li>
+            <li class="item"> <i class="fa fa-trash" aria-hidden="true"></i> <span class='text'>then it will</span> <i class="fa fa-info-circle" aria-hidden="true"></i><span class='timer'></span></li>
+            <li class="item"> <i class="fa fa-trash" aria-hidden="true"></i> <span class='text'>revert back to</span> <i class="fa fa-info-circle" aria-hidden="true"></i><span class='timer'></span></li>
+            <li class="item"> <i class="fa fa-trash" aria-hidden="true"></i> <span class='text'>this list.</span> <i class="fa fa-info-circle" aria-hidden="true"></i><span class='timer'></span></li>
+        </ul>
+            <li id="menuBack">
+                <form>
+                    <table>
+                        <tr>
+                            <td><label for="editItem">Edit</label></td>
+                            <td><input type="text" id="editItem" value=""></td>
+                        </tr>
+<!--
+                        <tr>
+                            <td><label for="editDate">Date/Time</label></td>
+                            <td><input type="datetime-local" id="editDate" placeholder="DD/MM/YYYY, HH:MM"></td>
+                        </tr>
+-->
+                    </table>
+                </form>
+            </li>
+        
+    </div>
+    
+    <script src='imports/jquery.min.js'></script>
+    <script src='imports/bootstrap.min.js'></script>
+    
+    <script>
+        
+        $("ul").on("click", ".item",function(){
+            $(this).toggleClass("checked");
+            saveList();
+        });
+        
+        $("#addToDo").slideToggle(0);
+        $("#menuBack").slideUp(0);
+    
+        
+        $("ul").on("click",".item .fa-trash", function(){
+            $(this).parent().slideUp(250, function(){
+                $(this).remove();
+                saveList();
+            });
+        });
+        
+        var optionsOpen = false;
+        var currentItem = null;
+        $("ul").on("click",".item .fa-info-circle", function(e){
+            e.stopPropagation();
+            if (optionsOpen){
+                if ($(this).closest("li").attr("data-current") === "true"){
+                    removeOptions();
+                    optionsOpen = false;
+                } else {//if options are open, but on another item, then remove from that, and open on new one
+                    removeOptions();
+                    currentItem = this;
+                    $(this).closest("li").attr("data-current","true");//set data-current of li to true to indicate it's open
+                    createOptions($(this).closest("li"));
+                }
+            } else {
+                createOptions($(this).closest("li"));
+                $(this).closest("li").attr("data-current","true");
+                currentItem = this;
+                optionsOpen = true;
+            }
+        });
+        
+        //menu exists already
+        //so when opening, move to new location and slide open
+        //when closing, slide closed, and move to bottom
+        //when opening another, create clone at new location, with old one removing
+        
+        function createOptions(item) {
+            var menu = $("#menuBack");
+            menu = menu.clone();
+            menu.attr("id","menu");
+            menu.insertAfter(item);
+            menu.find("#editItem").val(item.find(".text").text());
+            menu.find("#editDate").val(item.attr("data-date"));
+            //create empty item to maintain the alternate row colours when a new item is added
+            $("<li id='emptyItem'>").insertAfter(menu);
+            menu.slideUp(0);//start in the slide up position
+            menu.slideDown(250);
+        }
+        
+        function removeOptions() {
+            $("#menu").slideUp(250,function(){
+                $(this).prev().attr("data-current","");
+                $(this).next().remove();
+                $(this).remove();;
+            });
+        }
+        
+        $("ul").on("keyup","#menu #editItem", function(e){
+            item = $(this).closest("li").prev();
+            item.find(".text").text($(this).val());
+            saveList();
+        });
+        
+        $("ul").on("blur","#menu #editDate", function(e){
+            item = $(this).closest("li").prev();
+            item.attr("data-date",$(this).val());
+            saveList();
+            calculateTimes();
+        });
+        
+        $("ul").on("keydown","#menu #editItem", function(e){
+            if (e.which === 13){
+                e.preventDefault();
+            }
+        });
+        
+        $("#showAdd").on("click",function(){
+            $("#addToDo").slideToggle(250);
+            $("#addToDo input").focus();
+        });
+        
+        $("#addToDo input").keypress(function(e){
+            if (e.which === 13 && $(this).val().length > 0){
+                var item = $("<li>").addClass("item");
+                $("<i class='fa fa-trash' aria-hidden='true'></i>").appendTo(item);
+                var text = $("<span class='text'>").text($(this).val()).appendTo(item);
+                $("<i class='fa fa-info-circle' aria-hidden='true'></i><span class='timer'></span></li>").appendTo(item);
+                item.appendTo("ul");
+                item.slideToggle(0);
+                item.slideToggle(250);
+                $(this).val("");
+                saveList();
+            }
+        });
+        
+        function saveList(){
+            var array = [];
+            var elements = $(".item");
+            for (var i = 0; i < elements.length; i++){
+                var newObject = {};
+                newObject.text = $(elements[i]).find(".text").text();
+                if (elements[i].classList.value.indexOf("checked") != -1){
+                    newObject.isChecked = true;
+                } else {
+                    newObject.isChecked = false;
+                }
+                newObject.date = elements[i].getAttribute("data-date");
+                array.push(newObject);
+            }
+            if (array.length > 0){
+                localStorage.setItem("items",JSON.stringify(array));
+            } else {
+                localStorage.setItem("items",null);
+            }
+        }
+        
+        function retrieveList(){
+            var array = JSON.parse(localStorage.getItem("items"));
+            if (array !== null){
+                $("ul").html("");
+                for (var i = 0; i < array.length; i++){
+                    var object = array[i];
+                    var item = $("<li>").addClass("item");
+                    if (object.isChecked) item.addClass("checked");
+                    if (object.date !== null) item.attr("data-date",object.date);
+                    
+                    $("<i class='fa fa-trash' aria-hidden='true'></i>").appendTo(item);
+                    var text = $("<span class='text'>").text(object.text).appendTo(item);
+                    $("<i class='fa fa-info-circle' aria-hidden='true'></i><span class='timer'></span></li>").appendTo(item);
+                    item.appendTo("ul");
+                }
+            }
+        }
+        
+        function calculateTimes(){
+            var elements = $(".item");
+            for (var i = 0; i < elements.length; i++){
+                var itemDate = elements[i].getAttribute("data-date");
+                
+                if (itemDate !== null){
+                    //not all browsers give options for correct date time, so this will convert the other options to the correct format
+                    if (itemDate.indexOf(",") !== -1 || itemDate.indexOf("/") !== -1){ // DD/MM/YYYY, HH:MM or D/M/YY HH:MM
+                        itemDate = itemDate.toString();
+                        var firstHalf = itemDate.split("/");
+                        var day = firstHalf[0];
+                        if (day.length === 1) day = "0"+day;
+                        var month = firstHalf[1];
+                        if (month.length === 1) month = "0"+month;
+                        var splitter = " ";
+                        if (itemDate.indexOf(",") !== -1) splitter = ",";
+                        var year = firstHalf[2].slice(0,firstHalf[2].indexOf(splitter));
+                        if (year.length === 2) year = "20"+year;
+                        var hour = itemDate.slice(itemDate.indexOf(":")-2,itemDate.indexOf(":"));
+                        var minute = itemDate.slice(itemDate.indexOf(":")+1,itemDate.indexOf(":")+3);
+                        var final = year+"-"+month+"-"+day+"T"+hour+":"+minute;
+                        itemDate = final;
+                    }
+                    
+                    var date = new Date(itemDate);
+                    var today = new Date();
+                    var difference = date-today;
+                    
+                    //I'm sure there's a much easier way to do this!! Also, must download Moments.js!!
+                    var days = Math.floor(difference/1000/60/60/24);
+                    var hours = Math.floor(difference/1000/60/60)-(days*24);
+                    var minutes = Math.ceil(difference/1000/60) - (days*24*60) - (hours*60);
+                    if (minutes === 60){hours++; minutes = 0;}
+                    var string = "";
+                    if (days > 0) string += days+" Day";
+                    if (days > 1) string += "s";
+                    if (days > 0 && hours > 0) string += ", ";
+                    if (hours > 0) string += hours+" Hour";
+                    if (hours > 1) string += "s";
+                    if ((hours > 0 || days > 0) && minutes > 0) string += ", ";
+                    if (minutes > 0) string += minutes+" Minute";
+                    if (minutes > 1) string += "s";
+                    
+                    $(elements[i]).find(".timer").text(string);
+                }
+            }
+        }
+        
+        
+        retrieveList();
+        
+        calculateTimes();
+        setInterval(calculateTimes,60000);
+        
+    </script>
+    
+</body>
+
+</html>

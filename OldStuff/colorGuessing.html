@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+    <style>
+        
+        body {
+            font-family: "Montserrat","Avenir";
+            background-color: black;
+            margin:0px;
+        }
+        
+        h3,h1 {
+            text-transform: uppercase;
+            text-align: center;
+            margin:0px;
+            letter-spacing: 5px;
+            font-weight: normal;
+            line-height: 1.1em;
+        }
+        
+        h3 {
+            font-size: 2.5em;
+        }
+        
+        h1 {
+            font-size: 4em;
+        }
+        
+        #header {
+            width:100%;
+            padding: 20px 0px;
+            background-color: rgb(0,150,230);
+            color: white;
+            transition: background-color 1s;
+            -webkit-transition: background-color 1s;
+            -moz-transition: background-color 1s;
+        }
+        
+        #optionsBackground {
+            width:100%;
+            height:30px;
+            background-color: white;
+            text-align: center;
+        }
+        
+        button {
+            background-color:white;
+            border: none;
+            height:30px;
+            line-height: 30px;
+            font-size: 1.2em;
+            padding: 0px 10px;
+            margin-right:-5px;
+            font-weight: bold;
+            color: rgb(0,150,230);
+            transition: 0.3s;
+            -webkit-transition: 0.3s;
+            -moz-transition: 0.3s;
+            outline: none;
+            text-transform: uppercase;
+        }
+        
+        button:hover {
+            background-color: rgb(0,150,230);
+            color: white;
+        }
+        
+        .selected {
+            color:white;
+            background-color: rgb(0,150,230);
+        }
+        
+        #gameBackground {
+            padding-top:20px;
+            max-width: 600px;
+            margin: 0px auto;
+        }
+        
+        .tile {
+            background-color: black;
+            padding-bottom: 30%;
+            width:30%;
+            border-radius: 15%;
+            float:left;
+            margin:1.66%;
+            transition: background-color 1s;
+            -webkit-transition: background-color 1s;
+            -moz-transition: background-color 1s;
+        }
+        
+        #message {
+            color: black;
+            font-weight: normal;
+            width: 20%;
+            max-width: 200px;
+            font-size: 1em;
+            line-height: 30px;
+            display: inline-block;
+        }
+        
+    </style>
+</head>
+    
+<body>
+
+    <div id="header">
+            <h3>The Great</h3>
+            <h1>RGB(255, 255, 255)</h1>
+            <h3>Guessing Game</h3>
+    </div>
+    
+    <div id="optionsBackground">
+        <button id="newColors">New Colors</button>
+        <span id="message"></span>
+        <button id="easyBtn" class="mode" data-tiles="3">Easy</button> 
+        <button id="mediumBtn" class="mode selected" data-tiles="6">Medium</button> 
+        <button id="hardBtn" class="mode" data-tiles="9">Hard</button>
+    </div>
+    
+    <div id="gameBackground">
+        <div class="tile" id="1"></div>
+        <div class="tile" id="2"></div>
+        <div class="tile" id="3"></div>
+        <div class="tile" id="4"></div>
+        <div class="tile" id="5"></div>
+        <div class="tile" id="6"></div>
+        <div class="tile" id="7"></div>
+        <div class="tile" id="8"></div>
+        <div class="tile" id="9"></div>
+    </div>
+    
+    <script src="imports/jquery.min.js"></script>
+    
+    <script>
+                
+        var correctTile = 0;
+        
+        var red, green, blue = 0;
+        var numberTiles = 6;
+        var totalNumberTiles = 9;
+        var gameOver = false;
+        
+        var header = $("#header");
+        var title = $("h1");
+        var messageDisplay = $("#message");
+        var newColorsBtn = $("#newColors");
+                        
+        var modeBtns = $(".mode");
+        var prevBtn = $(".selected");
+        
+        startGame();
+        
+        function startGame() {
+            resetVariables();
+            placeColors();
+            
+            //set title to rgb values
+            var rgbString = "RGB("+red+","+green+","+blue+")";
+            title.html(rgbString);
+        }
+        
+        function resetVariables() {
+            //reset header, game over bool, clear messageDisplay text, reset New Colors text
+            //header.css("background-color","");
+            header[0].style.backgroundColor = "";
+            gameOver = false;
+            messageDisplay.text("");
+            newColorsBtn.text("New Colors");
+            
+            //get random color to be the main one
+            red = Math.floor(Math.random()*256);
+            green = Math.floor(Math.random()*256);
+            blue = Math.floor(Math.random()*256);
+
+            //choose which tile to place it in
+            correctTile = Math.floor(Math.random()*numberTiles)+1;
+        }
+        
+        function placeColors() {
+            //place color in the chosen tile
+            $("#"+correctTile).css("background-color","rgb("+red+","+green+","+blue+")");
+            
+            //set all other tiles to random color
+            for (var i = 1; i <= totalNumberTiles; i++){
+                if (i !== correctTile){
+                    $("#"+i).css("background-color","rgb("+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+")");
+                }
+                if (i > numberTiles){//if not using this tile, remove background-color so it resets to default (black)
+                    $("#"+i).css("background-color","");
+                }
+            }   
+        }
+        
+        $("#newColors").on("click",function(){
+            startGame();
+        });
+        
+        $(".tile").on("click",function(){
+            var idNumber = parseInt($(this).attr("id"));//get id from tile
+            if (idNumber > numberTiles){return};//if its out of rance (could be invisible tile) then return
+            if (gameOver){return;};//if game over, return
+
+            if (idNumber === correctTile){//if id is correct, then game won, otherwise try again message
+                winningCondition();
+            } else {
+                messageDisplay.text("Try Again");
+                $(this).css("background-color","");
+            }
+        });
+        
+        function winningCondition() {
+            gameOver = true;
+            messageDisplay.text("Correct!");
+            newColorsBtn.text("Play Again?");
+            header.css("background-color","rgb("+red+","+green+","+blue+")");
+
+            //set each tiles background color to the correct color, unless it's hidden
+            for (var i = 1; i <= totalNumberTiles; i++){
+                if (i !== correctTile){
+                    $("#"+i).css("background-color","rgb("+red+","+green+","+blue+")");
+                }
+                if (i > numberTiles){
+                    $("#"+i).css("background-color","");
+                }
+            }
+        }
+        
+        modeBtns.on("click",function(){
+            //if already selected, don't start a new game
+            if ($(this).attr("id") === prevBtn.attr("id")){
+                return;
+            };
+                        
+            //make previous button unselected, and select new one
+            prevBtn.removeClass("selected");
+            $(this).addClass("selected");
+            
+            //get number of tiles from data attribute
+            numberTiles = $(this).data("tiles");
+            
+            //set previous button for later use and start game
+            prevBtn = $(this);
+            startGame();
+        });
+        
+    </script>
+    
+</body>
+
+</html>
+

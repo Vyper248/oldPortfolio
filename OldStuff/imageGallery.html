@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+    <style>
+    
+        h1 {
+            color:white;
+            transition: 1s;
+            height:37px;
+            overflow: hidden;
+        }
+        
+        html {
+            margin:0px;
+            width:99%;
+            text-align: center;
+        }
+        
+        body {
+            background-color: black;
+            text-align: center;
+            width:100%;
+            margin:0px;
+        }
+        
+        #imageSelection img {
+            border:1px solid black;
+            box-sizing: border-box;
+            transition: border 0.5s;
+            height:150px;
+            display: inline-block;
+            z-index: 1;
+        }
+        
+        #imageSelection img:hover {
+            border-color: red;
+            transition: border 0.5s;
+            box-sizing: border-box;
+        }
+        
+        #imageSelection {
+            margin-bottom: 20px;
+            width:100%;
+            height:150px;
+            white-space: nowrap;
+            overflow-x: scroll;
+            overflow-y: hidden;
+            transition:1s;
+        }
+        
+        #largeImageDiv {
+            text-align: center;
+            position: relative;
+        }
+        
+        #largeImage {
+            width:90%;
+            transition: opacity 0.5s, height 1s, width 1s, top 1s;
+            top: 0px;
+            position: relative;
+        }
+        
+        #leftGradient, #rightGradient {
+            position: absolute;
+            height:150px;
+            width:100px;
+            top:80px;
+            z-index: 2;
+            transition:1s;
+        }
+        
+        #leftGradient {
+            left:0px;
+            background: linear-gradient(to right, rgba(0,0,0,1),rgba(0,0,0,0));
+        }
+        
+        #rightGradient {
+            right:0px;
+            background: linear-gradient(to left, rgba(0,0,0,1),rgba(0,0,0,0));
+        }
+        
+        #next, #previous {
+            position: absolute;
+            width:0px;
+            height:0px;
+            top:50%;
+            transform: translate(0px,-20px);
+        }
+        
+        #next {
+            border: 20px solid transparent;
+            border-left:30px solid black;
+            left:5px;
+        }
+        
+        #previous {
+            border: 20px solid transparent;
+            border-right:30px solid black;
+            right:5px;
+        }
+        
+        #nextBackground {
+            right:0px;
+        }
+        
+        #previousBackground {
+            left:0px;
+        }
+        
+        #nextBackground,#previousBackground {
+            position: absolute;
+            background:white;
+            width:40px;
+            height:50%;
+            top:25%;
+            opacity: 0.7;
+            border-radius: 20px;
+            transition: opacity 0.5s;
+            z-index: 5;
+        }
+        
+        #nextHoverZone:hover, #previousHoverZone:hover {
+            opacity: 1;
+        }
+        
+        #nextBackground:hover, #previousBackground:hover {
+            opacity: 1;
+        }
+        
+        #nextHoverZone {
+            right:0px;
+        }
+        
+        #previousHoverZone {
+            left:0px;
+        }
+        
+        #nextHoverZone,#previousHoverZone {
+            position: absolute;
+            height:100%;
+            background: transparent;
+            width:25%;
+            opacity: 0.0;
+            transition: opacity 0.5s;
+            z-index: 3;
+        }
+    
+    </style>
+</head>
+
+<body>
+
+    <h1>Armenia 2016</h1>
+    
+    <div id="imageSelection">
+    </div>
+    
+    <div id="leftGradient"></div>
+    <div id="rightGradient"></div>
+        
+    <div id="largeImageDiv">
+        <div id="nextHoverZone"><div id="nextBackground"><div id="next"></div></div></div>
+        <div id="previousHoverZone"><div id="previousBackground"><div id="previous"></div></div></div>
+        <img id="largeImage" src="Armenia2016/Armenia1.jpg">
+    </div>
+
+    <script src='imports/jquery.min.js'></script>
+    
+    <script>
+        var numberOfImages = 266;
+        var currentImage = "1";
+        var topOffset = 300;
+        var fullScreen = false;
+        $("#largeImage").css("transition","opacity 0.5s");
+        
+        for (var i = 1; i <= numberOfImages; i++){
+            var src = "Armenia2016/Thumbnails/Armenia"+i+".jpg";
+            
+            var newImage = $("<img>").attr("src",src).attr("id",i).appendTo("#imageSelection");
+            var actualWidth = newImage[0].naturalWidth;
+            var actualHeight = newImage[0].naturalHeight;
+        }
+        $("#1").css("border","1px solid red");
+        
+        function goToImage(displacement){
+            var nextID = parseInt(currentImage)+displacement;
+            if (nextID < 1){
+                nextID = numberOfImages;
+            }
+            if (nextID > numberOfImages){
+                nextID = 1;
+            }
+            var nextIDString = "#"+nextID;
+            
+            var src = $(nextIDString).attr("src");
+            src = src.replace("/Thumbnails","");
+            $("#largeImage").attr("src",src);
+            $("#largeImage").css("opacity","0.0");
+            
+            var id = $(nextIDString).attr("id");
+            var previousSelected = "#"+currentImage;
+            
+            $(previousSelected).css("border","");
+            $(nextIDString).css("border","1px solid red");
+            
+            currentImage = id;
+            
+            var smallImageWidth = $(nextIDString)[0].naturalWidth;
+            var position = $(nextIDString).position().left+$("#imageSelection").scrollLeft()-innerWidth/2+smallImageWidth/2;
+            //$("#imageSelection").scrollLeft(position);
+            
+            $("#imageSelection").animate({scrollLeft:position},200,"linear",false);
+        }
+        
+        $("#largeImage").on("click",function(){
+            if (fullScreen === false){
+                $("#largeImage").css("transition","");
+                $("h1").css("height","0px");
+                $("#imageSelection").css("height","0px");
+                $("#leftGradient").css("height","0px");
+                $("#rightGradient").css("height","0px");
+                $("#largeImage").css("top","-40px");
+                topOffset = 50;
+                adjustLargeImageSize();
+                fullScreen = true;
+                setTimeout(function(){
+                    $("#largeImage").css("transition","opacity 0.5s");
+                },1000);
+            } else {
+                $("#largeImage").css("transition","");
+                $("h1").css("height","");
+                $("#imageSelection").css("height","150px");
+                $("#leftGradient").css("height","150px");
+                $("#rightGradient").css("height","150px");
+                $("#largeImage").css("top","");
+                topOffset = 300;
+                adjustLargeImageSize();
+                fullScreen = false;
+                setTimeout(function(){
+                    $("#largeImage").css("transition","opacity 0.5s");
+                },1000);
+            }
+        });
+        
+        $("#imageSelection img").on("click",function(){
+            var id = parseInt($(this).attr("id"));
+            var current = parseInt(currentImage);
+            var displacement = id-current;
+            goToImage(displacement);
+        });
+
+        $("body").on("keyup",function(e){
+            e.preventDefault();
+            
+            if (e.keyCode == 39 || e.keyCode == 13){
+                goToImage(1);
+            }
+            
+            if (e.keyCode == 37 || e.keyCode == 8){
+                goToImage(-1);
+            }
+        });
+        
+        $("#nextHoverZone").on("click",function(){
+            goToImage(1);
+        });
+        
+        $("#previousHoverZone").on("click",function(){
+            goToImage(-1);
+        });
+        
+        $("#largeImage").load(function(){
+                $("#largeImage").css("opacity","1.0");
+                adjustLargeImageSize();
+            });
+        
+        //function to adjust the width and height of the image based on the available width and height in the browser
+        function adjustLargeImageSize() {
+            var actualWidth = $("#largeImage")[0].naturalWidth;
+            var actualHeight = $("#largeImage")[0].naturalHeight;
+
+            //large image starts at around 300px;
+            var availableHeight = innerHeight-topOffset;
+            var availableWidth = innerWidth-50;
+            
+            var usedWidth;
+            var usedHeight;
+            //landscape photo
+            if (actualWidth > actualHeight){
+                usedWidth = availableWidth;
+                var ratio = actualWidth/usedWidth;
+                usedHeight = actualHeight/ratio;
+                
+                if (usedHeight > availableHeight){
+                    usedHeight = availableHeight;
+                    var ratio = actualHeight/usedHeight;
+                    usedWidth = actualWidth/ratio;
+                }
+                
+                $("#largeImage").css("width",usedWidth+"px");
+                $("#largeImage").css("height",usedHeight+"px");
+            }
+            else {//portrait photo
+                usedHeight = availableHeight;
+                var ratio = actualHeight/usedHeight;
+                usedWidth = actualWidth/ratio;
+                
+                if (usedWidth > availableWidth){
+                    usedWidth = availableWidth;
+                    var ratio = actualWidth/usedWidth;
+                    usedHeight = actualHeight/ratio;
+                }
+                
+                $("#largeImage").css("height",usedHeight+"px");
+                $("#largeImage").css("width",usedWidth+"px");
+            }
+        }
+        
+        adjustLargeImageSize();
+        
+//        onmousedown = function(e){
+//            console.log(e);
+//        }
+        
+        //adjust width and height when user changes browser size
+        window.onresize = function(){
+            adjustLargeImageSize();
+        }
+        
+    </script>
+    
+</body>
+
+</html>
+

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+    <link href="https://fonts.googleapis.com/css?family=Aref+Ruqaa" rel="stylesheet">
+    <style>
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 0px;
+        }
+        
+        h4 {
+            margin-top: 0px;
+            text-align: center;
+            font-weight: normal;
+            margin-bottom:50px;
+        }
+        
+        table {
+            margin: 0px auto;
+            border-collapse: collapse;
+            position: relative;
+        }
+        
+        td {
+            width: 100px;
+            height: 100px;
+            border: none;
+            text-align: center;
+            font-size: 50px;
+            font-family: sans-serif;
+            cursor: default;
+        }
+        
+        .vertical {
+            border-left: 2px solid black;
+            border-right: 2px solid black;
+        }
+        
+        .horizontal {
+            border-top: 2px solid black;
+            border-bottom: 2px solid black;
+        }
+        
+        #line {
+            border: 2px solid red;
+            position: absolute;
+            width:420px;
+            top:0px;
+            left:00px;
+            transform: rotate(0deg);
+            transform-origin: 0% 0%;
+        }
+        
+        h2 {
+            text-align: center;
+            font-size: 2em;
+        }
+    
+    </style>
+</head>
+
+<body>
+
+    <h1>Tic Tac Toe</h1>
+    <h4>Can you beat yourself at Tic Tac Toe?!</h4>
+    
+    <table>
+        <tr>
+            <td id='no1'></td>
+            <td id='no2' class="vertical"></td>
+            <td id='no3'></td>
+        </tr>
+        <tr>
+            <td id='no4' class="horizontal"></td>
+            <td id='no5' class='vertical horizontal'></td>
+            <td id='no6' class="horizontal"></td>
+        </tr>
+        <tr>
+            <td id='no7'></td>
+            <td id='no8' class="vertical"></td>
+            <td id='no9'></td>
+        </tr>
+    </table>
+    
+    <h2></h2>
+    
+    <script src='imports/jquery.min.js'></script>
+    
+    <script>
+        var currentTurn = "O";
+        var gameOver = false;
+        
+        $("td").on("click",function(){
+            
+            //if game over, don't do anything (or reset game)
+            if (gameOver){
+                reset();
+                return;
+            }
+            
+            //if cell has already been used, don't do anything
+            if ($(this).text().length != 0){
+                return;
+            }
+            
+            $(this).text(currentTurn);
+            
+            checkForWinner();
+            
+            if (currentTurn === "O"){
+                currentTurn = "X";
+            }
+            else {
+                currentTurn = "O";
+            }
+        });
+        
+        var winningConditions = [
+            [1,2,3],
+            [4,5,6],
+            [7,8,9],
+            [1,4,7],
+            [2,5,8],
+            [3,6,9],
+            [1,5,9],
+            [3,5,7]
+        ];
+        
+        var lineParameters = [
+            [50,0,0,300],
+            [150,0,0,300],
+            [250,0,0,300],
+            [0,50,90,300],
+            [0,150,90,300],
+            [0,250,90,300],
+            [0,0,45,420],
+            [0,300,135,420]
+        ];
+        
+        function reset() {
+            $("h2").text("");
+            gameOver = false;
+            for (var i = 1; i <= 9; i ++){
+                $("#no"+i).text("");
+            }
+        }
+        
+        function checkForWinner() {
+            for (var i = 0; i < winningConditions.length; i++){
+                if ($("#no"+winningConditions[i][0]).text() === currentTurn){
+                    if ($("#no"+winningConditions[i][1]).text() === currentTurn){
+                        if ($("#no"+winningConditions[i][2]).text() === currentTurn){
+                            $("h2").text("Winner is "+currentTurn+"!!");
+                            gameOver = true;
+                            
+                            //create line and set parameters based on winning condition
+                            var params = lineParameters[i];
+                            $("<span id='line'>").css({
+                                top:params[0]+"px",
+                                left:params[1]+"px",
+                                transform:"rotate("+params[2]+"deg)",
+                                width:params[3]+"px"
+                            }).appendTo("#no1");
+                            
+                            return;
+                        }   
+                    }
+                }
+            }
+        }
+        
+    </script>
+    
+</body>
+
+</html>
+

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<!-- This is based on DillingerLee's great template here:
+https://github.com/Team-Code/KA_Offline -->
+<html> 
+ <head>
+     <style>
+         #options {
+             width:100%;
+             margin:auto;
+             text-align: center;
+/*            position:absolute;*/
+         }
+         
+        .button {
+             display: inline-block;
+             background-color: lightgray;
+             border-radius: 5px;
+             text-align: center;
+             width:100px;
+             height:20px;
+             margin-bottom: 5px;
+         }
+         
+         .button:hover {
+             background-color: darkgrey;
+         }
+         
+         #perlin2Btn {
+             margin-right: 20px;
+         }
+         
+         p {
+             position: absolute;
+             padding-top: 40vh;
+             padding-left:40vw;
+             text-align: center;
+             color: black;
+             margin: auto;
+         }
+     </style>
+     
+</head>
+ <body>
+    <div id="options">
+        <span class="button" id="randomBtn">Random</span> 
+         <span class="button" id="perlinBtn">Perlin</span>
+        <span class="button" id="perlin2Btn">Perlin 2</span>
+         <span class="button" id="linesBtn">Lines</span>
+        <span class="button" id="dotsBtn">Dots</span>
+        <br>
+         <label>Speed:</label><input id="speed" value="2"> 
+         <label>Size:</label><input id="size" value = "2"> 
+         <button id="reset">Clear</button> 
+         <button id="update">Update All</button>
+     </div>
+     
+     <p>Click somewhere to create a walker!</p>
+     
+ </body>
+ 
+<script src="imports/jquery.min.js"></script>
+ <script src="imports/p5.js"></script>
+    <script>
+                
+        var type = 0;
+        var lines = 0;
+        
+        function setType(t){
+            type = t;
+        }
+        
+        function setLines(l){
+            lines = l;
+        }
+        
+        $("#randomBtn").css("background-color","grey");
+        $("#perlinBtn").css("background-color","lightgrey");
+        $("#linesBtn").css("background-color","lightgrey");
+        $("#dotsBtn").css("background-color","grey");
+        
+        $("#randomBtn").on("click",function(){
+            $("#randomBtn").css("background-color","grey");
+            $("#perlinBtn").css("background-color","lightgrey");
+            $("#perlin2Btn").css("background-color","lightgrey");
+            type = 0;
+        });
+        
+        $("#perlinBtn").on("click",function(){
+            $("#randomBtn").css("background-color","lightgrey");
+            $("#perlinBtn").css("background-color","grey");
+            $("#perlin2Btn").css("background-color","lightgrey");
+            type = 1;
+        });
+        
+        $("#perlin2Btn").on("click",function(){
+            $("#randomBtn").css("background-color","lightgrey");
+            $("#perlinBtn").css("background-color","lightgrey");
+            $("#perlin2Btn").css("background-color","grey");
+            type = 2;
+        });
+        
+        $("#linesBtn").on("click",function(){
+            $("#linesBtn").css("background-color","grey");
+            $("#dotsBtn").css("background-color","lightgrey");
+            lines = 1;
+        });
+        
+        $("#dotsBtn").on("click",function(){
+            $("#linesBtn").css("background-color","lightgrey");
+            $("#dotsBtn").css("background-color","grey");
+            lines = 0;
+        });
+        
+        var Walker = function(x,y,radius,speed) {
+            this.x = x;
+            this.y = y;
+            this.prevX = x;
+            this.prevY = y;
+            this.speed = speed || 2;
+            this.radius = radius || 2;
+            this.tx = random(0,10000);
+            this.ty = random(0,10000);
+            this.type = type;
+            this.lines = lines;
+            
+            if (this.type === 2){
+                var xPos = map(noise(this.tx),0,1,0,innerWidth);
+                var yPos = map(noise(this.ty),0,1,0,innerHeight);
+                this.x = xPos;
+                this.y = yPos;
+                this.prevX = xPos;
+                this.prevY = yPos;
+                this.tx += 0.005;
+                this.ty += 0.005;
+            }
+        };
+        
+        Walker.prototype.display = function() {
+            strokeWeight(this.radius);
+            var x = (255/innerWidth) * this.x;
+            var y = (255/innerHeight) * this.y;
+            stroke(x,y,0);
+            if (this.lines === 0){
+                point(this.x,this.y);
+            }
+            else if (this.lines === 1){
+                line(this.prevX,this.prevY,this.x,this.y);
+            }
+        };
+        
+        Walker.prototype.walk = function() {
+            
+            this.prevX = this.x;
+            this.prevY = this.y;
+            
+            if (this.type === 0){
+                var randX = floor(random(3)-1);
+                var randY = floor(random(3)-1);
+
+                this.x += randX * this.speed;
+                this.y += randY * this.speed;
+            }
+            
+            if (this.type === 1){
+
+                var xPos = map(noise(this.tx),0,1,-this.speed,this.speed);
+                var yPos = map(noise(this.ty),0,1,-this.speed,this.speed);
+                this.x += xPos;
+                this.y += yPos;
+                this.tx += 0.005;
+                this.ty += 0.005;
+            }
+            
+            if (this.type === 2){
+                var xPos = map(noise(this.tx),0,1,0,innerWidth);
+                var yPos = map(noise(this.ty),0,1,0,innerHeight);
+                this.x = xPos;
+                this.y = yPos;
+                this.tx += 0.001*this.speed;
+                this.ty += 0.001*this.speed;
+            }
+            
+            if (this.x < -10)
+                {
+                    this.x = -10;
+                }
+            else if (this.x > innerWidth+10)
+                {
+                    this.x = innerWidth+10;
+                }
+            
+            if (this.y < -10)
+                {
+                    this.y = -10;
+                }
+            else if (this.y > innerHeight+10)
+                {
+                    this.y = innerHeight+10;
+                }
+            
+        };
+        
+        
+        var walkers = [];        
+        
+        function setup() {
+            createCanvas(innerWidth, innerHeight);
+        }
+        
+        function draw() {
+            //stroke(0, 0, 0);
+
+            for (var i = 0; i < walkers.length; i++)
+            {
+                walkers[i].display();
+                walkers[i].walk();
+            }
+        
+        }
+        
+        mouseClicked = function(){
+            //console.log(mouseX);
+            $("p").remove();
+            if (mouseY > 0)
+            {
+                var radius = parseInt($("#size").val());
+                var speed = parseInt($("#speed").val());
+                
+                walkers.push(new Walker(mouseX,mouseY,radius,speed));
+            }
+            
+        }
+        
+        $("#reset").on("click",function() {
+           while (walkers.length > 0)
+           {   
+               walkers.pop();
+           }
+            
+           clear(); 
+        });
+        
+        $("#update").on("click",function() {
+           for (var i = 0; i < walkers.length; i++)
+            {
+                var radius = parseInt($("#size").val());
+                var speed = parseInt($("#speed").val());
+                walkers[i].radius = radius;
+                walkers[i].speed = speed;
+                walkers[i].type = type;
+                walkers[i].lines = lines;
+            }
+        });
+        
+    </script>
+
+</html>

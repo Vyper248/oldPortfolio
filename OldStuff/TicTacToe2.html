@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+    <style>
+        body {
+            text-align: center;
+            font-family: sans-serif;
+        }
+        
+        h1+p {
+            width: 75%;
+            margin: auto;
+            margin-bottom: 20px;
+        }
+        
+        table {
+            border-collapse: collapse;
+            margin: auto;
+        }
+        
+        td {
+            border: 1px solid black;
+            width: 50px;
+            height: 50px;
+            font-size: 2em;
+            cursor: default;
+            padding:0px;
+        }
+        
+        #mainTable {
+            position: relative;
+        }
+        
+        td:hover {
+            background-color: whitesmoke;
+        }
+        
+        tr:first-of-type td {
+            border-top: none;
+        }
+        
+        tr:last-of-type td {
+            border-bottom: none;
+        }
+        
+        tr td:first-of-type {
+            border-left: none;
+        }
+        
+        tr td:last-of-type {
+            border-right: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Tic Tac Toe!</h1>
+    <p>So I wanted to make a dynamic Tic Tac Toe game with variable grid sizes, although as you'll find out if you try 
+    the larger sizes, it's actually impossible to win due to how easy it is to block all possible moves.</p>
+    
+    <div id="sizeSelection">Grid Size: <input id="sizeInput" type="number" min="3" max="8" step="1" value="3"></div><br>
+    
+    <table id="mainTable">
+    
+    </table>
+    
+    <p id="gameOver"></p>
+    
+    <script src='imports/jquery.min.js'></script>
+    
+    <script>
+        
+        let currentTurn = "O";
+        let cellSize = 100;
+        let fontSize = cellSize/25;
+        let size = 3;
+        let winningConditions = [];
+        let isGameOver = false;
+        
+        $("#sizeInput").on("keyup click", function(){
+            let newSize = Math.floor($(this).val());
+            if (newSize !== size && newSize >= 3 && newSize < 9){
+                size = newSize;
+                reset();
+            }
+        });
+        
+        function setupGrid(){
+            let cellNo = 1;
+            for (let i = 0; i < size; i++){
+                let row = $("<tr>").appendTo("#mainTable");
+                for (let j = 0; j < size; j++){
+                    $("<td>").appendTo(row).css({
+                        width: cellSize+"px",
+                        height: cellSize+"px",
+                        fontSize: fontSize+"em"
+                    }).attr("id",cellNo++).on("click", cellClickHandler);
+                }
+            }
+            
+            setupWinningConditions(size);
+        }
+        
+        function cellClickHandler(){
+            if (isGameOver) {
+                reset();
+                return;
+            }
+            
+            if ($(this).text() === ""){
+                $(this).text(currentTurn);
+                currentTurn === "O" ? currentTurn = "X" : currentTurn = "O";
+                checkForWinner();
+                AITakeTurn();
+                
+                //check both players for possible moves and ask if player wants to resest if none left
+                if (getPossibleMovesFor("X")[0].length === 0 && getPossibleMovesFor("O")[0].length === 0 && !isGameOver){
+                    $("#gameOver").text("It will be a draw, would you like to restart? ");
+                    $("<button>").text("I guess :(").on("click", reset).appendTo("#gameOver");
+                }
+            }
+        }
+        
+        function reset(){
+            $("#mainTable").text("");
+            $("#gameOver").text("");
+            winningConditions = [];
+            setupGrid();
+            isGameOver = false;
+            currentTurn = "O";
+        }
+        
+        //setup an array of winning conditions to check against later
+        function setupWinningConditions(){
+            //add rows
+            let cellNo = 1;
+            for (let i = 0; i < size; i++){
+                let arr = [];
+                for (let j = 0; j < size; j++){
+                    arr.push(cellNo++);
+                }
+                winningConditions.push(arr);
+            }
+            
+            //add columns
+            cellNo = 1;
+            for (let i = 0; i < size; i++){
+                let arr = [];
+                for (let j = 0; j < size; j++){
+                    arr.push(cellNo+(j*size));
+                }
+                winningConditions.push(arr);
+                cellNo++;
+            }
+            
+            //add diagonal left-right
+            let arr = [];
+            for (let i = 0; i < size; i++){
+                arr.push(1+(i*size)+(i*1));
+            }
+            winningConditions.push(arr);
+            
+            //add diagonal right-left
+            arr = [];
+            for (let i = 0; i < size; i++){
+                arr.push(size+(i*size)-(i*1));
+            }
+            winningConditions.push(arr);            
+        }
+        
+        function checkForWinner(){
+            let x = testWinnerFor("X");
+            let o = testWinnerFor("O");
+            //check if no empty tiles left
+            checkEmptyTiles();
+        }
+        
+        function testWinnerFor(player){
+            //for each set of winning conditions
+            for (let i = 0; i < winningConditions.length; i++){
+                let cells = winningConditions[i];
+                let hasWon = true;//assume has won
+                for (let j = 0; j < cells.length; j++){
+                    if ($("#"+cells[j]).text() != player){
+                        //if there's a cell which doesn't match, then hasn't won with these cells
+                        hasWon = false;
+                    }
+                }
+                if (hasWon) {
+                    drawLineWith(cells);
+                    gameOver(player);//if found some cells which match, then game over
+                }
+            }
+            //if haven't returned anything by this point, this player hasn't won, so return false
+            return false;
+        }
+        
+        //check for empty tiles
+        function checkEmptyTiles(){
+            let counter = 0;
+            for (let i = 1; i <= size*size; i++){
+                if ($("#"+i).text() === "") counter++;
+            }
+            if (counter === 0) gameOver(false);//if aren't any, game over
+        }
+        
+        //Draw line based on winning condition
+        function drawLineWith(array){
+            //setup basic line - horizontal at (0,0)
+            let line = $("<div>").css({
+                position: "absolute",
+                top: "0px",
+                left: "0px",
+                transformOrigin: "0% 0%",
+                width: (size*cellSize)+"px",
+                border: "1px solid red"
+            }).appendTo("#mainTable");
+            
+            if (array[1] === array[0]+1){ //it's a row
+                let y = (Math.floor((array[0] - 1) / size) * cellSize) + (cellSize / 2);
+                line.css({
+                    top: y+"px"
+                });
+            } else if (array[1] === array[0]+size) { //it's a column
+                let x = ((array[0] - 1) * cellSize) + (cellSize / 2);
+                line.css({
+                    left: x+"px",
+                    transform: "rotate(90deg)"
+                });
+            } else if (array[0] === size) { //diagonal right to left
+                let x = ((array[0] - 1) * cellSize) + cellSize;
+                let pow = Math.pow(cellSize*size,2);
+                let len = Math.sqrt(pow + pow);
+                line.css({
+                    left: x+"px",
+                    transform: "rotate(135deg)",
+                    width: len+"px"
+                });
+            } else { //diagonal left to right
+                let pow = Math.pow(cellSize*size,2);
+                let len = Math.sqrt(pow + pow);
+                line.css({
+                    transform: "rotate(45deg)",
+                    width: len+"px"
+                });
+            }
+        }
+        
+        function gameOver(player){
+            if (isGameOver) return;
+            isGameOver = true;
+            if (player !== false){//draw
+                $("#gameOver").text(player+" has won the game! Click in the grid to reset.");
+            } else {
+                $("#gameOver").text("It's a draw! Click in the grid to reset.");
+            }
+        }
+        
+        //AI ============================================================================================
+        //gets next possible move for computer or player
+        function getNextMoveFor(player, checking){
+            //for every winning condition
+            let otherPlayer = player === "X" ? "O" : "X";
+            
+            let returnVal = getPossibleMovesFor(player);
+            let possibleMoves = returnVal[0];
+            let emptyCells = returnVal[1];
+            
+            //sort possible moves to find the quickest winning solution
+            possibleMoves = possibleMoves.sort(function(a,b){
+                return a.length-b.length;
+            });
+            
+            //However, before sending next move, check other players moves
+            let ran1 = 0;
+            let ran2 = 0;
+            if (!checking){
+                let otherMove = getNextMoveFor(otherPlayer, true);
+                //if they have a possible winning move, and current player can't win on this move, or has no possible moves left, then block
+                if (typeof(otherMove) === "number" && (possibleMoves.length === 0 || (possibleMoves.length > 0 && possibleMoves[0].length > 1))){
+                    return otherMove;
+                } else if (possibleMoves.length > 1) {
+                    //if there's more than one possible move, then randomise what the next move will be, but make sure it's still a good one
+                    let minLength = possibleMoves[0].length;
+                    for (let i = 0; i < possibleMoves.length; i++){
+                        if (possibleMoves[i].length > minLength){
+                            possibleMoves = possibleMoves.slice(0,i);//cut out the conditions with too many moves
+                            break;
+                        }
+                    }
+                    ran1 = Math.floor(Math.random()*possibleMoves.length);
+                    ran2 = Math.floor(Math.random()*possibleMoves[ran1].length);
+                }
+            }
+            
+            //return next move
+            if (possibleMoves.length > 0){
+                if (!checking) return possibleMoves[ran1][ran2];
+                else if (possibleMoves[0].length === 1) return possibleMoves[0][0];//if checking, only return if a threat
+                else return false;
+            } else if (emptyCells.length > 0) { // no possible moves, check empty cells
+                return emptyCells;
+            } else { // no where to go, game over
+                return false;
+            }
+        }
+        
+        //find and return possible moves for a player, and array of empty cells
+        function getPossibleMovesFor(player){
+            let otherPlayer = player === "X" ? "O" : "X";
+            let possibleMoves = [];
+            let emptyCells = [];
+            for (let i = 0; i < winningConditions.length; i++){
+                //check if it's still possible:
+                let cells = winningConditions[i];
+                let ignore = false;
+                let freeCells = [];
+                for (let j = 0; j < cells.length; j++){
+                    let val = $("#"+cells[j]).text();
+                    if (val === otherPlayer){
+                        //if it's blocked, ignore it
+                        ignore = true;
+                    } else if (val === "") {
+                        freeCells.push(cells[j]);
+                        //add to empty cells array for later
+                        if (emptyCells.indexOf(cells[j]) === -1){
+                            emptyCells.push(cells[j]);
+                        }
+                    }
+                }
+                
+                //if it's free, add it to array
+                if (!ignore){
+                    possibleMoves.push(freeCells);
+                }
+            }
+            return [possibleMoves, emptyCells];
+        }
+        
+        function AITakeTurn(){
+            if (isGameOver)return;
+            
+            let AIMove = getNextMoveFor(currentTurn, false);
+
+            if (typeof(AIMove) === "number"){
+                $("#"+AIMove).text(currentTurn);
+            } else if (typeof(AIMove) === "object"){
+                $("#"+AIMove[0]).text(currentTurn);
+            } 
+            checkForWinner();
+            currentTurn === "O" ? currentTurn = "X" : currentTurn = "O";
+        }
+        
+        setupGrid();
+        
+    </script>
+    
+</body>
+
+</html>
+

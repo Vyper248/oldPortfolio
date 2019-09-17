@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <style>
+
+        #optionButtons {
+            text-align: center;
+            position: absolute;
+            width:100%;
+        }
+        
+        #animationButtons{
+            float:right;
+            position: absolute;
+            right:0px;
+            top:50px;
+            margin-right: 10px;
+            text-align: right;
+        }
+        
+        #printArea {
+            position: absolute;
+            bottom: 0px;
+            width:100%;
+            text-align: left;
+        }
+        
+        #poseMoveX,#poseMoveY,#poseSpeed,#animationSpeed {
+            width:60px;
+        }
+        
+        #poseName {
+            width:126px;
+        }
+        
+        button{
+            width:100px;
+        }
+        
+    </style>
+    
+</head>
+
+<body>
+    
+    <div id="optionButtons"></div>
+    <div id="animationButtons">
+    <table>
+        <tr>
+            <td id="poseOptions"></td>
+        </tr>    
+        <tr>
+            <td id="poses"></td>
+        </tr>
+        <tr>
+            <td height="25px"></td>
+        </tr>
+        <tr>
+            <td id="animationOptions"></td>
+        </tr>
+        <tr>
+            <td id="animations"></td>
+        </tr>
+        <tr>
+            <td height="25px"></td>
+        </tr>
+        <tr>
+            <td id="animationPrint"></td>
+        </tr>
+    </table>
+    </div>
+        
+    <div id="printArea"></div>
+ <script src="imports/p5.js"></script>
+    <script src='imports/jquery.min.js'></script>
+    
+    <script>
+        $("<button>").on("click",function(){
+            stickMan.reset();
+        }).text("reset").appendTo("#optionButtons");
+        
+//        $("<button>").on("click",function(){
+//            stickMan.assumePose(0,1);
+//        }).text("lookLeft").appendTo("#optionButtons");
+//        
+//        $("<button>").on("click",function(){
+//            stickMan.assumePose(0);
+//        }).text("lookRight").appendTo("#optionButtons");
+        $("<button>").on("click",function(){
+            stickMan.stopMoving();
+            stickMan.assumePose(0);
+        }).text("stop").appendTo("#optionButtons");
+        $("<button>").on("click",function(){
+            animateMode = !animateMode;
+            stickMan.display();
+        }).text("animateMode").appendTo("#optionButtons");
+        
+        /*
+        animate mode:
+        need a button that saves current positions into the pose array, and creates a button for that pose.
+        need a button to create new animation, so set variable addToAnimation = true
+        when clicking on a pose, it'll add that to the new animation array
+        when click to end animation, it sets addToAnimation to false, which prevents new poses being added
+        create button to run that animation
+        can add a way to get output so can make it permanent
+        or could store into browser memory if letting other people use it
+        */
+        
+        $("<button>").on("click",function(){
+            var currentPose = stickMan.getCurrentPose();
+            stickMan.poses.push(currentPose);
+            var name = $("#poseName").val() || "New Pose";
+            var moveX = parseInt($("#poseMoveX").val()) || 0;
+            var moveY = parseInt($("#poseMoveY").val()) || 0;
+            currentPose[9][0] = moveX;
+            currentPose[9][1] = -moveY;
+            stickMan.poseNames.push(name);
+            addPoseButton(stickMan.poseNames.length-1);
+        }).text("Save Pose").appendTo("#poseOptions");
+        $("<br>").appendTo("#poseOptions");
+        
+        $("<input>").attr("id","poseName").attr("placeholder","Name").appendTo("#poseOptions");
+        $("<br>").appendTo("#poseOptions");
+        $("<input>").attr("id","poseMoveX").attr("placeholder","Move X").appendTo("#poseOptions");
+        $("<input>").attr("id","poseMoveY").attr("placeholder","Move Y").appendTo("#poseOptions");  
+        
+        $("<br>").appendTo("#poseOptions");
+        $("<label>").text("Inverse").appendTo("#poseOptions");
+        $("<input type='checkbox'>").attr("id","poseInverse").appendTo("#poseOptions");
+        $("<label>").text(" Opposite").appendTo("#poseOptions");
+        $("<input type='checkbox'>").attr("id","poseOpposite").appendTo("#poseOptions");
+        $("<input>").attr("id","poseSpeed").attr("placeholder","Speed").appendTo("#poseOptions");
+        
+        $("<button>").on("click",function(){
+            if (addToAnimation){
+                //end animation and create animation button (if array is large enough, if only 1 pose, then not an animation)
+                addToAnimation = false;
+                $(this).text("Start Animation");
+                
+                var name = $("#animationName").val() || "New Animation";
+                var repeat = $("#animationRepeat").prop("checked");
+                var reverse = $("#animationReverse").prop("checked");
+                var speed = parseInt($("#animationSpeed").val()) || 15;
+                stickMan.animations[stickMan.animations.length-1].name = name;
+                stickMan.animations[stickMan.animations.length-1].repeat = repeat;
+                stickMan.animations[stickMan.animations.length-1].reverse = reverse;
+                stickMan.animations[stickMan.animations.length-1].speed = speed;
+                
+                if (stickMan.animations[stickMan.animations.length-1].array.length > 0){
+                    addAnimationButton(stickMan.animations.length-1);
+                }
+                else{
+                    stickMan.animations.pop();
+                }
+                
+                clearAnimationOptions();
+            }
+            else {
+                //begin animation
+                addAnimationOptions();
+                addToAnimation = true;
+                $(this).text("Stop Animation");
+                
+                stickMan.animations.push({array:[],repeat:repeat,reverse:reverse,speed:speed,name:name});
+            }
+        }).text("Start Animation").attr("id","startStopAnimation").appendTo("#animationOptions");
+        
+        function addAnimationOptions(){
+            $("<br>").addClass("tempAnimationOptions").appendTo("#animationOptions");
+            $("<input>").attr("id","animationName").attr("placeholder","Name").addClass("tempAnimationOptions").appendTo("#animationOptions");
+            $("<br>").addClass("tempAnimationOptions").appendTo("#animationOptions");
+            $("<label>").text("Repeat").addClass("tempAnimationOptions").appendTo("#animationOptions");
+            $("<input type='checkbox'>").attr("id","animationRepeat").addClass("tempAnimationOptions").appendTo("#animationOptions");
+            $("<label>").text(" Reverse").addClass("tempAnimationOptions").appendTo("#animationOptions");
+            $("<input type='checkbox'>").attr("id","animationReverse").addClass("tempAnimationOptions").appendTo("#animationOptions");
+            $("<input>").attr("id","animationSpeed").attr("placeholder","Speed").addClass("tempAnimationOptions").appendTo("#animationOptions");
+        }
+        
+        function clearAnimationOptions(){
+            $(".tempAnimationOptions").remove();
+        }
+        
+        //print function so any created animations can easily be added and made permanent
+        function addPrintOption() {
+            $("<button>").text("Print").on("click",function(){
+                //print poseNames
+                var poseNames = "this.poseNames = [";
+                for (var i = 0; i < stickMan.poseNames.length; i++){
+                    var name = stickMan.poseNames[i];
+                    poseNames += "\""+name+"\"";
+                    if (i < stickMan.poseNames.length-1){poseNames+=",";};
+                }
+                poseNames += "];";
+                $("<p>").html(poseNames).appendTo("#printArea");
+                
+                //print poses
+                for (var i = 0; i < stickMan.poseNames.length; i++){
+                    var string = "";
+                    var name = stickMan.poseNames[i];
+                    var nameWords = name.split(" ");
+                    var nameNoSpaces = "";
+                    for (var j = 0; j < nameWords.length; j++){nameNoSpaces+=nameWords[j];}
+                    string += "var "+nameNoSpaces+" = [";
+                    
+                    var pose = stickMan.poses[i];
+                    for (var j = 0; j < pose.length; j++){
+                        var limb = pose[j];
+                        var x = limb[0];
+                        var y = limb[1];
+                        if (x === "x"){x = "\"x\"";}
+                        if (y === "y"){y = "\"y\"";}
+                        
+                        string += "["+x+","+y+"]";
+                        if (j < pose.length-1){string+=",";}
+                    }
+                    
+                    string += "];";
+                    string += "<br>this.poses.push("+nameNoSpaces+");";
+                    
+                    $("<p>").html(string).appendTo("#printArea");
+                }
+                
+                //print animations
+                var string = "this.animations = [";
+                for (var i = 0; i < stickMan.animations.length; i++){
+                    string += "<br>{array:[<br>";
+                    var animation = stickMan.animations[i];
+                    var animationArray = stickMan.animations[i].array;
+                    for (var j = 0; j < animationArray.length; j++){
+                        var animationPose = animationArray[j];
+                        string += "{index:"+animationPose.index+",inverse:"+animationPose.inverse+",opposite:"+animationPose.opposite+",speed:"+animationPose.speed+"},";
+                        if (j < animationArray.length-1){string+="<br>"};
+                    }
+                    string += "<br>],repeat:"+animation.repeat+",reverse:"+animation.reverse+",speed:"+animation.speed+",name:\""+animation.name+"\"},<br>";
+                    
+                }
+                string += "];";
+                $("<p>").html(string).appendTo("#printArea");
+            }).appendTo("#animationPrint");
+        }
+        //addPrintOption();
+        
+        var selectedJoint;
+        var willDraw = false;
+        var animateMode = false;
+        var addToAnimation = false;
+                
+        var StickMan = function(x,y){
+            var timer;
+            this.body = [x,y,timer];
+            this.head = [0,0,timer,10,10];
+            this.neck = [0,10,timer,0,5];
+            this.shoulders = [0,15,timer];
+            this.leftElbow = [-13,21,timer,0,15];
+            this.leftHand = [-21,33,timer,1,15];
+            this.rightElbow = [13,21,timer,0,15];
+            this.rightHand = [21,33,timer,3,15];
+            this.waist = [0,40,timer];
+            this.leftKnee = [-12,55,timer,5,20];
+            this.leftFoot = [-17,74,timer,6,20];
+            this.rightKnee = [12,55,timer,5,20];
+            this.rightFoot = [17,74,timer,8,20];
+            //this array is for joints that can be moved when animation mode is enabled
+            this.joints = [this.leftElbow,this.leftHand,
+                           this.rightElbow,this.rightHand,
+                           this.leftKnee,this.leftFoot,
+                           this.rightKnee,this.rightFoot,
+                           this.head];
+            
+            //array containing all joints needed for animations, including relevant parents
+            this.allJoints = [this.shoulders,//0
+                              this.leftElbow,this.leftHand,//1,2
+                              this.rightElbow,this.rightHand,//3,4
+                              this.waist,//5
+                              this.leftKnee,this.leftFoot,//6,7
+                              this.rightKnee,this.rightFoot,//8,9
+                              this.neck];//10
+            
+            this.grabbed = false;
+            
+            this.timeouts = [];
+            
+            this.poses = [];
+            this.poseNames = ["Walk Right 0","Walk Right 1","Walk Right 2","Wave 1","Wave 2"];
+            
+            var walkRight0 = [[-7,28],[-10,42]  ,[5,29],[15,39]  ,[-6,58],[-18,73]  ,[12,55],[17,74]   ,[0,0]   ,[4,0]];
+            this.poses.push(walkRight0);//0
+            var walkRight1 = [[-1,29],[1,43]  ,[-4,29],[-5,43]  ,[11,56],[-7,62]  ,[0,59],[0,79]   ,[0,-6]   ,[17,0]];
+            this.poses.push(walkRight1);//1
+            var walkRight2 = [[4,29],[9,42]  ,[-6,28],[-2,42]  ,[15,52],[5,69]  ,[-6,59],[-13,77]   ,[0,-3]   ,[13,0]];
+            this.poses.push(walkRight2);//2
+            
+            var wave1 = [["x","y"],["x","y"]  ,[13,9],[26,3]  ,["x","y"],["x","y"]  ,["x","y"],["x","y"]   ,["x","y"]   ,[0,0]];
+            this.poses.push(wave1);//3
+            var wave2 = [["x","y"],["x","y"]  ,[13,9],[13,-6]  ,["x","y"],["x","y"]  ,["x","y"],["x","y"]   ,["x","y"]   ,[0,0]];
+            this.poses.push(wave2);//4
+            
+            this.resetArray = [];
+            
+            this.animations = [
+                {array:[
+                    {index:3,inverse:false,opposite:false,speed:15},
+                    {index:4,inverse:false,opposite:false,speed:15},
+                    {index:3,inverse:false,opposite:false,speed:15},
+                    {index:4,inverse:false,opposite:false,speed:15}
+                ],repeat:false,reverse:true,speed:15,name:"Wave"},
+                
+                {array:[
+                    {index:0,inverse:false,opposite:false},
+                    {index:1,inverse:false,opposite:false},
+                    {index:2,inverse:false,opposite:false},
+                    {index:0,inverse:false,opposite:true},
+                    {index:1,inverse:false,opposite:true},
+                    {index:2,inverse:false,opposite:true}
+                ],repeat:true,reverse:false,speed:15,name:"Walk Right"},
+                
+                {array:[
+                    {index:0,inverse:true,opposite:false},
+                    {index:1,inverse:true,opposite:false},
+                    {index:2,inverse:true,opposite:false},
+                    {index:0,inverse:true,opposite:true},
+                    {index:1,inverse:true,opposite:true},
+                    {index:2,inverse:true,opposite:true}
+                ],repeat:true,reverse:false,speed:15,name:"Walk Left"},
+            ];
+        };
+        
+        StickMan.prototype.move = function(x,y){
+            this.body[0] += x;
+            this.body[1] += y;
+        };
+        
+        StickMan.prototype.getCurrentPose = function(){
+            var poseArray = [];
+            for (var i = 0; i < this.joints.length; i++){
+                var joint = this.joints[i];
+                poseArray.push([joint[0],joint[1]]);
+            }
+            poseArray.push([0,0]);
+            
+            return poseArray;
+        }
+        
+        StickMan.prototype.runAnimation = function(index){
+            var animation = this.animations[index];
+            this.assumePoses(animation.array,0,animation.repeat,animation.reverse,false,animation.speed);
+        };
+        
+        //function to assume poses in order, and once finished, repeat, reverse, both or stop, with speed option
+        //recursive function. So call assume pose on item in array at startIndex, then call assume poses with incremented startIndex
+        //if startIndex comes to end of array, then can start reversing, or repeating, or both (reverse, then repeat).
+        //array to pass in needs following for each pose: [index,inverse,opposite];
+        StickMan.prototype.assumePoses = function(array,startIndex,repeat,reverse,isReversing,speed){
+            var stickMan = this;
+            var poseDetails = array[startIndex];
+            var newIndex = startIndex+1;
+            var comeToEnd = false;
+            
+            var s = poseDetails["speed"] || speed;
+            
+            if (reverse && !repeat && startIndex === 0 && isReversing === false && this.resetArray.length === 0){
+                this.resetArray = this.getCurrentPose();
+            }
+            
+            if (reverse && isReversing){
+                newIndex-=2;
+                if (newIndex <= 0){//should start going forward again if set to repeat
+                    newIndex = 0;
+                    isReversing = false;
+                    
+                    if (repeat === false){//if not repeating, and finished reversing, then come to and end
+                        comeToEnd = true;
+                    }
+                }
+            }
+            
+            if (newIndex >= array.length){//this is the final pose
+                if (repeat && !reverse){
+                    newIndex = 0;
+                }
+                else if (reverse){
+                    newIndex-=2;//1 to account for the +1 early, and 1 to go back to previous pose
+                    isReversing = true;
+                    if (array.length === 1){//if only 1 element, then set newIndex to 0.
+                        newIndex = 0;
+                    }
+                }
+                else{
+                    comeToEnd = true;
+                }
+            }
+            
+            stickMan.assumePose(poseDetails["index"],poseDetails["inverse"],poseDetails["opposite"],s,function(){
+                if (comeToEnd === false){
+                    stickMan.assumePoses(array,newIndex,repeat,reverse,isReversing,speed);
+                }
+                else {
+                    if (reverse){
+                        stickMan.assumePose(stickMan.resetArray,poseDetails["inverse"],poseDetails["opposite"],s);
+                        stickMan.resetArray = [];
+                    }
+                }
+            });
+        };
+        
+        //move to chosen pose
+        StickMan.prototype.assumePose = function(index,inverse,opposite,speed,endFunction){
+            
+            
+            var pose = [];// = this.poses[index];
+            if(typeof index === 'number'){
+                pose = this.poses[index];
+            }
+            else{ 
+                pose = index;
+            }
+            
+            var s = speed || 15;
+            if (inverse){pose = this.getInverse(pose);}
+            if (opposite){pose = this.getOpposite(pose);}
+            for (var i = 0; i < this.joints.length; i++){
+                this.moveTo(this.joints[i],pose[i],s,false);
+            }
+            this.moveTo(this.body,pose[9],s,true,endFunction);
+        };
+        
+        //instantly snap to chosen pose
+        StickMan.prototype.snapPose = function(index,inverse,opposite){
+            willDraw = true;
+            var pose = this.poses[index];
+            if (inverse){pose = this.getInverse(pose);}
+            if (opposite){pose = this.getOpposite(pose);}
+            for (var i = 0; i < this.joints.length; i++){
+                this.joints[i][0] = pose[i][0];
+                this.joints[i][1] = pose[i][1];
+            }
+            
+            setTimeout(function(){willDraw = false;},1);
+        };
+        
+        //get inverse of chosen pose, returned as pose array, so walk left becomes walk right
+        StickMan.prototype.getInverse = function(pose){
+            var newPose = invertPoseArrayX([pose[2],pose[3],pose[0],pose[1],pose[6],pose[7],pose[4],pose[5],pose[8],pose[9]]);
+            return newPose;
+        };
+        
+        //get opposite of chosen pose, so walkRight1 uses opposite legs/arms for movements
+        StickMan.prototype.getOpposite = function(pose){
+            var newPose = [pose[2],pose[3],pose[0],pose[1],pose[6],pose[7],pose[4],pose[5],pose[8],pose[9]];
+            return newPose;
+        };
+        
+        StickMan.prototype.moveTo = function(array,value,speed,relative,endFunction){
+            willDraw = true;
+            
+            var value = [value[0],value[1]];
+            if (value[0] === "x"){
+                value[0] = array[0];
+            }
+            if (value[1] === "y"){
+                value[1] = array[1];
+            }
+            
+            //start interval, move x and y values towards target, based on speed. if near target, snap and stop interval
+                var x = array[0];
+                var y = array[1];
+                var x2 = value[0];
+                var y2 = value[1];
+                        
+            if (relative){
+                x2 = x+value[0];
+                y2 = y+value[1];
+            }
+            
+            var s = speed || 15;
+            
+            var xDiff = x2-x;
+            var yDiff = y2-y;
+
+            var xAdjust = xDiff/s;
+            var yAdjust = yDiff/s;
+            
+            clearInterval(array[2]);//clear previous intervals to make sure they don't conflict, should only have 1
+            var counter = 0;
+            array[2] = setInterval(function(){
+                if (counter < s){
+                    array[0]+=xAdjust;
+                    array[1]+=yAdjust;
+                    counter++;
+                }
+                else {
+                    if (relative){
+                        array[0] = x+value[0];
+                        array[1] = y+value[1];
+                    }
+                    else {
+                        array[0] = value[0];
+                        array[1] = value[1];
+                    }
+                    clearInterval(array[2]);
+                    //willDraw = false;
+                    if (endFunction){
+                        endFunction();
+                    }
+                }
+            },s);
+        };
+        
+        StickMan.prototype.reset = function(speed){
+            var s = speed || 15;
+            var stickMan = this;
+            stickMan.moveTo(stickMan.head,[0,0],s); 
+            stickMan.moveTo(stickMan.neck,[0,10],s); 
+            stickMan.moveTo(stickMan.shoulders,[0,15],s); 
+            stickMan.moveTo(stickMan.leftElbow,[-13,21],s); 
+            stickMan.moveTo(stickMan.leftHand,[-21,33],s); 
+            stickMan.moveTo(stickMan.rightElbow,[13,21],s); 
+            stickMan.moveTo(stickMan.rightHand,[21,33],s); 
+            stickMan.moveTo(stickMan.waist,[0,40],s); 
+            stickMan.moveTo(stickMan.leftKnee,[-12,55],s); 
+            stickMan.moveTo(stickMan.leftFoot,[-17,74],s); 
+            stickMan.moveTo(stickMan.rightKnee,[12,55],s); 
+            stickMan.moveTo(stickMan.rightFoot,[17,74],s); 
+        };
+        
+        StickMan.prototype.grab = function(){
+            this.grabbed = true;
+            var stickMan = this;
+            stickMan.moveTo(stickMan.rightHand,[0,-20],1);
+            stickMan.moveTo(stickMan.rightElbow,[20,0],1);
+            stickMan.moveTo(stickMan.leftHand,[0,-20],1);
+            stickMan.moveTo(stickMan.leftElbow,[-20,0],1);
+            
+            stickMan.moveTo(stickMan.leftKnee,[-4,55],1);
+            stickMan.moveTo(stickMan.rightKnee,[4,55],1);
+            stickMan.moveTo(stickMan.leftFoot,[-4,80],1);
+            stickMan.moveTo(stickMan.rightFoot,[4,80],1);
+        };
+        
+        StickMan.prototype.wave = function(){
+            stickMan.assumePoses([
+                {index:3,inverse:false,opposite:false,speed:15},
+                {index:4,inverse:false,opposite:false,speed:15},
+                {index:3,inverse:false,opposite:false,speed:15},
+                {index:4,inverse:false,opposite:false,speed:15}
+            ],0,false,true,false);
+        };
+        
+        StickMan.prototype.walkRight = function(inverse) {
+            stickMan.assumePoses([
+                {index:0,inverse:inverse,opposite:false},
+                {index:1,inverse:inverse,opposite:false},
+                {index:2,inverse:inverse,opposite:false},
+                {index:0,inverse:inverse,opposite:true},
+                {index:1,inverse:inverse,opposite:true},
+                {index:2,inverse:inverse,opposite:true}
+            ],0,true,false,false,15);
+        };
+        
+        StickMan.prototype.stopMoving = function(){
+            for (var i = 0; i < this.timeouts.length; i++){
+                clearTimeout(this.timeouts[i]);
+            }
+        };
+
+        StickMan.prototype.display = function(){
+            var x = this.body[0];
+            var y = this.body[1];
+            y += this.head[1];
+            x += this.head[0];
+            stroke(0);
+            strokeWeight(20);
+            point(x,y);//head
+            strokeWeight(4);
+            line(x+this.neck[0],y+this.neck[1],x+this.waist[0],y+this.waist[1]);//body
+            line(x+this.shoulders[0],y+this.shoulders[1],x+this.leftElbow[0],y+this.leftElbow[1]);//left arm
+            line(x+this.leftElbow[0],y+this.leftElbow[1],x+this.leftHand[0],y+this.leftHand[1]);//left arm
+            line(x+this.shoulders[0],y+this.shoulders[1],x+this.rightElbow[0],y+this.rightElbow[1]);//right arm
+            line(x+this.rightElbow[0],y+this.rightElbow[1],x+this.rightHand[0],y+this.rightHand[1]);//right arm
+            line(x+this.waist[0],y+this.waist[1],x+this.rightKnee[0],y+this.rightKnee[1]);//leg right
+            line(x+this.rightKnee[0],y+this.rightKnee[1],x+this.rightFoot[0],y+this.rightFoot[1]);//leg right
+            line(x+this.waist[0],y+this.waist[1],x+this.leftKnee[0],y+this.leftKnee[1]);//leg left
+            line(x+this.leftKnee[0],y+this.leftKnee[1],x+this.leftFoot[0],y+this.leftFoot[1]);//leg left
+            
+            if (animateMode){
+                for (var i = 0; i < this.joints.length; i++){
+                    stroke(200,0,0);
+                    if (this.joints[i] !== this.head){
+                        point(this.joints[i][0]+this.body[0]+this.head[0],this.joints[i][1]+this.body[1]+this.head[1]);
+                    }
+                    else{//if it's the head, then don't adjust based on head, otherwise adjusting twice
+                        point(this.joints[i][0]+this.body[0],this.joints[i][1]+this.body[1]);
+                    }
+                }
+            }
+        };
+        
+        var stickMan;
+        
+        function setup(){
+            createCanvas(innerWidth,innerHeight);
+            stickMan = new StickMan(100,200);
+            stickMan.display();
+            setupPoses();
+            setupAnimations();
+            angleMode(DEGREES);
+        }
+        
+
+        
+        function draw(){
+            if (willDraw){
+                clear();
+                stickMan.display();
+            }
+            
+            stroke(150);
+            line(0,276,600,276);
+        }
+        
+        function addPoseButton(i){
+            $("<button>").on("click",function(){
+                    var index = parseInt($(this).val());
+                    var inverse = $("#poseInverse").prop("checked");
+                    var opposite = $("#poseOpposite").prop("checked");
+                    var speed = parseInt($("#poseSpeed").val());
+                    stickMan.assumePose(index,inverse,opposite,speed);
+                    if (addToAnimation){
+                        var pose = {index:index,inverse:inverse,opposite:opposite,speed:speed};
+                        stickMan.animations[stickMan.animations.length-1].array.push(pose);
+                    }
+                }).text(stickMan.poseNames[i]).val(i).appendTo("#poses");
+                $("<br>").appendTo("#poses");
+        }
+        
+        function setupPoses(){
+            for (var i = 0; i < stickMan.poseNames.length; i++){
+                addPoseButton(i);
+            }
+        }
+        
+        function addAnimationButton(i){
+            $("<button>").on("click",function(){
+                    var index = parseInt($(this).val());
+                    stickMan.runAnimation(index);
+                }).text(stickMan.animations[i].name).val(i).appendTo("#animations");
+                $("<br>").appendTo("#animations");
+        }
+        
+        function setupAnimations(){
+            for (var i = 0; i < stickMan.animations.length; i++){
+                addAnimationButton(i);   
+            }
+        }
+        
+        //takes a pose array, and inverts just the x values
+        function invertPoseArrayX(array){
+            var newArray = [];
+
+            for (var i = 0; i < array.length; i++){
+                var pose = array[i];
+                if (pose[0] === "x"){newArray,push(["x",pose[1]]);continue;}
+                
+                var newPose = [pose[0]*-1,pose[1]];
+                newArray.push(newPose);
+            }
+
+            return newArray;
+        }
+        
+        //returns an x,y position based on the distance from the center point
+        function getPoint(point,centerPoint,length){
+            var x = point[0]-centerPoint[0];
+            var y = point[1]-centerPoint[1];
+            var angle = atan(y/x);
+
+            if (x < 0 && y > 0){
+                angle-=180;
+            }
+            else if (x < 0 && y < 0){
+                angle+=180;
+            }
+            
+            var newY = int(sin(angle)*length);
+            var newX = int(cos(angle)*length);
+            
+            return [newX+centerPoint[0],newY+centerPoint[1]];
+        }
+
+        onmousedown = function() {
+            
+            if (animateMode){
+                for (var i = 0; i < stickMan.joints.length; i++){
+                    var x = stickMan.joints[i][0]+stickMan.body[0]+stickMan.head[0];
+                    var y = stickMan.joints[i][1]+stickMan.body[1]+stickMan.head[1];
+                    //if it's the head, then take off the head adjustment, otherwise could be incorrect
+                    if (stickMan.joints[i] === stickMan.head){
+                        x -= stickMan.head[0];
+                        y -= stickMan.head[1];
+                    }
+
+                    if(mouseX > x-5 && mouseX < x+5 && mouseY > y-5 && mouseY < y+5){
+                        var name = stickMan.joints[i][3];
+                        selectedJoint = stickMan.joints[i];
+                    }
+                }
+            }
+        };
+        
+        onmousemove = function(){
+            willDraw = true;
+            
+            if (selectedJoint && animateMode){
+                if (selectedJoint !== stickMan.head){
+                    var parentJointIndex = selectedJoint[3];
+                    var parentJoint = stickMan.allJoints[parentJointIndex];
+                    var body = stickMan.body;
+                    var head = stickMan.head;
+                    var newPoint = getPoint([mouseX,mouseY],[parentJoint[0]+body[0]+head[0],parentJoint[1]+body[1]+head[1]],selectedJoint[4]);
+                    selectedJoint[0] = newPoint[0]-body[0]-head[0];
+                    selectedJoint[1] = newPoint[1]-body[1]-head[1];
+                }
+                else {
+                    selectedJoint[1] = mouseY-stickMan.body[1];
+                }
+            }
+            
+          return;
+            if (mouseX > stickMan.body[0]-5 && mouseX < stickMan.body[0]+5 && mouseY > stickMan.body[1]-25 && mouseY < stickMan.body[1]-15){
+                if (stickMan.grabbed === false){
+                    stickMan.grab();
+                }
+            }
+            
+            if (stickMan.grabbed){
+                stickMan.body[0] = mouseX;
+                stickMan.body[1] = mouseY+20;
+            }
+        };
+        
+        onmouseup = function(){
+            if (selectedJoint){
+                for (var i = 0; i < stickMan.joints.length; i++){
+                    console.log(stickMan.joints[i]);   
+                }
+                console.log(" ");
+                selectedJoint = null;
+            }
+            willDraw = false;
+            
+        };
+    </script>
+    
+    
+</body>
+
+
+</html>
+
