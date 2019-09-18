@@ -1,9 +1,12 @@
 (function(){
     const body = document.querySelector('body');
+    const html = document.documentElement;
+
+    let height = Math.max(body.scrollHeight, html.scrollHeight);
 
     const canvas = document.createElement('canvas');
     canvas.setAttribute('width', window.innerWidth-2+'px');
-    canvas.setAttribute('height', body.scrollHeight-2+'px');
+    canvas.setAttribute('height', height-2+'px');
     canvas.style.position = 'absolute';
     canvas.style.top = '0px';
     canvas.style.left = '0px';
