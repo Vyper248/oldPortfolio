@@ -1,7 +1,7 @@
 const div = document.querySelector('.codeBackground');
 let targets;
 
-fetch('/lines.js').then((data) => {
+fetch('lines.js').then((data) => {
     return data.text();
 }).then(data => {
     data = data.replace(/const/g, '<span class="blue codeColor">const</span>');
